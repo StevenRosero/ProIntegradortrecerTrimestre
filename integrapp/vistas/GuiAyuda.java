@@ -26,6 +26,7 @@ public class GuiAyuda extends JPanel {
 				
 		//Texto Ayuda A
 		txtAyudaA = new JTextArea();
+		txtAyudaA.setEditable(false);
 		txtAyudaA.setForeground(new Color(255, 255, 255));
 		txtAyudaA.setBounds(29, 152, 211, 89);
 		txtAyudaA.setLineWrap(true);
@@ -35,6 +36,7 @@ public class GuiAyuda extends JPanel {
 		
 		//Texto AyudaB
 		textAreaB = new JTextArea();
+		textAreaB.setEditable(false);
 		textAreaB.setText("O si lo prefieres, puedes\r\ncontactar con el equipo\r\nde desarrolladores\r\na trav\u00E9s de nuestro correo\r\nelectr\u00F3nico.\r\n\u00A1Estaremos encantados\r\nde ayudarte!\r\npepito@pepito.es");
 		textAreaB.setOpaque(false);
 		textAreaB.setLineWrap(true);

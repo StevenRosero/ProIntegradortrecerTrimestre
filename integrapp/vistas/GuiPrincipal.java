@@ -199,6 +199,7 @@ public class GuiPrincipal extends JFrame implements InterfazGui {
 		 
 		 //Submenu Alta Ciclos
 		 submenuAltaCiclos = new JMenuItem("ALTA");
+		 submenuAltaCiclos.setActionCommand("panelAltaCiclos");
 		 submenuAltaCiclos.setPreferredSize(new Dimension(160, 40));
 		 submenuAltaCiclos.setOpaque(true);
 		 submenuAltaCiclos.setIconTextGap(9);
@@ -283,6 +284,7 @@ public class GuiPrincipal extends JFrame implements InterfazGui {
 		submenuAltaProyecto.addActionListener(control);
 		submenuBajaAlumnos.addActionListener(control);
 		submenuAltaAlumnos.addActionListener(control);
+		submenuAltaCiclos.addActionListener(control);
 	}
 	
 	public void esUsuarioAdministrador() {

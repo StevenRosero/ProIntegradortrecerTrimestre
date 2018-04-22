@@ -2,6 +2,7 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 
 import javax.swing.JOptionPane;
 
@@ -9,6 +10,7 @@ import modelo.AdministradorPojo;
 import vistas.GuiBajaAlumno;
 import vistas.ExpedienteException;
 import vistas.GuiAltaAlumno;
+import vistas.GuiAltaCiclo;
 import vistas.GuiAltaProyecto;
 import vistas.GuiBajaAlumno;
 import vistas.GuiLogin;
@@ -24,16 +26,18 @@ public class ControladorIntegraApp implements ActionListener {
 	private GuiBajaAlumno panelBajaAlumno;
 	private ConexionBaseDatos baseDatos;
 	private GuiAltaAlumno panelAltaAlumno;
+	private GuiAltaCiclo panelAltaCiclo;
 	
 	public ControladorIntegraApp(GuiPanelPrincipal panelPrincipal, GuiPrincipal mainGui,
 			GuiLogin ventanaLogin, GuiAltaProyecto ventanaAltaProyecto, GuiBajaAlumno ventanaBajaAlumno
-			, GuiAltaAlumno ventanaAltaAlumno) {
+			, GuiAltaAlumno ventanaAltaAlumno, GuiAltaCiclo ventanaAltaCiclo) {
 		this.mainGui = mainGui;
 		this.ventanaLogin = ventanaLogin;
 		this.panelAltaProyecto = ventanaAltaProyecto;
 		this.panelPrincipal = panelPrincipal;
 		this.panelBajaAlumno = ventanaBajaAlumno;
 		this.panelAltaAlumno = ventanaAltaAlumno;
+		this.panelAltaCiclo = ventanaAltaCiclo;
 		mainGui.setPanel(this.panelPrincipal);
 		baseDatos = new ConexionBaseDatos();
 	}
@@ -64,6 +68,12 @@ public class ControladorIntegraApp implements ActionListener {
 		//Detecta el evento de hacer click en el Submenu Alta Proyectos
 		} else if (e.getSource().equals(mainGui.getSubmenuAltaProyecto())) {
 			mainGui.setPanel(panelAltaProyecto);
+			panelAltaProyecto.cargarModelo(baseDatos.listaAlumnosBaseDatos());
+			panelAltaProyecto.cargarCiclos(baseDatos.listaCiclosFormativos());
+		
+		//Detecta el evento de hacer click en el Submenu Alta Ciclos
+		} else if (e.getActionCommand().equals("panelAltaCiclos")) {
+			mainGui.setPanel(panelAltaCiclo);
 		
 		//Detecta el evento de hacer click en el Submenu Baja Alumnos
 		} else if (e.getSource().equals(mainGui.getSubmenuBajaAlumnos())) {
@@ -88,6 +98,16 @@ public class ControladorIntegraApp implements ActionListener {
 			} catch (NumberFormatException | ExpedienteException e1) {
 				JOptionPane.showMessageDialog(panelAltaAlumno, "El expediente debe contener 7 números");
 			}
+			
+		//Detecta el evento de hacer click para agregar un proyecto en la base de datos
+		} else if (e.getActionCommand().equals("agregarProyecto")) {
+				try {
+					baseDatos.agregarProyecto(panelAltaProyecto.getDatos());
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			
 		
 		//Detecta el evento de hacer click en aceptar para borrar un Alumno
 		} else if (e.getActionCommand().equals("eliminarAlumno")) {
@@ -97,6 +117,10 @@ public class ControladorIntegraApp implements ActionListener {
 		//Detecta el evento de hacer click para cancelar el proceso de borrar un Alumno
 		} else if (e.getActionCommand().equals("cancelarAlumno")) {
 			panelBajaAlumno.dispose();
+		
+		//Detecta el evento de hacer click para intentar dar de alta un Ciclo Formativo
+		} else if (e.getActionCommand().equals("agregarCiclo")) {
+			baseDatos.altaCicloBaseDatos(panelAltaCiclo.getDatos());
 		}
 	}
 }

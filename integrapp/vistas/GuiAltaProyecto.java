@@ -5,10 +5,20 @@ import javax.swing.GroupLayout.Alignment;
 import java.awt.Color;
 import java.awt.Font;
 import controlador.ControladorIntegraApp;
+import modelo.AlumnoPojo;
+import modelo.CicloFormativoPojo;
+import modelo.ProyectoPojo;
+
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.plaf.ComboBoxUI;
+
 import java.awt.ComponentOrientation;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
 public class GuiAltaProyecto extends JPanel implements InterfazGui {
@@ -24,14 +34,18 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 	private JLabel lblAnyo;
 	private JSpinner spinnerAnyo;
 	private JLabel lblCiclo;
-	private JComboBox comboBoxCiclo;
+	private JComboBox<CicloFormativoPojo> comboBoxCiclo;
 	private JLabel lblCurso;
 	private JLabel lblGrupo;
-	private JComboBox comboBoxGrupo;
+	private JComboBox<String> comboBoxGrupo;
 	private JButton btnBack;
 	private JLabel lblAltaProyecto;
 	private JButton btnUpload;
 	private JLabel lblcargaImagen;
+	private JList<AlumnoPojo> listaIntegrantes;
+	private DefaultListModel<AlumnoPojo> modelo;
+	private JComboBox<String> comboBoxCurso;
+	private DefaultComboBoxModel<CicloFormativoPojo> modeloCiclos;
 	
 	public GuiAltaProyecto() {
 		inicializar();
@@ -48,6 +62,9 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		//Panel por capas con el background y resto de componentes
 		layeredPaneBackground = new JLayeredPane();
 		
+		//Inicializa la lista de Ciclos
+		modeloCiclos = new DefaultComboBoxModel<CicloFormativoPojo>();
+		
 		//Layout
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
@@ -61,6 +78,7 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		
 		//JButton Botón Agregar Proyecto
 		btnAgregarProyecto = new JButton("A\u00D1ADIR PROYECTO");
+		btnAgregarProyecto.setActionCommand("agregarProyecto");
 		btnAgregarProyecto.setBorder(null);
 		btnAgregarProyecto.setBackground(new Color(176, 224, 230));
 		btnAgregarProyecto.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -79,11 +97,13 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		lblNombreProyecto.setBounds(34, 121, 243, 33);
 		layeredPaneBackground.add(lblNombreProyecto);
 		
+		//Etiqueta texto carga de imagen
 		lblcargaImagen = new JLabel("<html><body style=text-align:'center'>Cargar una Imagen del Proyecto<br>(JPG tama\u00F1o 400x400)</html>");
 		lblcargaImagen.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 12));
 		lblcargaImagen.setBounds(489, 590, 187, 33);
 		layeredPaneBackground.add(lblcargaImagen);
 		
+		//Etiqueta Alta Proyecto
 		lblAltaProyecto = new JLabel("ALTA DE PROYECTO");
 		lblAltaProyecto.setFont(new Font("Avenir LT Std 45 Book", Font.PLAIN, 37));
 		lblAltaProyecto.setBounds(104, 56, 388, 34);
@@ -147,14 +167,6 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		
 		//Evento Pulsar Botón Subir Imagen Proyecto
 		btnUpload = new JButton("");
-		btnUpload.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				agregarImagen();
-				
-			}
-		});
-		
-		
 		btnUpload.setContentAreaFilled(false);
 		btnUpload.setBorderPainted(false);
 		btnUpload.setIcon(new ImageIcon(GuiAltaProyecto.class.getResource("/images/upload.png")));
@@ -178,24 +190,19 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		layeredPaneBackground.add(scrollPaneIntegrantes);
 		
 		//Lista Integrantes
-		JList<String> listaIntegrantes = new JList();
+		listaIntegrantes = new JList();
 		listaIntegrantes.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 16));
 		listaIntegrantes.setBorder(null);
 		listaIntegrantes.setBackground(new Color(255, 255, 255));
-		listaIntegrantes.setModel(new AbstractListModel() {
-			String[] values = new String[] {"RAUL ORDAS FERNANDEZ", "JAVIER GUTIERREZ PEREZ", "MIGUEL ALVAREZ NU\u00D1EZ", "JUAN MARIA LOPEZ ESTEVEZ", "RAMON DE LA SERNA", "IRENE REAL FERRANDEZ", "LOLA ORTU\u00D1O JIMENEZ", "ANDRES PERES LOPEZ", "JUAN DE LOS MONTES Y LA TIERRA", "RAUL ORDAS FERNANDEZ", "RAUL ORDAS FERNANDEZ", "JAVIER GUTIERREZ PEREZ", "MIGUEL ALVAREZ NU\u00D1EZ", "JUAN MARIA LOPEZ ESTEVEZ", "RAMON DE LA SERNA", "IRENE REAL FERRANDEZ", "LOLA ORTU\u00D1O JIMENEZ", "ANDRES PERES LOPEZ", "JUAN DE LOS MONTES Y LA TIERRA", "JAVIER GUTIERREZ PEREZ", "MIGUEL ALVAREZ NU\u00D1EZ", "JUAN MARIA LOPEZ ESTEVEZ", "RAMON DE LA SERNA", "IRENE REAL FERRANDEZ", "LOLA ORTU\u00D1O JIMENEZ", "ANDRES PERES LOPEZ", "JUAN DE LOS MONTES Y LA TIERRA"};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
 		scrollPaneIntegrantes.setViewportView(listaIntegrantes);
 		
+		//Inicializa el modelo de la lista JList
+		modelo = new DefaultListModel<>();
+		listaIntegrantes.setModel(modelo);
 		
 		//ComboBox Curso
-		JComboBox comboBoxCurso = new JComboBox();
+		comboBoxCurso = new JComboBox<String>();
+		comboBoxCurso.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6"}));
 		comboBoxCurso.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		comboBoxCurso.setBorder(new LineBorder(new Color(176, 224, 230), 4));
 		comboBoxCurso.setBackground(Color.WHITE);
@@ -229,7 +236,8 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		layeredPaneBackground.add(lblGrupo);
 		
 		//ComboBox Grupo
-		comboBoxGrupo = new JComboBox();
+		comboBoxGrupo = new JComboBox<String>();
+		comboBoxGrupo.setModel(new DefaultComboBoxModel(new String[] {"M1", "M2", "T1", "T2"}));
 		comboBoxGrupo.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		comboBoxGrupo.setBorder(new LineBorder(new Color(176, 224, 230), 4));
 		comboBoxGrupo.setBackground(Color.WHITE);
@@ -237,12 +245,13 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		layeredPaneBackground.add(comboBoxGrupo);
 		
 		//Combo Box Ciclo
-		comboBoxCiclo = new JComboBox();
+		comboBoxCiclo = new JComboBox<CicloFormativoPojo>();
 		comboBoxCiclo.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		comboBoxCiclo.setBorder(new LineBorder(new Color(176, 224, 230), 4));
 		comboBoxCiclo.setBackground(new Color(255, 255, 255));
 		comboBoxCiclo.setBounds(37, 507, 299, 33);
 		layeredPaneBackground.add(comboBoxCiclo);
+		comboBoxCiclo.setModel(modeloCiclos);
 		
 		//JLabel Imagen Background
 		lblBackground = new JLabel("");
@@ -258,11 +267,13 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 	@Override
 	public void setControlador(ControladorIntegraApp control) {
 		btnBack.addActionListener(control);
+		btnUpload.addActionListener(control);
+		btnAgregarProyecto.addActionListener(control);
 		
 	}
 	
 	//Método que permite importar imagenes
-	private void agregarImagen() {
+	private String agregarImagen() throws FileNotFoundException {
 		//crea e inicializa el JFileChooser para elegir imagen del proyecto
 		JFileChooser subirImagen = new JFileChooser();
 		
@@ -272,12 +283,49 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		
 		int valorRetorno = subirImagen.showOpenDialog(this);
 		if (valorRetorno == JFileChooser.APPROVE_OPTION) {
-			System.out.println("You chose to open this file: " + subirImagen.getSelectedFile().getName());
+			return subirImagen.getSelectedFile().getPath();
+		
+		} else {
+			return "/images/delete.png";
 		}
 	}
 	
 	
-	public void getDatos() {
-		//TODO
+	public ProyectoPojo getDatos() throws FileNotFoundException {
+		ArrayList<AlumnoPojo> listaAlumnos = new ArrayList<AlumnoPojo>();
+		String nombre = txtNombreProyecto.getText();
+		String descripcion = textAreaDescripcion.getText();
+		String url = txtUrl.getText();
+		int anyo = (int) spinnerAnyo.getValue();
+		CicloFormativoPojo ciclo = comboBoxCiclo.getItemAt(comboBoxCiclo.getSelectedIndex());
+		String grupo =  comboBoxGrupo.getItemAt(comboBoxGrupo.getSelectedIndex());
+		int curso = Integer.parseInt(comboBoxCurso.getItemAt(comboBoxCurso.getSelectedIndex()));
+		String imagen = agregarImagen();
+		//listaAlumnos = (ArrayList<AlumnoPojo>) listaIntegrantes.getSelectedValuesList();
+		
+		for (AlumnoPojo aux : listaIntegrantes.getSelectedValuesList()) {
+			listaAlumnos.add(aux);
+			System.out.println(aux);
+		}
+		
+		ProyectoPojo proyecto = new ProyectoPojo(nombre, descripcion, url, anyo, ciclo, curso, grupo, listaAlumnos ,imagen);
+		
+		return proyecto;
+	}
+	
+	public void cargarModelo(ArrayList<AlumnoPojo> listaAlumnos) {
+		modelo.removeAllElements();
+		
+		for (int i = 0; i < listaAlumnos.size(); i++) {
+			modelo.addElement(listaAlumnos.get(i));
+		}	
+	}
+	
+	public void cargarCiclos(ArrayList<CicloFormativoPojo> listaCiclos) {
+		modeloCiclos.removeAllElements();
+		
+		for (int i = 0; i < listaCiclos.size(); i++) {
+			modeloCiclos.addElement(listaCiclos.get(i));
+		}	
 	}
 }
