@@ -11,13 +11,8 @@ import controlador.ControladorIntegraApp;
 public class GuiPanelPrincipal extends JPanel implements InterfazGui {
 	private static final String txtAdmin = "ID: ADMINISTRADOR";
 	private JLabel lblLogo;
-	private JLabel lblIconoInterrogacion;
-	private JTextArea txtAyudaA;
-	private JTextArea textAreaB;
-	private JLabel lblCajaAyuda;
 	private JLayeredPane layeredPaneBackground;
 	private JLabel lblBackground;
-	private JLayeredPane layeredPaneAyuda;
 	private JLabel lbltextoIntro;
 	private JButton btnConsultarProyectos;
 	private JLabel lblCandado;
@@ -33,11 +28,9 @@ public class GuiPanelPrincipal extends JPanel implements InterfazGui {
 	}
 	@Override
 	public void inicializar() {
-		setBackground(new Color(255, 255, 255));
 		
-		//Panel por capas Contenedor Ayuda
-		layeredPaneAyuda = new JLayeredPane();
-		layeredPaneAyuda.setOpaque(true);
+		//Color Background del panel
+		setBackground(new Color(255, 255, 255));
 		
 		//Panel por capas con el background y resto de componentes
 		layeredPaneBackground = new JLayeredPane();
@@ -46,23 +39,11 @@ public class GuiPanelPrincipal extends JPanel implements InterfazGui {
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(1)
-					.addComponent(layeredPaneAyuda, GroupLayout.PREFERRED_SIZE, 284, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(layeredPaneBackground, GroupLayout.PREFERRED_SIZE, 987, Short.MAX_VALUE)
-					.addContainerGap())
+				.addComponent(layeredPaneBackground, GroupLayout.DEFAULT_SIZE, 986, Short.MAX_VALUE)
 		);
 		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap(148, Short.MAX_VALUE)
-					.addComponent(layeredPaneAyuda, GroupLayout.PREFERRED_SIZE, 534, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
-					.addGap(2)
-					.addComponent(layeredPaneBackground, GroupLayout.PREFERRED_SIZE, 680, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addComponent(layeredPaneBackground, GroupLayout.DEFAULT_SIZE, 685, Short.MAX_VALUE)
 		);
 		
 		//JLabel imagen Candado
@@ -119,44 +100,12 @@ public class GuiPanelPrincipal extends JPanel implements InterfazGui {
 		//JLabel Background
 		lblBackground = new JLabel("");
 		lblBackground.setIcon(new ImageIcon(GuiPanelPrincipal.class.getResource("/images/polybg.jpg")));
-		lblBackground.setBounds(2, 0, 985, 679);
-	
+		lblBackground.setBounds(2, 0, 984, 669);
 		layeredPaneBackground.add(lblBackground);
-		
-		//Imagen Icono Interrogación
-		lblIconoInterrogacion = new JLabel("");
-		lblIconoInterrogacion.setBounds(100, 40, 74, 74);
-		layeredPaneAyuda.add(lblIconoInterrogacion);
-		lblIconoInterrogacion.setIcon(new ImageIcon(GuiPanelPrincipal.class.getResource("/images/Interrogacion.png")));
-		
-		//Texto Ayuda A
-		txtAyudaA = new JTextArea();
-		txtAyudaA.setForeground(new Color(255, 255, 255));
-		txtAyudaA.setBounds(29, 152, 211, 89);
-		layeredPaneAyuda.add(txtAyudaA);
-		txtAyudaA.setLineWrap(true);
-		txtAyudaA.setOpaque(false);
-		txtAyudaA.setFont(new Font("Avenir LT Std 45 Book", Font.PLAIN, 16));
-		txtAyudaA.setText("Si necesitas\r\nayuda con la aplicaci\u00F3n\r\npuedes acceder a la wiki\r\nen el siguiente enlace:\r\nwww.wiki.com");
-		
-		//Texto AyudaB
-		textAreaB = new JTextArea();
-		textAreaB.setText("O si lo prefieres, puedes\r\ncontactar con el equipo\r\nde desarrolladores\r\na trav\u00E9s de nuestro correo\r\nelectr\u00F3nico.\r\n\u00A1Estaremos encantados\r\nde ayudarte!\r\npepito@pepito.es");
-		textAreaB.setOpaque(false);
-		textAreaB.setLineWrap(true);
-		textAreaB.setForeground(Color.WHITE);
-		textAreaB.setFont(new Font("Avenir LT Std 45 Book", Font.PLAIN, 16));
-		textAreaB.setBounds(26, 288, 211, 149);
-		layeredPaneAyuda.add(textAreaB);
-		
-		//Container Ayuda
-		lblCajaAyuda = new JLabel("");
-		lblCajaAyuda.setBounds(0, 0, 284, 535);
-		layeredPaneAyuda.add(lblCajaAyuda);
-		lblCajaAyuda.setOpaque(true);
-		lblCajaAyuda.setBackground(new Color(176, 224, 230));
 		setLayout(groupLayout);
-		setBounds(0, 0, 1280, 685);
+		
+		//Tamaño del Panel
+		setBounds(0, 0, 986, 685);
 	}
 	
 	@Override
@@ -172,6 +121,7 @@ public class GuiPanelPrincipal extends JPanel implements InterfazGui {
 	public JLabel getLblIdentificacion() {
 		return lblIdentificacion;
 	}
+	
 	public void cambiarAdministrador() {
 		getLblIdentificacion().setText(txtAdmin);
 	}

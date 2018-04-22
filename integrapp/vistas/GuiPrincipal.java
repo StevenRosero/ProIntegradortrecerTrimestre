@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.LineBorder;
 import controlador.ControladorIntegraApp;
+import javax.swing.GroupLayout.Alignment;
 
 public class GuiPrincipal extends JFrame implements InterfazGui {
 	private JMenuBar menuBar;
@@ -25,9 +26,12 @@ public class GuiPrincipal extends JFrame implements InterfazGui {
 	private JMenuItem submenuModificarCiclos;
 	private JMenuItem acercaDeIntegraApp;
 	private JScrollPane panelVistaActiva;
+	private GuiAyuda ayuda;
 	
 	public GuiPrincipal() {
 		super("IntegraApp - Gestión de Proyectos Integradores");
+		getContentPane().setBackground(new Color(255, 255, 255));
+		setBackground(new Color(255, 255, 255));
 		inicializar();
 	}
 	
@@ -43,12 +47,15 @@ public class GuiPrincipal extends JFrame implements InterfazGui {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		//Cambia el color de la línea de los submenus
 		UIManager.put("PopupMenu.border", new LineBorder(Color.WHITE));
 		setBounds(0, 0, 1366, 768);
 		getContentPane().setLayout(null);
 		 
+		 ayuda = new GuiAyuda();
+		 ayuda.setOpaque(true);
+		 ayuda.setBounds(0, 195, 284, 534);
+		 getContentPane().add(ayuda);
 		 //Barra Menu Principal
 		 menuBar = new JMenuBar();
 		 menuBar.setBounds(0, 0, 1284, 45);
@@ -56,7 +63,6 @@ public class GuiPrincipal extends JFrame implements InterfazGui {
 		 menuBar.setBorder(new LineBorder(new Color(255, 255, 255), 2));
 		 menuBar.setBackground(Color.WHITE);
 		 menuBar.setPreferredSize(new Dimension (100, 45));
-		 
 		 //Menu Proyectos
 		 JMenu menuProyectos = new JMenu("             PROYECTOS");
 		 menuProyectos.setBorder(new LineBorder(new Color(255, 255, 255)));
@@ -258,9 +264,11 @@ public class GuiPrincipal extends JFrame implements InterfazGui {
 		 menuAcercaDe.add(acercaDeIntegraApp);
 		
 		 panelVistaActiva = new JScrollPane();
+		 panelVistaActiva.setBorder(null);
+		 panelVistaActiva.setBackground(new Color(255, 255, 255));
 		 panelVistaActiva.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		 panelVistaActiva.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-		 panelVistaActiva.setBounds(0, 44, 1280, 685);
+		 panelVistaActiva.setBounds(294, 44, 986, 685);
 		 getContentPane().add(panelVistaActiva);
 		
 		//Lanza la aplicación a pantalla completa
