@@ -8,6 +8,8 @@ import vistas.GuiAltaCiclo;
 import vistas.GuiAltaProyecto;
 import vistas.GuiBajaAlumno;
 import vistas.GuiLogin;
+import vistas.GuiModalModificarAlumno;
+import vistas.GuiModificarAlumno;
 import vistas.GuiPanelPrincipal;
 import vistas.GuiPrincipal;
 
@@ -27,8 +29,12 @@ public class IntegraAppEjecutable {
 					GuiBajaAlumno ventanaBajaAlumno = new GuiBajaAlumno();
 					GuiAltaAlumno ventanaAltaAlumno = new GuiAltaAlumno();
 					GuiAltaCiclo ventanaAltaCiclo = new GuiAltaCiclo();
+					GuiModificarAlumno ventanaModificarAlumno = new GuiModificarAlumno();
+					GuiModalModificarAlumno modalModificarAlumno = new GuiModalModificarAlumno();
+					
 					ControladorIntegraApp control = new ControladorIntegraApp(panelInicio, mainGui, ventanaLogin, 
-							ventanaAltaProyecto, ventanaBajaAlumno, ventanaAltaAlumno, ventanaAltaCiclo);
+							ventanaAltaProyecto, ventanaBajaAlumno, ventanaAltaAlumno, ventanaAltaCiclo,
+							ventanaModificarAlumno, modalModificarAlumno);
 					
 					//Asigna el controlador a cada una de las ventanas del programa
 					mainGui.setControlador(control);
@@ -38,6 +44,8 @@ public class IntegraAppEjecutable {
 					ventanaBajaAlumno.setControlador(control);
 					ventanaAltaAlumno.setControlador(control);
 					ventanaAltaCiclo.setControlador(control);
+					ventanaModificarAlumno.setControlador(control);
+					modalModificarAlumno.setControlador(control);
 					
 					//Hace Visible el UI que da salida visual al hilo principal de la aplicación
 					mainGui.setVisible(true);

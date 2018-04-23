@@ -100,7 +100,7 @@ public class GuiPanelPrincipal extends JPanel implements InterfazGui {
 		//JLabel Background
 		lblBackground = new JLabel("");
 		lblBackground.setIcon(new ImageIcon(GuiPanelPrincipal.class.getResource("/images/polybg.jpg")));
-		lblBackground.setBounds(2, 0, 984, 669);
+		lblBackground.setBounds(2, 0, 984, 685);
 		layeredPaneBackground.add(lblBackground);
 		setLayout(groupLayout);
 		

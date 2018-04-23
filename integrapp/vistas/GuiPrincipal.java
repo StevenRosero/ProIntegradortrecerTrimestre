@@ -30,6 +30,7 @@ public class GuiPrincipal extends JFrame implements InterfazGui {
 	
 	public GuiPrincipal() {
 		super("IntegraApp - Gestión de Proyectos Integradores");
+		setResizable(false);
 		getContentPane().setBackground(new Color(255, 255, 255));
 		setBackground(new Color(255, 255, 255));
 		inicializar();
@@ -49,7 +50,7 @@ public class GuiPrincipal extends JFrame implements InterfazGui {
 		}
 		//Cambia el color de la línea de los submenus
 		UIManager.put("PopupMenu.border", new LineBorder(Color.WHITE));
-		setBounds(0, 0, 1366, 768);
+		setBounds(0, 0, 1290, 758);
 		getContentPane().setLayout(null);
 		 
 		 ayuda = new GuiAyuda();
@@ -170,6 +171,7 @@ public class GuiPrincipal extends JFrame implements InterfazGui {
 		 
 		 //SubMenu Modificar Alumnos
 		 submenuModificarAlumnos = new JMenuItem("MODIFICAR");
+		 submenuModificarAlumnos.setActionCommand("submenuModificarAlumno");
 		 submenuModificarAlumnos.setEnabled(false);
 		 submenuModificarAlumnos.setPreferredSize(new Dimension(160, 40));
 		 submenuModificarAlumnos.setOpaque(true);
@@ -272,8 +274,8 @@ public class GuiPrincipal extends JFrame implements InterfazGui {
 		 panelVistaActiva.setBounds(294, 44, 986, 685);
 		 getContentPane().add(panelVistaActiva);
 		
-		//Lanza la aplicación a pantalla completa
-		setExtendedState(Frame.MAXIMIZED_BOTH);
+		//Centra la ventana
+		setLocationRelativeTo(null);
 		
 		//Cierra la aplicación al pulsar la cruz
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);	
@@ -285,6 +287,7 @@ public class GuiPrincipal extends JFrame implements InterfazGui {
 		submenuBajaAlumnos.addActionListener(control);
 		submenuAltaAlumnos.addActionListener(control);
 		submenuAltaCiclos.addActionListener(control);
+		submenuModificarAlumnos.addActionListener(control);
 	}
 	
 	public void esUsuarioAdministrador() {

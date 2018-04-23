@@ -52,16 +52,23 @@ public class ConexionBaseDatos {
 			ps.setBinaryStream(7, arch2);
 			ps.executeUpdate();
 			
-			//SELECT ID_P FROM PROYECTOS WHERE NOMBRE = proyecto.getNombre()
 			//Ejecuta la sentencia para agregar los alumnos del proyecto en la tabla Realizan
+			int id = 0;
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT MAX(ID_P) FROM PROYECTOS");
 			
-			/*for (int i = 0; i < proyecto.getListaAlumnos().size(); i++) {
+			while (rs.next()) {
+				id = rs.getInt(1);
+			}
+		
+			//Itera la lista de Alumnos y los va agregando a la tabla realizan junto al identificador del proyecto
+			for (int i = 0; i < proyecto.getListaAlumnos().size(); i++) {
 				ps=con.prepareStatement(("INSERT INTO REALIZAN VALUES(?,?)"));
 				ps.setInt(1, proyecto.getListaAlumnos().get(i).getIdAlumno());
-				//ps.setInt(2, proyecto.ge
-			}*/
-			
-			
+				ps.setInt(2, id);
+				ps.executeQuery();
+			}
+		
 			//cierra la conexion 
 			con.close();
 			JOptionPane.showMessageDialog(null, "La Operación se ha realizado con éxito");
@@ -226,6 +233,37 @@ public class ConexionBaseDatos {
 			
 			}catch(Exception e){ 
 			JOptionPane.showMessageDialog(null, "No se ha podido realizar la operación"); 
+			}
+	}
+	
+	public void modificarAlumno(AlumnoPojo alumno) {
+		try {  
+			//carga el driver de oracle  
+			Class.forName("oracle.jdbc.driver.OracleDriver");  
+			  
+			//crea la conexión
+			Connection con= DriverManager.getConnection(  
+			"jdbc:oracle:thin:@localhost:1521:xe","SYSTEM","111082");  
+			  
+			//Prepara la sentencia SQL para insertar Alumno
+			PreparedStatement ps;
+			ps=con.prepareStatement(("UPDATE ALUMNOS SET EXPEDIENTE = ?, NOMBRE = ?, APELLIDO1 = ?, APELLIDO2 = ? WHERE ID_A = ?"));
+			ps.setInt(1, alumno.getExpediente());
+			ps.setString(2, alumno.getNombre());
+			ps.setString(3, alumno.getApellido1());
+			ps.setString(4, alumno.getApellido2());
+			ps.setInt(5, alumno.getIdAlumno());
+			
+			//Ejecuta la sentencia SQL de inserción
+			ps.executeUpdate();
+
+			//cierra la conexion 
+			con.close();  
+			JOptionPane.showMessageDialog(null, "La Operación se ha realizado con éxito");
+			
+			}catch(Exception e){ 
+				System.out.println(e.getMessage());
+				JOptionPane.showMessageDialog(null, "No se ha podido realizar la operación"); 
 			}
 	}
 }

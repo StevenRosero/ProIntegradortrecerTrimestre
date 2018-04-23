@@ -14,6 +14,8 @@ import vistas.GuiAltaCiclo;
 import vistas.GuiAltaProyecto;
 import vistas.GuiBajaAlumno;
 import vistas.GuiLogin;
+import vistas.GuiModalModificarAlumno;
+import vistas.GuiModificarAlumno;
 import vistas.GuiPanelPrincipal;
 import vistas.GuiPrincipal;
 	
@@ -27,10 +29,15 @@ public class ControladorIntegraApp implements ActionListener {
 	private ConexionBaseDatos baseDatos;
 	private GuiAltaAlumno panelAltaAlumno;
 	private GuiAltaCiclo panelAltaCiclo;
+	private GuiModificarAlumno panelModificarAlumno;
+	private GuiModalModificarAlumno modalModificarAlumno;
 	
 	public ControladorIntegraApp(GuiPanelPrincipal panelPrincipal, GuiPrincipal mainGui,
-			GuiLogin ventanaLogin, GuiAltaProyecto ventanaAltaProyecto, GuiBajaAlumno ventanaBajaAlumno
-			, GuiAltaAlumno ventanaAltaAlumno, GuiAltaCiclo ventanaAltaCiclo) {
+			GuiLogin ventanaLogin, GuiAltaProyecto ventanaAltaProyecto,
+			GuiBajaAlumno ventanaBajaAlumno ,GuiAltaAlumno ventanaAltaAlumno,
+			GuiAltaCiclo ventanaAltaCiclo, GuiModificarAlumno ventanaModificarAlumno,
+			GuiModalModificarAlumno ventanaModalModificarAlumno) {
+		
 		this.mainGui = mainGui;
 		this.ventanaLogin = ventanaLogin;
 		this.panelAltaProyecto = ventanaAltaProyecto;
@@ -38,6 +45,8 @@ public class ControladorIntegraApp implements ActionListener {
 		this.panelBajaAlumno = ventanaBajaAlumno;
 		this.panelAltaAlumno = ventanaAltaAlumno;
 		this.panelAltaCiclo = ventanaAltaCiclo;
+		this.panelModificarAlumno = ventanaModificarAlumno;
+		this.modalModificarAlumno = ventanaModalModificarAlumno;
 		mainGui.setPanel(this.panelPrincipal);
 		baseDatos = new ConexionBaseDatos();
 	}
@@ -78,6 +87,11 @@ public class ControladorIntegraApp implements ActionListener {
 		//Detecta el evento de hacer click en el Submenu Baja Alumnos
 		} else if (e.getSource().equals(mainGui.getSubmenuBajaAlumnos())) {
 			panelBajaAlumno.mostrar(baseDatos.listaAlumnosBaseDatos());
+		
+		//Detecta el evento de hacer click en el Submenu Modificar Alumnos
+		} else if (e.getActionCommand().equals("submenuModificarAlumno")) {
+			modalModificarAlumno.mostrar(baseDatos.listaAlumnosBaseDatos());
+			mainGui.setPanel(panelModificarAlumno);
 		}
 		
 		//Detecta el evento de hacer click en el icono volver al inicio
@@ -113,6 +127,21 @@ public class ControladorIntegraApp implements ActionListener {
 		} else if (e.getActionCommand().equals("eliminarAlumno")) {
 			baseDatos.eliminarAlumnoBaseDatos(panelBajaAlumno.getDatos());
 			panelBajaAlumno.mostrar(baseDatos.listaAlumnosBaseDatos());
+			
+		//Detecta el evento de hacer click en aceptar para modificar un Alumno
+		} else if (e.getActionCommand().equals("modalModificarAlumno")) {
+			panelModificarAlumno.mostrarAlumno(modalModificarAlumno.getDatos());
+			modalModificarAlumno.dispose();
+			mainGui.setPanel(panelModificarAlumno);
+			
+		} else if (e.getActionCommand().equals("modificarAlumnoDef")) {
+			try {
+				baseDatos.modificarAlumno(panelModificarAlumno.getDatos());
+				mainGui.setPanel(panelPrincipal);
+			} catch (NumberFormatException | ExpedienteException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		
 		//Detecta el evento de hacer click para cancelar el proceso de borrar un Alumno
 		} else if (e.getActionCommand().equals("cancelarAlumno")) {
