@@ -7,18 +7,20 @@ public class ProyectoPojo {
 	private String descripcion;
 	private String url;
 	private int anyo;
+	private double nota;
 	private CicloFormativoPojo ciclo;
 	private int curso;
 	private String grupo;
 	private ArrayList<AlumnoPojo> listaAlumnos;
 	private String imagen;
 	
-	public ProyectoPojo(String nombre, String descripcion, String url, int anyo, CicloFormativoPojo ciclo, int curso, String grupo,
+	public ProyectoPojo(String nombre, String descripcion, String url, int anyo, double nota, CicloFormativoPojo ciclo, int curso, String grupo,
 			ArrayList<AlumnoPojo> listaAlumnos, String imagen) {
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.url = url;
 		this.anyo = anyo;
+		this.nota = nota;
 		this.ciclo = ciclo;
 		this.curso = curso;
 		this.grupo = grupo;
@@ -61,4 +63,12 @@ public class ProyectoPojo {
 	public String getImagen() {
 		return imagen;
 	}
+
+	@Override
+	public String toString() {
+		return "ProyectoPojo [nombre=" + nombre + ", descripcion=" + descripcion + ", url=" + url + ", anyo=" + anyo
+				+ ", ciclo=" + ciclo + ", curso=" + curso + ", grupo=" + grupo + ", listaAlumnos=" + listaAlumnos
+				+ ", imagen=" + imagen + "]";
+	}
+	
 }

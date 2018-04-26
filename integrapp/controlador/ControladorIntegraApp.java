@@ -36,7 +36,7 @@ public class ControladorIntegraApp implements ActionListener {
 			GuiLogin ventanaLogin, GuiAltaProyecto ventanaAltaProyecto,
 			GuiBajaAlumno ventanaBajaAlumno ,GuiAltaAlumno ventanaAltaAlumno,
 			GuiAltaCiclo ventanaAltaCiclo, GuiModificarAlumno ventanaModificarAlumno,
-			GuiModalModificarAlumno ventanaModalModificarAlumno) {
+			GuiModalModificarAlumno ventanaModalModificarAlumno, ConexionBaseDatos baseDatos) {
 		
 		this.mainGui = mainGui;
 		this.ventanaLogin = ventanaLogin;
@@ -48,7 +48,7 @@ public class ControladorIntegraApp implements ActionListener {
 		this.panelModificarAlumno = ventanaModificarAlumno;
 		this.modalModificarAlumno = ventanaModalModificarAlumno;
 		mainGui.setPanel(this.panelPrincipal);
-		baseDatos = new ConexionBaseDatos();
+		this.baseDatos = baseDatos;
 	}
 
 	@Override
@@ -120,6 +120,8 @@ public class ControladorIntegraApp implements ActionListener {
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
+				} catch (NumberFormatException e2) {
+					JOptionPane.showMessageDialog(panelAltaProyecto, "Debe introducir números en el formato adecuado");
 				}
 			
 		

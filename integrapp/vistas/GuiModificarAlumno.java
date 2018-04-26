@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Frame;
+
 import controlador.ControladorIntegraApp;
 import modelo.AlumnoPojo;
 import javax.swing.border.LineBorder;

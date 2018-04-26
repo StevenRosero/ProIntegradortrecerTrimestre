@@ -46,6 +46,7 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 	private DefaultListModel<AlumnoPojo> modelo;
 	private JComboBox<String> comboBoxCurso;
 	private DefaultComboBoxModel<CicloFormativoPojo> modeloCiclos;
+	private JTextField txtNota;
 	
 	public GuiAltaProyecto() {
 		inicializar();
@@ -119,13 +120,24 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		txtNombreProyecto = new JTextField();
 		txtNombreProyecto.setBorder(new LineBorder(new Color(176, 224, 230), 4));
 		txtNombreProyecto.setColumns(10);
-		txtNombreProyecto.setBounds(34, 159, 299, 33);
+		txtNombreProyecto.setBounds(34, 159, 342, 33);
 		layeredPaneBackground.add(txtNombreProyecto);
+		
+		JLabel lblNota = new JLabel("NOTA");
+		lblNota.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 16));
+		lblNota.setBounds(331, 410, 45, 28);
+		layeredPaneBackground.add(lblNota);
+		
+		txtNota = new JTextField();
+		txtNota.setColumns(10);
+		txtNota.setBorder(new LineBorder(new Color(176, 224, 230), 4));
+		txtNota.setBounds(261, 435, 115, 33);
+		layeredPaneBackground.add(txtNota);
 		
 		//Campo Url
 		txtUrl = new JTextField();
 		txtUrl.setBorder(new LineBorder(new Color(176, 224, 230), 4));
-		txtUrl.setBounds(34, 366, 299, 33);
+		txtUrl.setBounds(34, 366, 342, 33);
 		layeredPaneBackground.add(txtUrl);
 		txtUrl.setColumns(10);
 		
@@ -158,7 +170,7 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		//Scroll Pane Descripcion
 		scrollPaneDescripcion = new JScrollPane();
 		scrollPaneDescripcion.setBorder(new LineBorder(new Color(176, 224, 230), 4));
-		scrollPaneDescripcion.setBounds(34, 239, 299, 85);
+		scrollPaneDescripcion.setBounds(34, 239, 342, 85);
 		layeredPaneBackground.add(scrollPaneDescripcion);
 		
 		//Campo Descripcion
@@ -226,13 +238,14 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		spinnerAnyo.setModel(new SpinnerNumberModel(2018, 1900, 2100, 1));
 		spinnerAnyo.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 		spinnerAnyo.setBorder(new LineBorder(new Color(176, 224, 230), 4));
-		spinnerAnyo.setBounds(35, 435, 154, 33);
+		spinnerAnyo.setBounds(35, 435, 117, 33);
 		layeredPaneBackground.add(spinnerAnyo);
+		
 		
 		//Etiqueta Grupo
 		lblGrupo = new JLabel("GRUPO");
 		lblGrupo.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 16));
-		lblGrupo.setBounds(218, 556, 59, 28);
+		lblGrupo.setBounds(317, 556, 59, 28);
 		layeredPaneBackground.add(lblGrupo);
 		
 		//ComboBox Grupo
@@ -241,17 +254,18 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		comboBoxGrupo.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		comboBoxGrupo.setBorder(new LineBorder(new Color(176, 224, 230), 4));
 		comboBoxGrupo.setBackground(Color.WHITE);
-		comboBoxGrupo.setBounds(218, 584, 117, 39);
+		comboBoxGrupo.setBounds(259, 584, 117, 39);
 		layeredPaneBackground.add(comboBoxGrupo);
 		
 		//Combo Box Ciclo
 		comboBoxCiclo = new JComboBox<CicloFormativoPojo>();
+		comboBoxCiclo.setFont(new Font("Avenir LT Std 45 Book", Font.PLAIN, 11));
 		comboBoxCiclo.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		comboBoxCiclo.setBorder(new LineBorder(new Color(176, 224, 230), 4));
 		comboBoxCiclo.setBackground(new Color(255, 255, 255));
-		comboBoxCiclo.setBounds(37, 507, 299, 33);
-		layeredPaneBackground.add(comboBoxCiclo);
+		comboBoxCiclo.setBounds(37, 507, 339, 33);
 		comboBoxCiclo.setModel(modeloCiclos);
+		layeredPaneBackground.add(comboBoxCiclo);
 		
 		//JLabel Imagen Background
 		lblBackground = new JLabel("");
@@ -291,12 +305,13 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 	}
 	
 	
-	public ProyectoPojo getDatos() throws FileNotFoundException {
+	public ProyectoPojo getDatos() throws FileNotFoundException, NumberFormatException {
 		ArrayList<AlumnoPojo> listaAlumnos = new ArrayList<AlumnoPojo>();
 		String nombre = txtNombreProyecto.getText();
 		String descripcion = textAreaDescripcion.getText();
 		String url = txtUrl.getText();
 		int anyo = (int) spinnerAnyo.getValue();
+		double nota = Double.parseDouble(txtNota.getText());
 		CicloFormativoPojo ciclo = comboBoxCiclo.getItemAt(comboBoxCiclo.getSelectedIndex());
 		String grupo =  comboBoxGrupo.getItemAt(comboBoxGrupo.getSelectedIndex());
 		int curso = Integer.parseInt(comboBoxCurso.getItemAt(comboBoxCurso.getSelectedIndex()));
@@ -308,7 +323,7 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 			System.out.println(aux);
 		}
 		
-		ProyectoPojo proyecto = new ProyectoPojo(nombre, descripcion, url, anyo, ciclo, curso, grupo, listaAlumnos ,imagen);
+		ProyectoPojo proyecto = new ProyectoPojo(nombre, descripcion, url, anyo, nota, ciclo, curso, grupo, listaAlumnos ,imagen);
 		
 		return proyecto;
 	}

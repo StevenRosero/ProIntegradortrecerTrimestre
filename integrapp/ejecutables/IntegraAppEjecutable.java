@@ -2,6 +2,7 @@ package ejecutables;
 
 import java.awt.EventQueue;
 
+import controlador.ConexionBaseDatos;
 import controlador.ControladorIntegraApp;
 import vistas.GuiAltaAlumno;
 import vistas.GuiAltaCiclo;
@@ -31,10 +32,11 @@ public class IntegraAppEjecutable {
 					GuiAltaCiclo ventanaAltaCiclo = new GuiAltaCiclo();
 					GuiModificarAlumno ventanaModificarAlumno = new GuiModificarAlumno();
 					GuiModalModificarAlumno modalModificarAlumno = new GuiModalModificarAlumno();
+					ConexionBaseDatos baseDatos = new ConexionBaseDatos();
 					
 					ControladorIntegraApp control = new ControladorIntegraApp(panelInicio, mainGui, ventanaLogin, 
 							ventanaAltaProyecto, ventanaBajaAlumno, ventanaAltaAlumno, ventanaAltaCiclo,
-							ventanaModificarAlumno, modalModificarAlumno);
+							ventanaModificarAlumno, modalModificarAlumno, baseDatos);
 					
 					//Asigna el controlador a cada una de las ventanas del programa
 					mainGui.setControlador(control);
@@ -46,6 +48,9 @@ public class IntegraAppEjecutable {
 					ventanaAltaCiclo.setControlador(control);
 					ventanaModificarAlumno.setControlador(control);
 					modalModificarAlumno.setControlador(control);
+					
+					//establece la conexion con la base de datos
+					baseDatos.conectar();
 					
 					//Hace Visible el UI que da salida visual al hilo principal de la aplicación
 					mainGui.setVisible(true);

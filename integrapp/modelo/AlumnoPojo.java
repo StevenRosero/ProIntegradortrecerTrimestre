@@ -47,7 +47,7 @@ public class AlumnoPojo {
 
 	@Override
 	public String toString() {
-		return "IDENTIFICADOR: " + idAlumno + "     EXPEDIENTE: " + expediente + 
+		return "EXPEDIENTE: " + expediente + 
 				"    NOMBRE: " + nombre + " " + apellido1 + " " + apellido2;
 	}
 }

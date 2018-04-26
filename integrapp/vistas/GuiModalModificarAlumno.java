@@ -21,6 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ImageIcon;
 import java.awt.Font;
+import java.awt.Frame;
 
 public class GuiModalModificarAlumno extends JDialog implements InterfazGui{
 	private DefaultListModel<AlumnoPojo> modelo;
@@ -140,6 +141,7 @@ public class GuiModalModificarAlumno extends JDialog implements InterfazGui{
 
 		// Aplica la propiedad Modal al Jdialog
 		setModalityType(DEFAULT_MODALITY_TYPE);
+		
 
 		// Cierra la ventana al salir
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
