@@ -6,17 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
 import javax.swing.JOptionPane;
-
 import modelo.AlumnoPojo;
 import modelo.CicloFormativoPojo;
 
 public class PersistenciaCiclos {
 	private ConexionBBDD conexion;
-	
-	
-	
 	
 	public PersistenciaCiclos() {
 		conexion = new ConexionBBDD();

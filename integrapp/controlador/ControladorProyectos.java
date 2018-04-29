@@ -11,7 +11,8 @@ import persistencia.PersistenciaAlumnos;
 import persistencia.PersistenciaCiclos;
 import persistencia.PersistenciaProyectos;
 import vistas.GuiAltaProyecto;
-import vistas.GuiModalAUX;
+import vistas.GuiConsultarProyectos;
+import vistas.GuiModalDetalleProyecto;
 import vistas.GuiPanelPrincipal;
 import vistas.GuiPrincipal;
 
@@ -19,27 +20,34 @@ public class ControladorProyectos implements ActionListener {
 	private GuiPrincipal mainGui;
 	private GuiPanelPrincipal panelPrincipal;
 	private GuiAltaProyecto panelAltaProyecto;
-	private GuiModalAUX modalAUX;
+	private GuiConsultarProyectos panelConsultarProyectos;
+	private GuiModalDetalleProyecto panelDetalleProyecto;
 	
 	public ControladorProyectos(GuiPrincipal mainGui, GuiPanelPrincipal panelPrincipal,
-			GuiAltaProyecto panelAltaProyecto) {
+			GuiAltaProyecto panelAltaProyecto, GuiConsultarProyectos panelConsultarProyectos) {
 
 		this.mainGui = mainGui;
 		this.panelPrincipal = panelPrincipal;
 		this.panelAltaProyecto = panelAltaProyecto;
-		modalAUX = new GuiModalAUX();
+		this.panelConsultarProyectos = panelConsultarProyectos;
+		panelDetalleProyecto = new GuiModalDetalleProyecto();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		//Detecta el evento de hacer click en el Submenu Consultar Proyectos
 		if(e.getActionCommand().equals("CONSULTAR")) {
-			try {
-				modalAUX.mostrar(new PersistenciaProyectos().listadoProyectosDb());
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+				mainGui.setPanel(panelConsultarProyectos);
+				panelConsultarProyectos.cargarCiclos(new PersistenciaCiclos().listadoCiclosBd());
+		
+		} else if (e.getActionCommand().equals("btnFiltro")) {
+				try {
+					panelConsultarProyectos.cargarModeloProyectos(new PersistenciaProyectos().consultaProyectos(panelConsultarProyectos.getDatos()));
+					
+				} catch (NumberFormatException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 		//Detecta el evento de hacer click en el Submenu Alta Proyectos
 		} else if (e.getSource().equals(mainGui.getSubmenuAltaProyecto())) {
@@ -58,6 +66,16 @@ public class ControladorProyectos implements ActionListener {
 			} catch (NumberFormatException e2) {
 				JOptionPane.showMessageDialog(panelAltaProyecto, "Debe introducir números en el formato adecuado");
 			}
+		
+		} else if (e.getActionCommand().equals("verDetalles")) {
+			try {
+				panelDetalleProyecto.mostrar(panelConsultarProyectos.proyectoSeleccionado());
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
+		
+	
 	}
 }

@@ -167,9 +167,9 @@ public class GuiAltaAlumno extends JPanel implements InterfazGui {
 		expediente = Integer.parseInt(txtExpediente.getText());
 		if (txtExpediente.getText().length() != 7) throw new ExpedienteException();
 			
-		nombre = txtNombreAlumno.getText();
-		apellido1 = txtApellido1.getText();
-		apellido2 = txtApellido2.getText();
+		nombre = txtNombreAlumno.getText().toUpperCase();
+		apellido1 = txtApellido1.getText().toUpperCase();
+		apellido2 = txtApellido2.getText().toUpperCase();
 		
 		AlumnoPojo alumno = new AlumnoPojo(0 ,expediente, nombre, apellido1, apellido2);
 		

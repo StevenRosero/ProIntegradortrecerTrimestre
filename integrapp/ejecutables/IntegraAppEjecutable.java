@@ -9,8 +9,9 @@ import vistas.GuiAltaAlumno;
 import vistas.GuiAltaCiclo;
 import vistas.GuiAltaProyecto;
 import vistas.GuiBajaAlumno;
+import vistas.GuiConsultarProyectos;
 import vistas.GuiLogin;
-import vistas.GuiModalAUX;
+import vistas.GuiModalDetalleProyecto;
 import vistas.GuiModalModificarAlumno;
 import vistas.GuiModificarAlumno;
 import vistas.GuiPanelPrincipal;
@@ -34,7 +35,8 @@ public class IntegraAppEjecutable {
 					GuiAltaCiclo ventanaAltaCiclo = new GuiAltaCiclo();
 					GuiModificarAlumno ventanaModificarAlumno = new GuiModificarAlumno();
 					GuiModalModificarAlumno modalModificarAlumno = new GuiModalModificarAlumno();
-					GuiModalAUX modalAux = new GuiModalAUX();
+					GuiConsultarProyectos ventanaConsultarProyectos = new GuiConsultarProyectos();
+					GuiModalDetalleProyecto modalAux = new GuiModalDetalleProyecto();
 					
 					//Declara e inicializa el controlador de Otros Eventos
 					ControladorOtrosEventos controlEventos = new ControladorOtrosEventos(mainGui, ventanaLogin, panelInicio);
@@ -58,10 +60,10 @@ public class IntegraAppEjecutable {
 					ventanaAltaCiclo.setControlador(controlCiclos, controlEventos);
 					
 					
-					
 					//Declara e inicializa el controlador de Proyectos
-					ControladorProyectos controlProyectos = new ControladorProyectos(mainGui, panelInicio,ventanaAltaProyecto);
+					ControladorProyectos controlProyectos = new ControladorProyectos(mainGui, panelInicio,ventanaAltaProyecto, ventanaConsultarProyectos);
 					ventanaAltaProyecto.setControlador(controlProyectos, controlEventos);
+					ventanaConsultarProyectos.setControlador(controlProyectos, controlEventos);
 					modalAux.setControlador(controlProyectos);
 					
 					//Asigna los controladores al mainGUI

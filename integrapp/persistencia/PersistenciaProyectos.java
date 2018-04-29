@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -140,20 +141,46 @@ public class PersistenciaProyectos {
 		return proyecto;
 	}
 	
-	public void consultaProyectosAnyo(int anyo) {
+	public ArrayList<ProyectoPojo> consultaProyectos(String query) {
+		ArrayList<ProyectoPojo> listaProyectos = new ArrayList<ProyectoPojo>();
+		ProyectoPojo proyecto = null;
+		Connection con = null;
+		Statement st = null;
 		
-	}
-	
-	public void consultaProyectosCurso(int curso) {
+		try {
+			con = conexion.conectarBd();
+			st = con.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			
+			while(rs.next()) {
+				proyecto = new ProyectoPojo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+						rs.getInt(5), rs.getDouble(6), rs.getInt(7), rs.getString(8), rs.getBytes(9), new CicloFormativoPojo(rs.getInt(10)));
+				
+				listaProyectos.add(proyecto);
+				System.out.println(proyecto);
+			}
+				
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		
-	}
-	
-	public void consultaProyectosCiclo(int ciclo) {
-		
-	}
-	
-	public void consultaProyectosNombre(String nombre) {
-		
+		} finally {
+			
+			try {
+				if (st != null) {
+					st.close();
+				}
+			
+				if (con != null) {
+					con.close();
+				}
+			
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+		}
+		return listaProyectos;
 	}
 }
 

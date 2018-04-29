@@ -45,6 +45,10 @@ public class ProyectoPojo {
 		this.ciclo = ciclo;
 	}
 	
+	public int getIdProyecto() {
+		return idProyecto;
+	}
+
 	public String getNombre() {
 		return nombre;
 	}
@@ -92,9 +96,7 @@ public class ProyectoPojo {
 
 	@Override
 	public String toString() {
-		return "ProyectoPojo [nombre=" + nombre + ", descripcion=" + descripcion + ", url=" + url + ", anyo=" + anyo
-				+ ", ciclo=" + ciclo + ", curso=" + curso + ", grupo=" + grupo + ", listaAlumnos=" + listaAlumnos
-				+ ", imagen=" + imagen + "]";
+		return "Identificador: " + idProyecto + " " + nombre ;
 	}
 	
 }
