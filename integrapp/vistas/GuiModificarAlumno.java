@@ -6,7 +6,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
 
-import controlador.ControladorIntegraApp;
+import controlador.ControladorAlumnos;
+import controlador.ControladorOtrosEventos;
 import modelo.AlumnoPojo;
 import javax.swing.border.LineBorder;
 
@@ -152,9 +153,8 @@ public class GuiModificarAlumno extends JPanel implements InterfazGui {
 		setBounds(0, 0, 986, 685);
 	}
 	
-	@Override
-	public void setControlador(ControladorIntegraApp control) {
-		btnBack.addActionListener(control);
+	public void setControlador(ControladorAlumnos control, ControladorOtrosEventos controlEv) {
+		btnBack.addActionListener(controlEv);
 		btnModificarAlumno.addActionListener(control);
 		
 	}

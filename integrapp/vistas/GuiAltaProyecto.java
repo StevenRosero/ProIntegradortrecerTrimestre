@@ -4,7 +4,8 @@ import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Color;
 import java.awt.Font;
-import controlador.ControladorIntegraApp;
+import controlador.ControladorOtrosEventos;
+import controlador.ControladorProyectos;
 import modelo.AlumnoPojo;
 import modelo.CicloFormativoPojo;
 import modelo.ProyectoPojo;
@@ -15,11 +16,17 @@ import javax.swing.plaf.ComboBoxUI;
 
 import java.awt.ComponentOrientation;
 import java.awt.event.ActionListener;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class GuiAltaProyecto extends JPanel implements InterfazGui {
 	private JLayeredPane layeredPaneBackground;
@@ -47,6 +54,7 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 	private JComboBox<String> comboBoxCurso;
 	private DefaultComboBoxModel<CicloFormativoPojo> modeloCiclos;
 	private JTextField txtNota;
+	private byte[] fileContents;
 	
 	public GuiAltaProyecto() {
 		inicializar();
@@ -179,6 +187,17 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		
 		//Evento Pulsar Botón Subir Imagen Proyecto
 		btnUpload = new JButton("");
+		btnUpload.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try {
+					agregarImagen();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnUpload.setContentAreaFilled(false);
 		btnUpload.setBorderPainted(false);
 		btnUpload.setIcon(new ImageIcon(GuiAltaProyecto.class.getResource("/images/upload.png")));
@@ -278,16 +297,16 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		setBounds(0, 0, 986, 685);
 	}
 	
-	@Override
-	public void setControlador(ControladorIntegraApp control) {
-		btnBack.addActionListener(control);
+	public void setControlador(ControladorProyectos control, ControladorOtrosEventos controlEv) {
+		btnBack.addActionListener(controlEv);
 		btnUpload.addActionListener(control);
 		btnAgregarProyecto.addActionListener(control);
 		
 	}
 	
 	//Método que permite importar imagenes
-	private String agregarImagen() throws FileNotFoundException {
+	private void agregarImagen() throws IOException {
+     
 		//crea e inicializa el JFileChooser para elegir imagen del proyecto
 		JFileChooser subirImagen = new JFileChooser();
 		
@@ -297,11 +316,10 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		
 		int valorRetorno = subirImagen.showOpenDialog(this);
 		if (valorRetorno == JFileChooser.APPROVE_OPTION) {
-			return subirImagen.getSelectedFile().getPath();
-		
-		} else {
-			return "/images/delete.png";
-		}
+			File archivo = new File(subirImagen.getSelectedFile().getPath());
+			FileInputStream arch2 = new FileInputStream(archivo);
+			fileContents = Files.readAllBytes(archivo.toPath());
+		}	
 	}
 	
 	
@@ -315,15 +333,22 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		CicloFormativoPojo ciclo = comboBoxCiclo.getItemAt(comboBoxCiclo.getSelectedIndex());
 		String grupo =  comboBoxGrupo.getItemAt(comboBoxGrupo.getSelectedIndex());
 		int curso = Integer.parseInt(comboBoxCurso.getItemAt(comboBoxCurso.getSelectedIndex()));
-		String imagen = agregarImagen();
-		//listaAlumnos = (ArrayList<AlumnoPojo>) listaIntegrantes.getSelectedValuesList();
+		byte[] imagen = null;
+		
+		if (fileContents == null) {
+			System.out.println("Hola");
+		} else {
+			imagen = fileContents;
+		}
+		
 		
 		for (AlumnoPojo aux : listaIntegrantes.getSelectedValuesList()) {
 			listaAlumnos.add(aux);
 			System.out.println(aux);
 		}
 		
-		ProyectoPojo proyecto = new ProyectoPojo(nombre, descripcion, url, anyo, nota, ciclo, curso, grupo, listaAlumnos ,imagen);
+		ProyectoPojo proyecto = new ProyectoPojo(nombre, descripcion, url, anyo, nota, ciclo, curso, grupo, listaAlumnos,imagen);
+		fileContents = null;
 		
 		return proyecto;
 	}

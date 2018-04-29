@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import controlador.ControladorIntegraApp;
+import controlador.ControladorOtrosEventos;
 import modelo.AdministradorPojo;
 
 public class GuiLogin extends JDialog implements InterfazGui {
@@ -122,8 +122,7 @@ public class GuiLogin extends JDialog implements InterfazGui {
 		setVisible(true);
 	}
 
-	@Override
-	public void setControlador(ControladorIntegraApp control) {
+	public void setControlador(ControladorOtrosEventos control) {
 		btnAceptar.addActionListener(control);
 		btnCancelar.addActionListener(control);
 		

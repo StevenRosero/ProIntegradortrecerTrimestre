@@ -4,7 +4,9 @@ import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Color;
 import java.awt.Font;
-import controlador.ControladorIntegraApp;
+
+import controlador.ControladorAlumnos;
+import controlador.ControladorOtrosEventos;
 import modelo.AlumnoPojo;
 import javax.swing.border.LineBorder;
 
@@ -149,9 +151,8 @@ public class GuiAltaAlumno extends JPanel implements InterfazGui {
 		setBounds(0, 0, 986, 685);
 	}
 	
-	@Override
-	public void setControlador(ControladorIntegraApp control) {
-		btnBack.addActionListener(control);
+	public void setControlador(ControladorAlumnos control, ControladorOtrosEventos controlEv) {
+		btnBack.addActionListener(controlEv);
 		btnAgregarAlumno.addActionListener(control);
 		
 	}

@@ -3,15 +3,12 @@ package vistas;
 import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
 import javax.swing.JList;
-
 import modelo.AlumnoPojo;
-
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
-
-import controlador.ControladorIntegraApp;
+import controlador.ControladorAlumnos;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
@@ -139,8 +136,7 @@ public class GuiBajaAlumno extends JDialog implements InterfazGui{
 		
 	}
 
-	@Override
-	public void setControlador(ControladorIntegraApp control) {
+	public void setControlador(ControladorAlumnos control) {
 		btnEliminarAlumno.addActionListener(control);
 		btnCancelar.addActionListener(control);
 		

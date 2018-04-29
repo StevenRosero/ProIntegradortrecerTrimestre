@@ -2,16 +2,22 @@ package vistas;
 
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Desktop;
 import java.awt.Font;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.awt.Cursor;
 
 public class GuiAyuda extends JPanel {
 	public JLabel lblIconoInterrogacion;
@@ -28,6 +34,25 @@ public class GuiAyuda extends JPanel {
 				
 		//Texto Ayuda A
 		txtAyudaA = new JTextArea();
+		txtAyudaA.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		txtAyudaA.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				//Abre el navegador web del usuario y le dirige a la url
+				if (Desktop.isDesktopSupported()){
+					try {
+						Desktop.getDesktop().browse(new URI("www.google.com"));
+					} catch (IOException e) {
+						JOptionPane.showMessageDialog(null, "Lo siento, no dispone de medios para navegar por internet");
+						e.printStackTrace();
+					} catch (URISyntaxException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		});
 		txtAyudaA.setEditable(false);
 		txtAyudaA.setForeground(new Color(255, 255, 255));
 		txtAyudaA.setBounds(29, 152, 211, 89);

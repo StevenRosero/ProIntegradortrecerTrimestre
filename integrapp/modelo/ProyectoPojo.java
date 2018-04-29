@@ -1,8 +1,10 @@
 package modelo;
 
+import java.sql.Blob;
 import java.util.ArrayList;
 
 public class ProyectoPojo {
+	private int idProyecto;
 	private String nombre;
 	private String descripcion;
 	private String url;
@@ -13,9 +15,10 @@ public class ProyectoPojo {
 	private String grupo;
 	private ArrayList<AlumnoPojo> listaAlumnos;
 	private String imagen;
+	private byte[] blobImagen;
 	
 	public ProyectoPojo(String nombre, String descripcion, String url, int anyo, double nota, CicloFormativoPojo ciclo, int curso, String grupo,
-			ArrayList<AlumnoPojo> listaAlumnos, String imagen) {
+			ArrayList<AlumnoPojo> listaAlumnos, byte[] imagen) {
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.url = url;
@@ -25,9 +28,23 @@ public class ProyectoPojo {
 		this.curso = curso;
 		this.grupo = grupo;
 		this.listaAlumnos = listaAlumnos;
-		this.imagen = imagen;
+		this.blobImagen = imagen;
 	}
-
+	
+	public ProyectoPojo(int idProyecto, String nombre, String descripcion, String url, int anyo, double nota, int curso, String grupo,
+			byte[] imagen, CicloFormativoPojo ciclo) {
+		this.idProyecto = idProyecto;
+		this.nombre = nombre;
+		this.descripcion = descripcion;
+		this.url = url;
+		this.anyo = anyo;
+		this.nota = nota;
+		this.curso = curso;
+		this.grupo = grupo;
+		this.blobImagen = imagen;
+		this.ciclo = ciclo;
+	}
+	
 	public String getNombre() {
 		return nombre;
 	}
@@ -39,11 +56,20 @@ public class ProyectoPojo {
 	public String getUrl() {
 		return url;
 	}
-
+	
+	public double getNota() {
+		return nota;
+	}
+	
 	public int getAnyo() {
 		return anyo;
 	}
+	
+	public byte[] getBlobImagen() {
+		return blobImagen;
+	}
 
+	
 	public int getCurso() {
 		return curso;
 	}

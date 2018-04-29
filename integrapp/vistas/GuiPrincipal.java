@@ -3,7 +3,12 @@ package vistas;
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.LineBorder;
-import controlador.ControladorIntegraApp;
+
+import controlador.ControladorAlumnos;
+import controlador.ControladorCiclos;
+import controlador.ControladorOtrosEventos;
+import controlador.ControladorProyectos;
+
 import javax.swing.GroupLayout.Alignment;
 
 public class GuiPrincipal extends JFrame implements InterfazGui {
@@ -281,13 +286,15 @@ public class GuiPrincipal extends JFrame implements InterfazGui {
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);	
 	}
 
-	@Override
-	public void setControlador(ControladorIntegraApp control) {
-		submenuAltaProyecto.addActionListener(control);
-		submenuBajaAlumnos.addActionListener(control);
-		submenuAltaAlumnos.addActionListener(control);
-		submenuAltaCiclos.addActionListener(control);
-		submenuModificarAlumnos.addActionListener(control);
+	public void setControlador(ControladorProyectos controlProy, ControladorAlumnos controlAl,
+			ControladorOtrosEventos controlEv, ControladorCiclos controlCiclos) {
+		
+		submenuAltaProyecto.addActionListener(controlProy);
+		submenuBajaAlumnos.addActionListener(controlAl);
+		submenuAltaAlumnos.addActionListener(controlAl);
+		submenuAltaCiclos.addActionListener(controlCiclos);
+		submenuModificarAlumnos.addActionListener(controlAl);
+		submenuConsultarProyectos.addActionListener(controlProy);
 	}
 	
 	public void esUsuarioAdministrador() {

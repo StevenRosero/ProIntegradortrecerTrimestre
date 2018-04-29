@@ -6,7 +6,7 @@ import java.awt.Color;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Font;
 import com.jgoodies.forms.factories.DefaultComponentFactory;
-import controlador.ControladorIntegraApp;
+import controlador.ControladorOtrosEventos;
 
 public class GuiPanelPrincipal extends JPanel implements InterfazGui {
 	private static final String txtAdmin = "ID: ADMINISTRADOR";
@@ -108,9 +108,8 @@ public class GuiPanelPrincipal extends JPanel implements InterfazGui {
 		setBounds(0, 0, 986, 685);
 	}
 	
-	@Override
-	public void setControlador(ControladorIntegraApp control) {
-		btnLogin.addActionListener(control);
+	public void setControlador(ControladorOtrosEventos controlEventos) {
+		btnLogin.addActionListener(controlEventos);
 		
 	}
 	

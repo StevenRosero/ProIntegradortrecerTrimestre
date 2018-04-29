@@ -1,14 +1,16 @@
 package ejecutables;
 
 import java.awt.EventQueue;
-
-import controlador.ConexionBaseDatos;
-import controlador.ControladorIntegraApp;
+import controlador.ControladorAlumnos;
+import controlador.ControladorCiclos;
+import controlador.ControladorOtrosEventos;
+import controlador.ControladorProyectos;
 import vistas.GuiAltaAlumno;
 import vistas.GuiAltaCiclo;
 import vistas.GuiAltaProyecto;
 import vistas.GuiBajaAlumno;
 import vistas.GuiLogin;
+import vistas.GuiModalAUX;
 import vistas.GuiModalModificarAlumno;
 import vistas.GuiModificarAlumno;
 import vistas.GuiPanelPrincipal;
@@ -22,7 +24,7 @@ public class IntegraAppEjecutable {
 			@Override
 			public void run() {
 				try {
-					//Declara e inicializa los elementos que conforman el UI y el controlador.
+					//Declara e inicializa los elementos que conforman el UI.
 					GuiPrincipal mainGui = new GuiPrincipal();
 					GuiPanelPrincipal panelInicio = new GuiPanelPrincipal();
 					GuiLogin ventanaLogin = new GuiLogin();
@@ -32,28 +34,43 @@ public class IntegraAppEjecutable {
 					GuiAltaCiclo ventanaAltaCiclo = new GuiAltaCiclo();
 					GuiModificarAlumno ventanaModificarAlumno = new GuiModificarAlumno();
 					GuiModalModificarAlumno modalModificarAlumno = new GuiModalModificarAlumno();
-					ConexionBaseDatos baseDatos = new ConexionBaseDatos();
+					GuiModalAUX modalAux = new GuiModalAUX();
 					
-					ControladorIntegraApp control = new ControladorIntegraApp(panelInicio, mainGui, ventanaLogin, 
-							ventanaAltaProyecto, ventanaBajaAlumno, ventanaAltaAlumno, ventanaAltaCiclo,
-							ventanaModificarAlumno, modalModificarAlumno, baseDatos);
+					//Declara e inicializa el controlador de Otros Eventos
+					ControladorOtrosEventos controlEventos = new ControladorOtrosEventos(mainGui, ventanaLogin, panelInicio);
+					panelInicio.setControlador(controlEventos);
+					ventanaLogin.setControlador(controlEventos);
 					
-					//Asigna el controlador a cada una de las ventanas del programa
-					mainGui.setControlador(control);
-					panelInicio.setControlador(control);
-					ventanaLogin.setControlador(control);
-					ventanaAltaProyecto.setControlador(control);
-					ventanaBajaAlumno.setControlador(control);
-					ventanaAltaAlumno.setControlador(control);
-					ventanaAltaCiclo.setControlador(control);
-					ventanaModificarAlumno.setControlador(control);
-					modalModificarAlumno.setControlador(control);
 					
-					//establece la conexion con la base de datos
-					baseDatos.conectar();
+					//Declara e inicializa el controlador de Alumnos
+					ControladorAlumnos controlAlumnos = new ControladorAlumnos(mainGui, panelInicio, 
+							ventanaBajaAlumno, ventanaAltaAlumno, ventanaModificarAlumno, modalModificarAlumno);
+					
+					ventanaAltaAlumno.setControlador(controlAlumnos, controlEventos);
+					ventanaBajaAlumno.setControlador(controlAlumnos);
+					ventanaModificarAlumno.setControlador(controlAlumnos, controlEventos);
+					modalModificarAlumno.setControlador(controlAlumnos);
+					
+					
+					//Declara e inicializa el controlador de Ciclos
+					ControladorCiclos controlCiclos = new ControladorCiclos(mainGui,ventanaAltaCiclo, panelInicio);
+					
+					ventanaAltaCiclo.setControlador(controlCiclos, controlEventos);
+					
+					
+					
+					//Declara e inicializa el controlador de Proyectos
+					ControladorProyectos controlProyectos = new ControladorProyectos(mainGui, panelInicio,ventanaAltaProyecto);
+					ventanaAltaProyecto.setControlador(controlProyectos, controlEventos);
+					modalAux.setControlador(controlProyectos);
+					
+					//Asigna los controladores al mainGUI
+					mainGui.setControlador(controlProyectos, controlAlumnos, controlEventos, controlCiclos);
+					
 					
 					//Hace Visible el UI que da salida visual al hilo principal de la aplicación
 					mainGui.setVisible(true);
+					mainGui.setPanel(panelInicio);
 					
 				} catch (Exception e) {
 					e.printStackTrace();

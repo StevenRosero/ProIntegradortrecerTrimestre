@@ -10,6 +10,10 @@ public class CicloFormativoPojo {
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 	}
+	
+	public CicloFormativoPojo(int identificador) {
+		this.identificador = identificador;
+	}
 
 	public String getNombre() {
 		return nombre;

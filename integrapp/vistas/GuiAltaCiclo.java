@@ -4,7 +4,9 @@ import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Color;
 import java.awt.Font;
-import controlador.ControladorIntegraApp;
+
+import controlador.ControladorCiclos;
+import controlador.ControladorOtrosEventos;
 import modelo.AlumnoPojo;
 import modelo.CicloFormativoPojo;
 
@@ -129,9 +131,8 @@ public class GuiAltaCiclo extends JPanel implements InterfazGui {
 		setBounds(0, 0, 986, 685);
 	}
 	
-	@Override
-	public void setControlador(ControladorIntegraApp control) {
-		btnBack.addActionListener(control);
+	public void setControlador(ControladorCiclos control, ControladorOtrosEventos controlEv) {
+		btnBack.addActionListener(controlEv);
 		btnAgregarCiclo.addActionListener(control);
 		
 	}

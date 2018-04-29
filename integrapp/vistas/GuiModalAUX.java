@@ -1,14 +1,17 @@
 package vistas;
 
+import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
 import javax.swing.JList;
 import modelo.AlumnoPojo;
+import modelo.ProyectoPojo;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
-import controlador.ControladorAlumnos;
+import controlador.ControladorOtrosEventos;
+import controlador.ControladorProyectos;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
@@ -19,18 +22,21 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import javax.swing.JTextArea;
 
-public class GuiModalModificarAlumno extends JDialog implements InterfazGui{
+public class GuiModalAUX extends JDialog implements InterfazGui{
 	private DefaultListModel<AlumnoPojo> modelo;
-	private JScrollPane scrollPane;
-	private JList<AlumnoPojo> list;
 	private JButton btnModificarAlumno;
-	private JLabel lblPapelera;
+	private JLabel lblProyecto;
 	private JButton btnCancelar;
-	private JLabel lblModificar;
 	private JLabel lblModificarAlumno;
+	private JTextArea textResultado;
+	private JScrollPane scrollPane;
 	
-	public GuiModalModificarAlumno() {
+	public GuiModalAUX() {
 		inicializar();	
 	}
 	
@@ -50,10 +56,6 @@ public class GuiModalModificarAlumno extends JDialog implements InterfazGui{
 		// Tamaño del JDialog
 		setBounds(100, 100, 650, 650);
 
-		// inicializa el ScrollPane de la Lista
-		scrollPane = new JScrollPane();
-		scrollPane.setBorder(new LineBorder(new Color(176, 224, 230), 4));
-
 		// JButton Eliminar Alumno
 		btnModificarAlumno = new JButton("MODIFICAR ALUMNO");
 		btnModificarAlumno.setActionCommand("modalModificarAlumno");
@@ -62,8 +64,8 @@ public class GuiModalModificarAlumno extends JDialog implements InterfazGui{
 		btnModificarAlumno.setBackground(new Color(176, 224, 230));
 
 		// label imagen papelera
-		lblPapelera = new JLabel("");
-		lblPapelera.setIcon(new ImageIcon(GuiModalModificarAlumno.class.getResource("/images/update.png")));
+		lblProyecto = new JLabel("");
+		lblProyecto.setIcon(new ImageIcon(GuiModalAUX.class.getResource("/images/update.png")));
 
 		btnCancelar = new JButton("CANCELAR");
 		btnCancelar.setActionCommand("cancelarAlumno");
@@ -71,11 +73,10 @@ public class GuiModalModificarAlumno extends JDialog implements InterfazGui{
 		btnCancelar.setBorder(null);
 		btnCancelar.setBackground(new Color(176, 224, 230));
 
-		lblModificar = new JLabel("Seleccione el alumno que desee modificar");
-		lblModificar.setFont(new Font("Avenir LT Std 45 Book", Font.PLAIN, 16));
-
 		lblModificarAlumno = new JLabel("MODIFICAR ALUMNO");
 		lblModificarAlumno.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 39));
+		
+		scrollPane = new JScrollPane();
 
 		// Inicializa el Layout del JDialog
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
@@ -88,49 +89,41 @@ public class GuiModalModificarAlumno extends JDialog implements InterfazGui{
 					.addComponent(btnCancelar, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE)
 					.addGap(99))
 				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap(31, Short.MAX_VALUE)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 575, GroupLayout.PREFERRED_SIZE)
-					.addGap(28))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap(185, Short.MAX_VALUE)
-					.addComponent(lblModificar)
-					.addGap(163))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap(281, Short.MAX_VALUE)
-					.addComponent(lblPapelera)
-					.addGap(254))
-				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap(124, Short.MAX_VALUE)
 					.addComponent(lblModificarAlumno, GroupLayout.PREFERRED_SIZE, 406, GroupLayout.PREFERRED_SIZE)
 					.addGap(104))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(184)
+					.addComponent(lblProyecto, GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE)
+					.addGap(27))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(27)
 					.addComponent(lblModificarAlumno, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblPapelera)
-					.addGap(31)
-					.addComponent(lblModificar)
-					.addGap(18)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 227, GroupLayout.PREFERRED_SIZE)
-					.addGap(38)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(33)
+							.addComponent(lblProyecto, GroupLayout.PREFERRED_SIZE, 334, GroupLayout.PREFERRED_SIZE)
+							.addGap(94))
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 242, GroupLayout.PREFERRED_SIZE)
+							.addGap(66)))
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(btnModificarAlumno, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnCancelar, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE))
 					.addGap(37))
 		);
+		
+		textResultado = new JTextArea();
+		scrollPane.setViewportView(textResultado);
 
 		// Inicializa el modelo de la lista
 		modelo = new DefaultListModel<AlumnoPojo>();
-
-		// Inicializa la lista y la agrega al viewport del scrollpane
-		list = new JList<AlumnoPojo>();
-		scrollPane.setViewportView(list);
-
-		// Modelo asignado a la lista
-		list.setModel(modelo);
 		getContentPane().setLayout(groupLayout);
 
 		// Centra el JDialog
@@ -150,7 +143,7 @@ public class GuiModalModificarAlumno extends JDialog implements InterfazGui{
 		
 	}
 
-	public void setControlador(ControladorAlumnos control) {
+	public void setControlador(ControladorProyectos control) {
 		btnModificarAlumno.addActionListener(control);
 		btnCancelar.addActionListener(control);
 		
@@ -158,14 +151,14 @@ public class GuiModalModificarAlumno extends JDialog implements InterfazGui{
 	
 	// Método que muestra los alumnos disponibles en la base de datos mediante el
 	// uso de un JList
-	public void mostrar(ArrayList<AlumnoPojo> alumnos) {
-		reciclar();
+	public void mostrar(ProyectoPojo proyecto) throws IOException {
+		byte[] imageObtained= proyecto.getBlobImagen();
+		ByteArrayInputStream bais = new ByteArrayInputStream(imageObtained);
+		BufferedImage img = ImageIO.read(bais);
 
-		// agrega los alumnos de la base de datos a la lista que se utiliza como modelo
-		// del JList
-		for (int i = 0; i < alumnos.size(); i++) {
-			modelo.addElement(alumnos.get(i));
-		}
+		reciclar();
+		lblProyecto.setIcon(new ImageIcon(img));
+		textResultado.setText(proyecto.toString());
 		hacerVisible();
 
 	}
@@ -173,13 +166,5 @@ public class GuiModalModificarAlumno extends JDialog implements InterfazGui{
 	// Método que recicla los elementos del modelo vaciando la lista
 	private void reciclar() {
 		modelo.removeAllElements();
-	}
-
-	// Método que almacena y retorna la selección del JList en un objeto de tipo
-	// AlumnoPojo.
-	public AlumnoPojo getDatos() {
-		AlumnoPojo alumnoBorrar = modelo.getElementAt(list.getSelectedIndex());
-
-		return alumnoBorrar;
 	}
 }
