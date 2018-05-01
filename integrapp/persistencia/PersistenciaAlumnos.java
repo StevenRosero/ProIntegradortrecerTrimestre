@@ -178,4 +178,128 @@ public class PersistenciaAlumnos {
 		
 		return listaAlumnosBaseDatos;
 	}
+	
+	public ArrayList<AlumnoPojo> consultaAlumnosBd(int id) {
+		Connection con = null;
+		Statement st = null;
+		ArrayList<AlumnoPojo> listaAlumnosBaseDatos = new ArrayList<AlumnoPojo>();
+		AlumnoPojo alumno = null;
+		String query = "SELECT ALUMNOS.ID_A, ALUMNOS.EXPEDIENTE, ALUMNOS.NOMBRE, ALUMNOS.APELLIDO1, "
+				+ "ALUMNOS.APELLIDO2 FROM ALUMNOS, REALIZAN, PROYECTOS WHERE  ALUMNOS.ID_A = REALIZAN.ALUMNO "
+				+ "AND PROYECTOS.ID_P = REALIZAN.PROYECTO AND REALIZAN.PROYECTO = " + id;
+		
+		try {
+			con = conexion.conectarBd();
+			st = con.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			
+			while(rs.next()) {
+				alumno =  new AlumnoPojo(rs.getInt(1),rs.getInt(2),rs.getString(3),
+						rs.getString(4), rs.getString(5));
+				listaAlumnosBaseDatos.add(alumno);
+			}
+				
+		} catch (ClassNotFoundException | SQLException e) {
+			JOptionPane.showMessageDialog(null, "No se ha podido realizar la operación de carga de Alumnos");
+		
+		} finally {
+			
+			try {
+				if (st != null) {
+					st.close();
+				}
+			
+				if (con != null) {
+					con.close();
+				}
+			
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}	
+		}
+		
+		return listaAlumnosBaseDatos;
+	}
+	public ArrayList<AlumnoPojo> consultaAlumnosDeProyecto(int idProyecto) {
+		ArrayList<AlumnoPojo> listAlumnos = new ArrayList<AlumnoPojo>();
+		AlumnoPojo alumno;
+		Connection con = null;
+		Statement st = null;
+		String query = "SELECT ALUMNOS.ID_A, ALUMNOS.EXPEDIENTE, ALUMNOS.NOMBRE, ALUMNOS.APELLIDO1, "
+				+ "ALUMNOS.APELLIDO2 FROM ALUMNOS, REALIZAN WHERE ALUMNOS.ID_A = REALIZAN.ALUMNO AND REALIZAN.PROYECTO = " + idProyecto;
+		
+		try {
+			con = conexion.conectarBd();
+			st = con.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			
+			while(rs.next()) {
+				alumno = new AlumnoPojo(rs.getInt(1), rs.getInt(2), 
+						rs.getString(3), rs.getString(4), rs.getString(5));
+				
+				listAlumnos.add(alumno);
+			}
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			
+			try {
+				if (st != null) {
+					st.close();
+				}
+			
+				if (con != null) {
+					con.close();
+				}
+			
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}	
+		}
+		return listAlumnos;
+	}
+	
+	public ArrayList<AlumnoPojo> consultaAlumnosFueraDelProyecto(int idProyecto) {
+		ArrayList<AlumnoPojo> listAlumnos = new ArrayList<AlumnoPojo>();
+		AlumnoPojo alumno;
+		Connection con = null;
+		Statement st = null;
+		String query = "SELECT ALUMNOS.ID_A, ALUMNOS.EXPEDIENTE, ALUMNOS.NOMBRE, ALUMNOS.APELLIDO1, ALUMNOS.APELLIDO2 FROM ALUMNOS LEFT JOIN REALIZAN ON "
+				+ "ALUMNOS.ID_A = REALIZAN.ALUMNO LEFT JOIN PROYECTOS ON REALIZAN.PROYECTO = " + idProyecto + " WHERE PROYECTOS.ID_P IS NULL";
+
+		
+		try {
+			con = conexion.conectarBd();
+			st = con.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			
+			while(rs.next()) {
+				alumno = new AlumnoPojo(rs.getInt(1), rs.getInt(2), 
+						rs.getString(3), rs.getString(4), rs.getString(5));
+				
+				listAlumnos.add(alumno);
+			}
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			
+			try {
+				if (st != null) {
+					st.close();
+				}
+			
+				if (con != null) {
+					con.close();
+				}
+			
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}	
+		}
+		return listAlumnos;
+	}
 }

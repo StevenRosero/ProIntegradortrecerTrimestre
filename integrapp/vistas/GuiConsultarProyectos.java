@@ -41,7 +41,6 @@ public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 	private JList<ProyectoPojo> listaResultados;
 	private DefaultListModel<ProyectoPojo> modelo;
 	private DefaultComboBoxModel<CicloFormativoPojo> modeloCiclos;
-	private byte[] fileContents;
 	private JComboBox<CicloFormativoPojo> comboBoxOpciones;
 	private JButton btnBuscar;
 	
@@ -211,7 +210,6 @@ public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 		layeredPaneBackground.add(lblBackground);
 		setLayout(groupLayout);
 		
-		
 		//Tamaño del Panel
 		setBounds(0, 0, 986, 685);
 	}
@@ -243,7 +241,7 @@ public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 			return "SELECT * FROM PROYECTOS WHERE ANYO = " + anyo;
 			
 		} else {
-			return "SELECT * FROM PROYECTOS, CICLOS WHERE CICLOS.ID_C = " + modeloCiclos.getElementAt(comboBoxOpciones.getSelectedIndex()).getIdentificador();
+			return "SELECT * FROM PROYECTOS WHERE CICLO = " + modeloCiclos.getElementAt(comboBoxOpciones.getSelectedIndex()).getIdentificador();
 		}
 	}
 	

@@ -14,6 +14,7 @@ public class ProyectoPojo {
 	private int curso;
 	private String grupo;
 	private ArrayList<AlumnoPojo> listaAlumnos;
+	private ArrayList<AlumnoPojo> listAlumnosEliminar;
 	private String imagen;
 	private byte[] blobImagen;
 	
@@ -43,6 +44,23 @@ public class ProyectoPojo {
 		this.grupo = grupo;
 		this.blobImagen = imagen;
 		this.ciclo = ciclo;
+	}
+	
+	public ProyectoPojo(int idProyecto, String nombre, String descripcion, String url, 
+			int anyo, double nota, CicloFormativoPojo ciclo, int curso, String grupo, ArrayList<AlumnoPojo> listaAlumnos, byte[] imagen, ArrayList<AlumnoPojo> listAlumnosEliminar) {
+		
+		this.idProyecto = idProyecto;
+		this.nombre = nombre;
+		this.descripcion = descripcion;
+		this.url = url;
+		this.anyo = anyo;
+		this.nota = nota;
+		this.ciclo = ciclo;
+		this.curso = curso;
+		this.grupo = grupo;
+		this.listaAlumnos = listaAlumnos;
+		this.blobImagen = imagen;
+		this.listAlumnosEliminar = listAlumnosEliminar;
 	}
 	
 	public int getIdProyecto() {
@@ -93,10 +111,15 @@ public class ProyectoPojo {
 	public String getImagen() {
 		return imagen;
 	}
+	
+	
+	public ArrayList<AlumnoPojo> getListAlumnosEliminar() {
+		return listAlumnosEliminar;
+	}
 
 	@Override
 	public String toString() {
-		return "Identificador: " + idProyecto + " " + nombre ;
+		return nombre;
 	}
 	
 }

@@ -95,6 +95,8 @@ public class GuiAltaCiclo extends JPanel implements InterfazGui {
 		
 		//Text Area Descripcion Ciclo
 		txtrDescripcion = new JTextArea();
+		txtrDescripcion.setLineWrap(true);
+		txtrDescripcion.setWrapStyleWord(true);
 		txtrDescripcion.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 14));
 		txtrDescripcion.setBorder(null);
 		scrollPaneDesc.setViewportView(txtrDescripcion);

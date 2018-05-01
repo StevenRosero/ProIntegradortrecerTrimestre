@@ -53,6 +53,7 @@ public class GuiPrincipal extends JFrame implements InterfazGui {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 		//Cambia el color de la línea de los submenus
 		UIManager.put("PopupMenu.border", new LineBorder(Color.WHITE));
 		setBounds(0, 0, 1290, 758);
@@ -82,6 +83,7 @@ public class GuiPrincipal extends JFrame implements InterfazGui {
 		 
 		 //SubMenu Consultar Proyectos
 		 submenuConsultarProyectos = new JMenuItem("CONSULTAR");
+		 submenuConsultarProyectos.setActionCommand("consultarProyectos");
 		 submenuConsultarProyectos.setPreferredSize(new Dimension(111, 40));
 		 submenuConsultarProyectos.setBorderPainted(true);
 		 submenuConsultarProyectos.setBorder(new LineBorder(new Color(255, 255, 255), 2));
@@ -107,6 +109,7 @@ public class GuiPrincipal extends JFrame implements InterfazGui {
 		 
 		 //SubMenu Baja Proyectos
 		 submenuBajaProyecto = new JMenuItem("BAJA");
+		 submenuBajaProyecto.setActionCommand("submenuBajaProyecto");
 		 submenuBajaProyecto.setEnabled(false);
 		 submenuBajaProyecto.setPreferredSize(new Dimension(71, 40));
 		 submenuBajaProyecto.setBorderPainted(true);
@@ -120,6 +123,7 @@ public class GuiPrincipal extends JFrame implements InterfazGui {
 		 
 		 //SubMenu Modificar Proyectos
 		 submenuModificarProyecto = new JMenuItem("MODIFICAR");
+		 submenuModificarProyecto.setActionCommand("submenuModificarProyectos");
 		 submenuModificarProyecto.setEnabled(false);
 		 submenuModificarProyecto.setPreferredSize(new Dimension(150, 40));
 		 submenuModificarProyecto.setBorderPainted(true);
@@ -220,6 +224,7 @@ public class GuiPrincipal extends JFrame implements InterfazGui {
 		 
 		 //Submenu Baja Ciclos
 		 submenuBajaCiclos = new JMenuItem("BAJA");
+		 submenuBajaCiclos.setActionCommand("panelBajaCiclos");
 		 submenuBajaCiclos.setPreferredSize(new Dimension(160, 40));
 		 submenuBajaCiclos.setOpaque(true);
 		 submenuBajaCiclos.setIconTextGap(9);
@@ -233,6 +238,7 @@ public class GuiPrincipal extends JFrame implements InterfazGui {
 		 
 		 //Submenu Modificar Ciclos
 		 submenuModificarCiclos = new JMenuItem("MODIFICAR");
+		 submenuModificarCiclos.setActionCommand("submenuModificarCiclos");
 		 submenuModificarCiclos.setPreferredSize(new Dimension(160, 40));
 		 submenuModificarCiclos.setOpaque(true);
 		 submenuModificarCiclos.setIconTextGap(9);
@@ -289,12 +295,21 @@ public class GuiPrincipal extends JFrame implements InterfazGui {
 	public void setControlador(ControladorProyectos controlProy, ControladorAlumnos controlAl,
 			ControladorOtrosEventos controlEv, ControladorCiclos controlCiclos) {
 		
-		submenuAltaProyecto.addActionListener(controlProy);
-		submenuBajaAlumnos.addActionListener(controlAl);
-		submenuAltaAlumnos.addActionListener(controlAl);
-		submenuAltaCiclos.addActionListener(controlCiclos);
-		submenuModificarAlumnos.addActionListener(controlAl);
+		//Listeners Menu Proyectos
 		submenuConsultarProyectos.addActionListener(controlProy);
+		submenuAltaProyecto.addActionListener(controlProy);
+		submenuBajaProyecto.addActionListener(controlProy);
+		submenuModificarProyecto.addActionListener(controlProy);
+		
+		//Listeners Menu Alumnos
+		submenuAltaAlumnos.addActionListener(controlAl);
+		submenuBajaAlumnos.addActionListener(controlAl);
+		submenuModificarAlumnos.addActionListener(controlAl);
+		
+		//Listeners Menu Ciclos
+		submenuAltaCiclos.addActionListener(controlCiclos);
+		submenuBajaCiclos.addActionListener(controlCiclos);
+		submenuModificarCiclos.addActionListener(controlCiclos);
 	}
 	
 	public void esUsuarioAdministrador() {

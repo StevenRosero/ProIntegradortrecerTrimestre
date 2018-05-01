@@ -9,22 +9,29 @@ import controlador.ControladorProyectos;
 import modelo.AlumnoPojo;
 import modelo.CicloFormativoPojo;
 import modelo.ProyectoPojo;
+
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.plaf.ComboBoxUI;
+
 import java.awt.ComponentOrientation;
+import java.awt.event.ActionListener;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.sql.Blob;
 import java.util.ArrayList;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class GuiAltaProyecto extends JPanel implements InterfazGui {
+public class GuiModificarProyecto extends JPanel implements InterfazGui {
 	private JLayeredPane layeredPaneBackground;
 	private JLabel lblBackground;
-	private JButton btnAgregarProyecto;
+	private JButton btnModificarProyecto;
 	private JTextField txtUrl;
 	private JTextField txtNombreProyecto;
 	private JLabel lblNombreProyecto;
@@ -39,17 +46,22 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 	private JLabel lblGrupo;
 	private JComboBox<String> comboBoxGrupo;
 	private JButton btnBack;
-	private JLabel lblAltaProyecto;
+	private JLabel lblModificarProyecto;
 	private JButton btnUpload;
 	private JLabel lblcargaImagen;
-	private JList<AlumnoPojo> listaIntegrantes;
+	private JList<AlumnoPojo> listEliminar;
 	private DefaultListModel<AlumnoPojo> modelo;
+	private DefaultListModel<AlumnoPojo> modeloNuevos;
 	private JComboBox<String> comboBoxCurso;
 	private DefaultComboBoxModel<CicloFormativoPojo> modeloCiclos;
 	private JTextField txtNota;
 	private byte[] fileContents;
+	private JScrollPane scrollPane;
+	private JLabel lblEliminar;
+	private JList<AlumnoPojo> listAgregar;
+	private int idProyecto;
 	
-	public GuiAltaProyecto() {
+	public GuiModificarProyecto() {
 		inicializar();
 	}
 	public void hacerVisible() {
@@ -79,24 +91,23 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		);
 		
 		//JButton Botón Agregar Proyecto
-		btnAgregarProyecto = new JButton("A\u00D1ADIR PROYECTO");
-		btnAgregarProyecto.setActionCommand("agregarProyecto");
-		btnAgregarProyecto.setBorder(null);
-		btnAgregarProyecto.setBackground(new Color(176, 224, 230));
-		btnAgregarProyecto.setHorizontalTextPosition(SwingConstants.CENTER);
-		btnAgregarProyecto.setFont(new Font("Avenir LT Std 45 Book", Font.PLAIN, 14));
-		btnAgregarProyecto.setBounds(713, 570, 207, 59);
-		layeredPaneBackground.add(btnAgregarProyecto);
+		btnModificarProyecto = new JButton("MODIFICAR PROYECTO");
+		btnModificarProyecto.setActionCommand("modificarProyecto");
+		btnModificarProyecto.setBorder(null);
+		btnModificarProyecto.setBackground(new Color(176, 224, 230));
+		btnModificarProyecto.setHorizontalTextPosition(SwingConstants.CENTER);
+		btnModificarProyecto.setFont(new Font("Avenir LT Std 45 Book", Font.PLAIN, 14));
+		btnModificarProyecto.setBounds(713, 570, 207, 59);
+		layeredPaneBackground.add(btnModificarProyecto);
 		
 		JLabel lblImagenProyecto = new JLabel("");
-		lblImagenProyecto.setIcon(new ImageIcon(GuiAltaProyecto.class.getResource("/images/addproject.png")));
+		lblImagenProyecto.setIcon(new ImageIcon(GuiModificarProyecto.class.getResource("/images/addproject.png")));
 		lblImagenProyecto.setBounds(34, 30, 60, 60);
 		layeredPaneBackground.add(lblImagenProyecto);
 		
 		//Etiqueta Nombre Proyecto
 		lblNombreProyecto = new JLabel("NOMBRE DEL PROYECTO");
 		lblNombreProyecto.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 16));
-		//lblNombreProyecto.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 16));
 		lblNombreProyecto.setBounds(34, 121, 243, 33);
 		layeredPaneBackground.add(lblNombreProyecto);
 		
@@ -107,10 +118,10 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		layeredPaneBackground.add(lblcargaImagen);
 		
 		//Etiqueta Alta Proyecto
-		lblAltaProyecto = new JLabel("ALTA DE PROYECTO");
-		lblAltaProyecto.setFont(new Font("Avenir LT Std 45 Book", Font.PLAIN, 37));
-		lblAltaProyecto.setBounds(104, 56, 388, 34);
-		layeredPaneBackground.add(lblAltaProyecto);
+		lblModificarProyecto = new JLabel("MODIFICAR PROYECTO");
+		lblModificarProyecto.setFont(new Font("Avenir LT Std 45 Book", Font.PLAIN, 37));
+		lblModificarProyecto.setBounds(104, 56, 458, 34);
+		layeredPaneBackground.add(lblModificarProyecto);
 		
 		//Etiqueta Url
 		lblUrl = new JLabel("URL");
@@ -144,10 +155,10 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		txtUrl.setColumns(10);
 		
 		//Etiqueta Integrantes
-		JLabel lblIntegrantes = new JLabel("<html><body style=text-align:'center'>INTEGRANTES DEL PROYECTO<br>(Pulse Ctrl + Alumno para realizar una selecci\u00F3n m\u00FAltiple)</html>");
-		lblIntegrantes.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 16));
-		lblIntegrantes.setBounds(483, 121, 380, 71);
-		layeredPaneBackground.add(lblIntegrantes);
+		JLabel lblAgregar = new JLabel("<html><body style=text-align:'center'>ELIMINAR INTEGRANTES DEL PROYECTO<br>(Seleccione los que desee Eliminar)</html>");
+		lblAgregar.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 16));
+		lblAgregar.setBounds(513, 135, 308, 71);
+		layeredPaneBackground.add(lblAgregar);
 		
 		//Etiqueta Descripcion
 		JLabel lblDescripcion = new JLabel("DESCRIPCION");
@@ -159,13 +170,13 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		btnBack = new JButton("");
 		btnBack.setContentAreaFilled(false);
 		btnBack.setOpaque(false);
-		btnBack.setPressedIcon(new ImageIcon(GuiAltaProyecto.class.getResource("/images/back.png")));
-		btnBack.setSelectedIcon(new ImageIcon(GuiAltaProyecto.class.getResource("/images/back.png")));
+		btnBack.setPressedIcon(new ImageIcon(GuiModificarProyecto.class.getResource("/images/back.png")));
+		btnBack.setSelectedIcon(new ImageIcon(GuiModificarProyecto.class.getResource("/images/back.png")));
 		btnBack.setActionCommand("Volver");
 		btnBack.setBorder(null);
 		btnBack.setBorderPainted(false);
 		btnBack.setBackground(new Color(255, 255, 255));
-		btnBack.setIcon(new ImageIcon(GuiAltaProyecto.class.getResource("/images/back.png")));
+		btnBack.setIcon(new ImageIcon(GuiModificarProyecto.class.getResource("/images/back.png")));
 		btnBack.setBounds(878, 30, 89, 61);
 		layeredPaneBackground.add(btnBack);
 		
@@ -177,6 +188,8 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		
 		//Campo Descripcion
 		textAreaDescripcion = new JTextArea();
+		textAreaDescripcion.setWrapStyleWord(true);
+		textAreaDescripcion.setLineWrap(true);
 		scrollPaneDescripcion.setViewportView(textAreaDescripcion);
 		
 		//Evento Pulsar Botón Subir Imagen Proyecto
@@ -192,9 +205,28 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 				}
 			}
 		});
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setBorder(new LineBorder(new Color(176, 224, 230), 4));
+		scrollPane.setBounds(419, 420, 502, 120);
+		layeredPaneBackground.add(scrollPane);
+		
+		modeloNuevos = new DefaultListModel<AlumnoPojo>();
+		
+		listAgregar = new JList();
+		listAgregar.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 16));
+		listAgregar.setBorder(null);
+		listAgregar.setBackground(Color.WHITE);
+		listAgregar.setModel(modeloNuevos);
+		scrollPane.setViewportView(listAgregar);
+		
+		lblEliminar = new JLabel("<html><body style=text-align:'center'>AGREGAR INTEGRANTES AL PROYECTO<br>(Seleccione los que desee Agregar)</html>");
+		lblEliminar.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 16));
+		lblEliminar.setBounds(513, 355, 317, 71);
+		layeredPaneBackground.add(lblEliminar);
 		btnUpload.setContentAreaFilled(false);
 		btnUpload.setBorderPainted(false);
-		btnUpload.setIcon(new ImageIcon(GuiAltaProyecto.class.getResource("/images/upload.png")));
+		btnUpload.setIcon(new ImageIcon(GuiModificarProyecto.class.getResource("/images/upload.png")));
 		btnUpload.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnUpload.setFont(new Font("Avenir LT Std 45 Book", Font.PLAIN, 14));
 		btnUpload.setBorder(null);
@@ -211,19 +243,19 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		//Scroll Pane Integrantes
 		JScrollPane scrollPaneIntegrantes = new JScrollPane();
 		scrollPaneIntegrantes.setBorder(new LineBorder(new Color(176, 224, 230), 4));
-		scrollPaneIntegrantes.setBounds(418, 206, 502, 315);
+		scrollPaneIntegrantes.setBounds(418, 206, 502, 120);
 		layeredPaneBackground.add(scrollPaneIntegrantes);
 		
 		//Lista Integrantes
-		listaIntegrantes = new JList();
-		listaIntegrantes.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 16));
-		listaIntegrantes.setBorder(null);
-		listaIntegrantes.setBackground(new Color(255, 255, 255));
-		scrollPaneIntegrantes.setViewportView(listaIntegrantes);
+		listEliminar = new JList();
+		listEliminar.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 16));
+		listEliminar.setBorder(null);
+		listEliminar.setBackground(new Color(255, 255, 255));
+		scrollPaneIntegrantes.setViewportView(listEliminar);
 		
 		//Inicializa el modelo de la lista JList
 		modelo = new DefaultListModel<>();
-		listaIntegrantes.setModel(modelo);
+		listEliminar.setModel(modelo);
 		
 		//ComboBox Curso
 		comboBoxCurso = new JComboBox<String>();
@@ -252,6 +284,9 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		spinnerAnyo.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 		spinnerAnyo.setBorder(new LineBorder(new Color(176, 224, 230), 4));
 		spinnerAnyo.setBounds(35, 435, 117, 33);
+		
+		//Deshabilita la opción de editar el jspinner para evitar que el usuario introduzca texto
+		((JSpinner.DefaultEditor) spinnerAnyo.getEditor()).getTextField().setEditable(false);
 		layeredPaneBackground.add(spinnerAnyo);
 		
 		
@@ -282,7 +317,7 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		
 		//JLabel Imagen Background
 		lblBackground = new JLabel("");
-		lblBackground.setIcon(new ImageIcon(GuiAltaProyecto.class.getResource("/images/polybg.jpg")));
+		lblBackground.setIcon(new ImageIcon(GuiModificarProyecto.class.getResource("/images/polybg.jpg")));
 		lblBackground.setBounds(0, 0, 986, 685);
 		layeredPaneBackground.add(lblBackground);
 		setLayout(groupLayout);
@@ -294,7 +329,7 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 	public void setControlador(ControladorProyectos control, ControladorOtrosEventos controlEv) {
 		btnBack.addActionListener(controlEv);
 		btnUpload.addActionListener(control);
-		btnAgregarProyecto.addActionListener(control);
+		btnModificarProyecto.addActionListener(control);
 		
 	}
 	
@@ -319,6 +354,8 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 	
 	public ProyectoPojo getDatos() throws FileNotFoundException, NumberFormatException {
 		ArrayList<AlumnoPojo> listaAlumnos = new ArrayList<AlumnoPojo>();
+		ArrayList<AlumnoPojo> listAlumnosEliminar = new ArrayList<AlumnoPojo>();
+
 		String nombre = txtNombreProyecto.getText();
 		String descripcion = textAreaDescripcion.getText();
 		String url = txtUrl.getText();
@@ -328,12 +365,17 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		String grupo =  comboBoxGrupo.getItemAt(comboBoxGrupo.getSelectedIndex());
 		int curso = Integer.parseInt(comboBoxCurso.getItemAt(comboBoxCurso.getSelectedIndex()));
 		
-		for (AlumnoPojo aux : listaIntegrantes.getSelectedValuesList()) {
+		for (AlumnoPojo aux : listEliminar.getSelectedValuesList()) {
+			listAlumnosEliminar.add(aux);
+			System.out.println(aux);
+		}
+		
+		for (AlumnoPojo aux : listAgregar.getSelectedValuesList()) {
 			listaAlumnos.add(aux);
 			System.out.println(aux);
 		}
 		
-		ProyectoPojo proyecto = new ProyectoPojo(nombre, descripcion, url, anyo, nota, ciclo, curso, grupo, listaAlumnos, fileContents);
+		ProyectoPojo proyecto = new ProyectoPojo(idProyecto, nombre, descripcion, url, anyo, nota, ciclo, curso, grupo, listaAlumnos, fileContents, listAlumnosEliminar);
 		fileContents = null;
 		
 		return proyecto;
@@ -347,6 +389,14 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		}	
 	}
 	
+	public void cargarModeloNuevosAlumnos(ArrayList<AlumnoPojo> listaAlumnos) {
+		modeloNuevos.removeAllElements();
+		
+		for (int i = 0; i < listaAlumnos.size(); i++) {
+			modeloNuevos.addElement(listaAlumnos.get(i));
+		}	
+	}
+	
 	public void cargarCiclos(ArrayList<CicloFormativoPojo> listaCiclos) {
 		modeloCiclos.removeAllElements();
 		
@@ -355,14 +405,69 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		}	
 	}
 	
-	public void reciclar() {
-		txtNombreProyecto.setText("");
-		txtNota.setText("");
-		txtUrl.setText("");
-		textAreaDescripcion.setText("");
-		fileContents = null;
-		comboBoxCiclo.setSelectedIndex(-1);
-		comboBoxCurso.setSelectedIndex(-1);
-		comboBoxGrupo.setSelectedIndex(-1);	
+	public void mostrarProyecto(ProyectoPojo proyecto) {
+		idProyecto = proyecto.getIdProyecto();
+		fileContents = proyecto.getBlobImagen();
+		
+		int indexCurso;
+		int indexGrupo;
+
+		//CicloFormativoPojo ciclo = comboBoxCiclo.getItemAt(comboBoxCiclo.getSelectedIndex());
+		//comboBoxCiclo.
+		txtNombreProyecto.setText(proyecto.getNombre());
+		textAreaDescripcion.setText(proyecto.getDescripcion());
+		txtUrl.setText(proyecto.getUrl());
+		spinnerAnyo.setValue(proyecto.getAnyo());
+		txtNota.setText(proyecto.getNota() + "");
+		
+		indexCurso = indiceCurso(proyecto); 
+		comboBoxCurso.setSelectedIndex(indexCurso);
+		
+		indexGrupo = indiceGrupo(proyecto);
+		comboBoxGrupo.setSelectedIndex(indexGrupo);
+		
+		comprobarCiclo(proyecto);
+	}
+	
+	private int indiceCurso(ProyectoPojo proyecto) {
+		
+		if (proyecto.getCurso() == 1) {
+			return 0;
+		} else if (proyecto.getCurso() == 2) {
+			return 1;
+		} else if (proyecto.getCurso() == 3) {
+			return 2;
+		} else if (proyecto.getCurso() == 4) {
+			return 3;
+		} else if (proyecto.getCurso() == 5) {
+			return 4;
+		} else {
+			return 5;
+		}
+	}
+	
+	private int indiceGrupo(ProyectoPojo proyecto) {
+		if (proyecto.getGrupo().equals("M1")) {
+			return 0;
+		} else if (proyecto.getGrupo().equals("M2")) {
+			return 1;
+		} else if (proyecto.getGrupo().equals("T1")) {
+			return 2;
+		} else {
+			return 3;
+		}
+	}
+	
+	//Método que deja seleccionado el ciclo al que corresponde el proyecto a modificar en el comboBox
+	private void comprobarCiclo(ProyectoPojo proyecto) {
+		for (int i = 0; i < modeloCiclos.getSize(); i++) {
+			if (modeloCiclos.getElementAt(i).getIdentificador() == proyecto.getCiclo().getIdentificador()) {
+				comboBoxCiclo.setSelectedIndex(i);
+			}
+		}
+	}
+	
+	public int getIdProyecto() {
+		return idProyecto;
 	}
 }

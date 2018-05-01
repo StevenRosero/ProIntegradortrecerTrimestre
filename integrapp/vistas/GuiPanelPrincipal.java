@@ -7,6 +7,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Font;
 import com.jgoodies.forms.factories.DefaultComponentFactory;
 import controlador.ControladorOtrosEventos;
+import controlador.ControladorProyectos;
 
 public class GuiPanelPrincipal extends JPanel implements InterfazGui {
 	private static final String txtAdmin = "ID: ADMINISTRADOR";
@@ -76,6 +77,7 @@ public class GuiPanelPrincipal extends JPanel implements InterfazGui {
 		
 		//JButton Botón Consultar Proyectos
 		btnConsultarProyectos = new JButton("CONSULTAR PROYECTOS");
+		btnConsultarProyectos.setActionCommand("consultarProyectos");
 		btnConsultarProyectos.setBorder(null);
 		btnConsultarProyectos.setBackground(new Color(176, 224, 230));
 		btnConsultarProyectos.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -108,7 +110,8 @@ public class GuiPanelPrincipal extends JPanel implements InterfazGui {
 		setBounds(0, 0, 986, 685);
 	}
 	
-	public void setControlador(ControladorOtrosEventos controlEventos) {
+	public void setControlador(ControladorOtrosEventos controlEventos, ControladorProyectos controlProyectos) {
+		btnConsultarProyectos.addActionListener(controlProyectos);
 		btnLogin.addActionListener(controlEventos);
 		
 	}

@@ -5,6 +5,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
 import javax.swing.JList;
 import modelo.AlumnoPojo;
+import modelo.CicloFormativoPojo;
 import modelo.ProyectoPojo;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import java.awt.Desktop;
+
 import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ImageIcon;
@@ -24,11 +27,18 @@ import java.awt.Font;
 import java.awt.Frame;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.Cursor;
 
 public class GuiModalDetalleProyecto extends JDialog implements InterfazGui{
 	private DefaultListModel<AlumnoPojo> modelo;
@@ -45,7 +55,7 @@ public class GuiModalDetalleProyecto extends JDialog implements InterfazGui{
 	private JLabel lblCurso;
 	private JLabel lblGrupo;
 	private JLabel lblCalificacion;
-	private JList listAlumnos;
+	private JList<AlumnoPojo> listAlumnos;
 	private JLabel lblNombre;
 	private JScrollPane scrollPaneDesc;
 	private JLabel lblBarra;
@@ -83,7 +93,7 @@ public class GuiModalDetalleProyecto extends JDialog implements InterfazGui{
 				dispose();
 			}
 		});
-		btnCancelar.setBounds(520, 539, 167, 43);
+		btnCancelar.setBounds(520, 544, 167, 43);
 		btnCancelar.setActionCommand("cancelarAlumno");
 		btnCancelar.setFont(new Font("Avenir LT Std 45 Book", Font.PLAIN, 13));
 		btnCancelar.setBorder(null);
@@ -101,17 +111,31 @@ public class GuiModalDetalleProyecto extends JDialog implements InterfazGui{
 		scrollPaneDesc.setBounds(284, 100, 476, 108);
 		scrollPaneDesc.setBorder(new LineBorder(new Color(176, 224, 230), 3));
 		
-		lblUrl = new JLabel("MODIFICAR ALUMNO");
-		lblUrl.setBounds(10, 570, 551, 30);
+		lblUrl = new JLabel("");
+		lblUrl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblUrl.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if (Desktop.isDesktopSupported()) {
+					try {
+						Desktop.getDesktop().browse(new URI(lblUrl.getText()));
+					} catch (IOException | URISyntaxException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+		lblUrl.setBounds(10, 557, 457, 30);
 		lblUrl.setForeground(new Color(0, 204, 255));
-		lblUrl.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 14));
+		lblUrl.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 20));
 		
 		lblAnyo = new JLabel("MODIFICAR ALUMNO");
-		lblAnyo.setBounds(284, 219, 224, 35);
+		lblAnyo.setBounds(284, 219, 476, 35);
 		lblAnyo.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 14));
 		
 		lblNotaFinal = new JLabel("9.8");
-		lblNotaFinal.setBounds(510, 446, 188, 82);
+		lblNotaFinal.setBounds(510, 419, 188, 82);
 		lblNotaFinal.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNotaFinal.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 66));
 		
@@ -120,12 +144,12 @@ public class GuiModalDetalleProyecto extends JDialog implements InterfazGui{
 		lblAlumnosParticipantes.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 14));
 		
 		scrollPaneAlumnos = new JScrollPane();
-		scrollPaneAlumnos.setBounds(10, 397, 409, 167);
+		scrollPaneAlumnos.setBounds(10, 397, 409, 149);
 		scrollPaneAlumnos.setBorder(new LineBorder(new Color(176, 224, 230), 3));
 		
 		lblCiclo = new JLabel("MODIFICAR ALUMNO");
-		lblCiclo.setBounds(284, 265, 422, 30);
-		lblCiclo.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 14));
+		lblCiclo.setBounds(284, 265, 476, 30);
+		lblCiclo.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 12));
 		
 		lblCurso = new JLabel("MODIFICAR ALUMNO");
 		lblCurso.setBounds(284, 315, 164, 30);
@@ -136,19 +160,23 @@ public class GuiModalDetalleProyecto extends JDialog implements InterfazGui{
 		lblGrupo.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 14));
 		
 		lblCalificacion = new JLabel("CALIFICACI\u00D3N");
-		lblCalificacion.setBounds(522, 410, 164, 30);
+		lblCalificacion.setBounds(520, 393, 164, 30);
 		lblCalificacion.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCalificacion.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 14));
 		
-		listAlumnos = new JList();
+		listAlumnos = new JList<AlumnoPojo>();
 		scrollPaneAlumnos.setViewportView(listAlumnos);
 		
 		txtDescripcion = new JTextArea();
+		txtDescripcion.setWrapStyleWord(true);
+		txtDescripcion.setLineWrap(true);
 		txtDescripcion.setFocusable(false);
 		scrollPaneDesc.setViewportView(txtDescripcion);
 
 		// Inicializa el modelo de la lista
 		modelo = new DefaultListModel<AlumnoPojo>();
+		listAlumnos.setModel(modelo);
+		
 		getContentPane().setLayout(null);
 		getContentPane().add(scrollPaneAlumnos);
 		getContentPane().add(lblNotaFinal);
@@ -193,24 +221,46 @@ public class GuiModalDetalleProyecto extends JDialog implements InterfazGui{
 	}
 	
 	public void mostrar(ProyectoPojo proyecto) throws IOException {
-		byte[] imageObtained= proyecto.getBlobImagen();
-		ByteArrayInputStream bais = new ByteArrayInputStream(imageObtained);
-		BufferedImage img = ImageIO.read(bais);
-
-		reciclar();
-		lblImagenProyecto.setIcon(new ImageIcon(img));
+		byte[] imagenOriginal = null;
+		ByteArrayInputStream conversionImagen;
+		BufferedImage img = null;
+		ImageIcon imagenIcono;
+		
+		if (proyecto.getBlobImagen() == null) {
+			imagenIcono = new ImageIcon(GuiConsultarProyectos.class.getResource("/images/NOIMAGE.jpg"));
+			imagenIcono.getImage().flush();
+			lblImagenProyecto.setIcon(imagenIcono);
+		} else {
+			imagenOriginal = proyecto.getBlobImagen();
+			conversionImagen = new ByteArrayInputStream(imagenOriginal);
+			img = ImageIO.read(conversionImagen);
+			imagenIcono = new ImageIcon(img);
+			imagenIcono.getImage().flush();
+			lblImagenProyecto.setIcon(imagenIcono);
+		}
+		
 		lblIdentificador.setText("IDENTIFICADOR: " + proyecto.getIdProyecto() + "");
 		lblNombre.setText("NOMBRE: " + proyecto.getNombre());
 		txtDescripcion.setText(proyecto.getDescripcion());
 		lblAnyo.setText("AÑO: " + proyecto.getAnyo() + "");
-		lblCiclo.setText("CICLO FORMATIVO: " + proyecto.getCiclo().getNombre());
 		lblCurso.setText("CURSO:  " + proyecto.getCurso() + "");
 		lblGrupo.setText("GRUPO: " + proyecto.getGrupo());
 		lblNotaFinal.setText(proyecto.getNota() + "");
 		lblUrl.setText(proyecto.getUrl());
 		hacerVisible();
 	}
-
+	
+	public void mostrarListaAlumnos (ArrayList<AlumnoPojo> listAlumnos) {
+		reciclar();
+		for (int i = 0; i < listAlumnos.size(); i++) {
+			modelo.addElement(listAlumnos.get(i));
+		}
+	}
+	
+	public void mostrarCiclo (CicloFormativoPojo ciclo) {
+		lblCiclo.setText("CICLO: " + ciclo.getNombre());
+	}
+	
 	// Método que recicla los elementos del modelo vaciando la lista
 	private void reciclar() {
 		modelo.removeAllElements();
