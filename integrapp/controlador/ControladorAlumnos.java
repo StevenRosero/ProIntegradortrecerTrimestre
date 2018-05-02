@@ -2,36 +2,29 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JOptionPane;
-
 import persistencia.PersistenciaAlumnos;
-import vistas.ExpedienteException;
-import vistas.GuiAltaAlumno;
-import vistas.GuiBajaAlumno;
-import vistas.GuiModalModificarAlumno;
-import vistas.GuiModificarAlumno;
-import vistas.GuiPanelPrincipal;
-import vistas.GuiPrincipal;
+import vistas.*;
 
 public class ControladorAlumnos implements ActionListener {
 	private GuiPrincipal mainGui;
 	private GuiPanelPrincipal panelPrincipal;
-	private GuiBajaAlumno panelBajaAlumno;
 	private GuiAltaAlumno panelAltaAlumno;
-	private GuiModificarAlumno panelModificarAlumno;
+	private GuiBajaAlumno panelBajaAlumno;
 	private GuiModalModificarAlumno modalModificarAlumno;
+	private GuiModificarAlumno panelModificarAlumno;
+	
 
-	public ControladorAlumnos(GuiPrincipal mainGui, GuiPanelPrincipal panelPrincipal, GuiBajaAlumno panelBajaAlumno,
-			GuiAltaAlumno panelAltaAlumno, GuiModificarAlumno panelModificarAlumno,
-			GuiModalModificarAlumno modalModificarAlumno) {
+	public ControladorAlumnos(GuiPrincipal mainGui, GuiPanelPrincipal panelPrincipal, 
+			GuiBajaAlumno panelBajaAlumno, GuiAltaAlumno panelAltaAlumno,
+			GuiModificarAlumno panelModificarAlumno, GuiModalModificarAlumno modalModificarAlumno) {
 		
 		this.mainGui = mainGui;
 		this.panelPrincipal = panelPrincipal;
-		this.panelBajaAlumno = panelBajaAlumno;
 		this.panelAltaAlumno = panelAltaAlumno;
-		this.panelModificarAlumno = panelModificarAlumno;
+		this.panelBajaAlumno = panelBajaAlumno;
 		this.modalModificarAlumno = modalModificarAlumno;
+		this.panelModificarAlumno = panelModificarAlumno;
 	}
 
 	@Override
@@ -45,7 +38,7 @@ public class ControladorAlumnos implements ActionListener {
 			modalModificarAlumno.mostrar(new PersistenciaAlumnos().listaAlumnosBd());
 			mainGui.setPanel(panelModificarAlumno);
 				
-		//Detecta el evento de hacer click para abrir el panel alta alumnos
+		//Detecta el evento de hacer click en el Submenu Alta Alumnos
 		} else if (e.getActionCommand().equals("panelAltaAlumnos")) {
 			mainGui.setPanel(panelAltaAlumno);
 							
@@ -67,12 +60,13 @@ public class ControladorAlumnos implements ActionListener {
 			new PersistenciaAlumnos().eliminarAlumnoBd(panelBajaAlumno.getDatos());
 			panelBajaAlumno.mostrar(new PersistenciaAlumnos().listaAlumnosBd());
 							
-		//Detecta el evento de hacer click en aceptar para modificar un Alumno
+		//Detecta el evento de hacer click en aceptar para seleccionar un alumno para modificar.
 		} else if (e.getActionCommand().equals("modalModificarAlumno")) {
 			panelModificarAlumno.mostrarAlumno(modalModificarAlumno.getDatos());
 			modalModificarAlumno.dispose();
 			mainGui.setPanel(panelModificarAlumno);
-							
+		
+		//Detecta el evento de confirmar la modificación de los datos de un alumno.
 		} else if (e.getActionCommand().equals("modificarAlumnoDef")) {
 			try {
 				new PersistenciaAlumnos().modificarAlumnoBd(panelModificarAlumno.getDatos());

@@ -15,31 +15,21 @@ public class AlumnoPojo {
 		this.apellido2 = apellido2;
 	}
 	
-	
-	
 	public int getIdAlumno() {
 		return idAlumno;
 	}
-
-
 
 	public int getExpediente() {
 		return expediente;
 	}
 
-
-
 	public String getNombre() {
 		return nombre;
 	}
-
-
-
+	
 	public String getApellido1() {
 		return apellido1;
 	}
-
-
 
 	public String getApellido2() {
 		return apellido2;

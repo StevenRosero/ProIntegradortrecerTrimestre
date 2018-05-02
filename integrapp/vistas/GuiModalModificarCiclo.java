@@ -76,7 +76,7 @@ public class GuiModalModificarCiclo extends JDialog implements InterfazGui{
 				dispose();
 			}
 		});
-		btnCancelarModificarCiclo.setActionCommand("cancelarModificarCiclo");
+		btnCancelarModificarCiclo.setActionCommand("cancelarCiclo");
 		btnCancelarModificarCiclo.setFont(new Font("Avenir LT Std 45 Book", Font.PLAIN, 13));
 		btnCancelarModificarCiclo.setBorder(null);
 		btnCancelarModificarCiclo.setBackground(new Color(176, 224, 230));

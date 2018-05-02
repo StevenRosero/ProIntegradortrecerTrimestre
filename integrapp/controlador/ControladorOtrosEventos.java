@@ -2,11 +2,8 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import modelo.AdministradorPojo;
-import vistas.GuiLogin;
-import vistas.GuiPanelPrincipal;
-import vistas.GuiPrincipal;
+import vistas.*;
 
 public class ControladorOtrosEventos implements ActionListener {
 	private static final AdministradorPojo admin = new AdministradorPojo("ADMIN", "1234");

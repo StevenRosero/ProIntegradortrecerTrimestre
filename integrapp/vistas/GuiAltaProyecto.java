@@ -4,6 +4,9 @@ import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
+
 import controlador.ControladorOtrosEventos;
 import controlador.ControladorProyectos;
 import modelo.AlumnoPojo;
@@ -16,6 +19,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.awt.event.MouseAdapter;
@@ -48,6 +53,7 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 	private DefaultComboBoxModel<CicloFormativoPojo> modeloCiclos;
 	private JTextField txtNota;
 	private byte[] fileContents;
+	private Font font;
 	
 	public GuiAltaProyecto() {
 		inicializar();
@@ -57,7 +63,7 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 	}
 	@Override
 	public void inicializar() {
-		
+	
 		//Color Background Panel
 		setBackground(new Color(255, 255, 255));
 		
@@ -95,13 +101,13 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		
 		//Etiqueta Nombre Proyecto
 		lblNombreProyecto = new JLabel("NOMBRE DEL PROYECTO");
+		
 		lblNombreProyecto.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 16));
-		//lblNombreProyecto.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 16));
 		lblNombreProyecto.setBounds(34, 121, 243, 33);
 		layeredPaneBackground.add(lblNombreProyecto);
 		
 		//Etiqueta texto carga de imagen
-		lblcargaImagen = new JLabel("<html><body style=text-align:'center'>Cargar una Imagen del Proyecto<br>(JPG tama\u00F1o 400x400)</html>");
+		lblcargaImagen = new JLabel("<html><body style=text-align:'center'>Cargar una Imagen del Proyecto<br>(JPG tama\u00F1o 250x333)</html>");
 		lblcargaImagen.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 12));
 		lblcargaImagen.setBounds(489, 590, 187, 33);
 		layeredPaneBackground.add(lblcargaImagen);

@@ -386,15 +386,7 @@ public class GuiModificarProyecto extends JPanel implements InterfazGui {
 		
 		for (int i = 0; i < listaAlumnos.size(); i++) {
 			modelo.addElement(listaAlumnos.get(i));
-		}	
-	}
-	
-	public void cargarModeloNuevosAlumnos(ArrayList<AlumnoPojo> listaAlumnos) {
-		modeloNuevos.removeAllElements();
-		
-		for (int i = 0; i < listaAlumnos.size(); i++) {
-			modeloNuevos.addElement(listaAlumnos.get(i));
-		}	
+		}
 	}
 	
 	public void cargarCiclos(ArrayList<CicloFormativoPojo> listaCiclos) {
@@ -403,6 +395,27 @@ public class GuiModificarProyecto extends JPanel implements InterfazGui {
 		for (int i = 0; i < listaCiclos.size(); i++) {
 			modeloCiclos.addElement(listaCiclos.get(i));
 		}	
+	}
+	
+	//Método que muestra el resto de alumnos posibles para agregar al proyecto
+	public void alumnosQueNoParticipan (ArrayList<AlumnoPojo> listAlumnos, ArrayList<AlumnoPojo> alumnosNuevos) {
+		modeloNuevos.removeAllElements();
+		boolean agregar = true;
+		
+		for (int i = 0; i < listAlumnos.size(); i++) {
+			agregar = true;
+			
+			for (int j = 0; j < alumnosNuevos.size(); j++) {
+				
+				if (listAlumnos.get(i).getIdAlumno() == alumnosNuevos.get(j).getIdAlumno()) {
+				agregar = false;
+				}
+			}
+			
+			if (agregar) {
+				modeloNuevos.addElement(listAlumnos.get(i));
+			}
+		}
 	}
 	
 	public void mostrarProyecto(ProyectoPojo proyecto) {

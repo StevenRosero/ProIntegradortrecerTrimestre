@@ -4,7 +4,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
 import javax.swing.JList;
 import modelo.AlumnoPojo;
-import java.awt.BorderLayout;
 import java.util.ArrayList;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;

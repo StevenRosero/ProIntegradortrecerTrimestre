@@ -1,11 +1,6 @@
 package persistencia;
 
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -91,18 +86,22 @@ public class PersistenciaProyectos {
 				
 				} catch (SQLException e) {
 					e.printStackTrace();
-				}
-				
+				}	
 			}
 	}
 	
 	public void eliminarProyecto(ProyectoPojo proyecto) {
 		Connection con = null;
 		PreparedStatement ps = null;
-		String query = "DELETE FROM PROYECTOS WHERE ID_P = " + proyecto.getIdProyecto() ;
+		String query = "DELETE FROM REALIZAN WHERE PROYECTO = " + proyecto.getIdProyecto() ;
 		
 		try {
 			con = conexion.conectarBd();
+			ps = con.prepareStatement(query);
+			ps.executeUpdate();
+			ps.close();
+			
+			query = "DELETE FROM PROYECTOS WHERE ID_P = " + proyecto.getIdProyecto() ;
 			ps = con.prepareStatement(query);
 			ps.executeUpdate();
 			
@@ -113,22 +112,7 @@ public class PersistenciaProyectos {
 			e.printStackTrace();
 		} finally {
 			
-			try {
-				if (ps != null) {
-					ps.close();
-				}
-				
-				if(ps != null) {
-					ps.close();
-				}
-				
-				if (con != null) {
-					con.close();
-				}
-			
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			desconectarPs(con, ps);
 		}
 	}
 	
@@ -176,24 +160,14 @@ public class PersistenciaProyectos {
 				ps.executeUpdate();	
 			}
 			
+			JOptionPane.showMessageDialog(null, "La Operación se ha realizado con éxito");
+			
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			
-			try {
-				if (ps != null) {
-					ps.close();
-				}
-			
-				if (con != null) {
-					con.close();
-				}
-			
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}	
+			desconectarPs(con, ps);
 		}
 	}
 	
@@ -222,19 +196,7 @@ public class PersistenciaProyectos {
 		
 		} finally {
 			
-			try {
-				if (st != null) {
-					st.close();
-				}
-			
-				if (con != null) {
-					con.close();
-				}
-			
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}	
+			desconectarSt(con, st);
 		}
 		return listaProyectos;
 	}
@@ -264,21 +226,39 @@ public class PersistenciaProyectos {
 		
 		} finally {
 			
-			try {
-				if (st != null) {
-					st.close();
-				}
+			desconectarSt(con, st);
+		}
+		return listaProyectos;
+	}
+	private void desconectarSt(Connection con, Statement st) {
+		try {
+			if (st != null) {
+				st.close();
+			}
+		
+			if (con != null) {
+				con.close();
+			}
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void desconectarPs(Connection con, PreparedStatement ps) {
+		try {
+			if (ps != null) {
+				ps.close();
+			}
 			
-				if (con != null) {
-					con.close();
-				}
-			
+			if (con != null) {
+				con.close();
+			}
+				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}	
-		}
-		return listaProyectos;
+			}
 	}
 }
 

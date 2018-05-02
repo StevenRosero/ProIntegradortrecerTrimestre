@@ -1,6 +1,5 @@
 package modelo;
 
-import java.sql.Blob;
 import java.util.ArrayList;
 
 public class ProyectoPojo {
@@ -121,5 +120,4 @@ public class ProyectoPojo {
 	public String toString() {
 		return nombre;
 	}
-	
 }

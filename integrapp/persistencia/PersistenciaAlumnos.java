@@ -1,14 +1,8 @@
 package persistencia;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
-
 import javax.swing.JOptionPane;
-
 import modelo.AlumnoPojo;
 
 public class PersistenciaAlumnos {
@@ -44,30 +38,71 @@ public class PersistenciaAlumnos {
 		//Bloque final para cerrar las conexiones y liberar recursos
 		} finally {
 		
-			try {
-				
-				if (ps != null) {
-					ps.close();	
-				}
-			
-				if (con != null) {
-					con.close();
-				}
-			
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			desconectarPs(con, ps);
 		}
 	}
 	
 	public void eliminarAlumnoBd(AlumnoPojo alumnoEliminar) {
 		Connection con = null;
 		PreparedStatement ps = null;
-		String query = "DELETE FROM ALUMNOS WHERE ID_A = ?";
+		ResultSet rs = null;
+		Statement st = null;
+		ArrayList<Integer> proyectos = new ArrayList<Integer>();
+		String query = "SELECT PROYECTO FROM REALIZAN WHERE ALUMNO = " + alumnoEliminar.getIdAlumno();
+		int proy = 0;
+		int cont = 0;
+		boolean cancelarOperacion = false;;
 		
 		//Prepara la sentencia SQL para eliminar Alumno
 		try {
+			
 			con = conexion.conectarBd();
+			st = con.createStatement();
+			rs = st.executeQuery(query);
+			
+			//Almacena en un array los proyectos en los que el alumno tiene vinculaciones
+			while (rs.next()) {
+				proy = rs.getInt(1);
+				proyectos.add(proy);
+			}
+			
+			st.close();
+			rs.close();
+			
+			//Itera el array para ver si algún proyecto tiene menos de 2 participantes.
+			for (int i = 0; i < proyectos.size(); i++) {
+				query = "SELECT COUNT(ALUMNO) FROM REALIZAN WHERE PROYECTO = " + proyectos.get(i);
+				st = con.createStatement();
+				rs = st.executeQuery(query);
+				
+				while (rs.next()) {
+					cont = rs.getInt(1);
+					
+					//Si el proyecto tiene menos de dos alumnos no permite dejar el proyecto sin al menos un alumno
+					if (cont < 2) {
+						cancelarOperacion = true;
+					}
+				}
+			}
+			
+			st.close();
+			rs.close();
+			
+			//Elimina definitivamente los alumnos si en todos los proyectos hay mas de 1 participante
+			for (int i = 0; i < proyectos.size() && !cancelarOperacion; i++) {
+				query = "DELETE FROM REALIZAN WHERE PROYECTO = ? AND ALUMNO = ?";
+				ps=con.prepareStatement(query);
+				ps.setInt(1, proyectos.get(i));
+				ps.setInt(2, alumnoEliminar.getIdAlumno());
+				ps.executeUpdate();
+			}
+			
+			if(ps != null) {
+				ps.close();
+			}
+			
+			//Elimina el alumno de la tabla Alumnos si es posible
+			query = "DELETE FROM ALUMNOS WHERE ID_A = ?";
 			ps=con.prepareStatement(query);
 			ps.setInt(1, alumnoEliminar.getIdAlumno());
 			
@@ -81,19 +116,7 @@ public class PersistenciaAlumnos {
 		//Bloque final para cerrar las conexiones y liberar recursos
 		} finally {
 		
-			try {
-				
-				if (ps != null) {
-					ps.close();	
-				}
-			
-				if (con != null) {
-					con.close();
-				}
-			
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			desconectarPs(con, ps);
 		}
 	}
 	
@@ -122,20 +145,8 @@ public class PersistenciaAlumnos {
 		
 		//Bloque final para cerrar las conexiones y liberar recursos
 		} finally {
-		
-			try {
-				
-				if (ps != null) {
-					ps.close();	
-				}
 			
-				if (con != null) {
-					con.close();
-				}
-			
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			desconectarPs(con, ps);
 		}
 	}
 	
@@ -146,6 +157,7 @@ public class PersistenciaAlumnos {
 		AlumnoPojo alumno = null;
 		String query = "SELECT * FROM ALUMNOS ORDER BY ID_A";
 		
+		//Prepara la sentencia SQL para almacenar la lista de alumnos de la base de datos
 		try {
 			con = conexion.conectarBd();
 			st = con.createStatement();
@@ -160,20 +172,10 @@ public class PersistenciaAlumnos {
 		} catch (ClassNotFoundException | SQLException e) {
 			JOptionPane.showMessageDialog(null, "No se ha podido realizar la operación de carga de Alumnos");
 		
+		//Bloque final para cerrar las conexiones y liberar recursos
 		} finally {
 			
-			try {
-				if (st != null) {
-					st.close();
-				}
-			
-				if (con != null) {
-					con.close();
-				}
-			
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}	
+			desconectarSt(con, st);
 		}
 		
 		return listaAlumnosBaseDatos;
@@ -188,6 +190,7 @@ public class PersistenciaAlumnos {
 				+ "ALUMNOS.APELLIDO2 FROM ALUMNOS, REALIZAN, PROYECTOS WHERE  ALUMNOS.ID_A = REALIZAN.ALUMNO "
 				+ "AND PROYECTOS.ID_P = REALIZAN.PROYECTO AND REALIZAN.PROYECTO = " + id;
 		
+		//Prepara la sentencia SQL para consultar los alumnos que corrresponden a un proyecto
 		try {
 			con = conexion.conectarBd();
 			st = con.createStatement();
@@ -204,18 +207,7 @@ public class PersistenciaAlumnos {
 		
 		} finally {
 			
-			try {
-				if (st != null) {
-					st.close();
-				}
-			
-				if (con != null) {
-					con.close();
-				}
-			
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}	
+			desconectarSt(con, st);
 		}
 		
 		return listaAlumnosBaseDatos;
@@ -243,63 +235,42 @@ public class PersistenciaAlumnos {
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		
 		} finally {
 			
-			try {
-				if (st != null) {
-					st.close();
-				}
-			
-				if (con != null) {
-					con.close();
-				}
-			
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}	
+			desconectarSt(con, st);
 		}
 		return listAlumnos;
 	}
 	
-	public ArrayList<AlumnoPojo> consultaAlumnosFueraDelProyecto(int idProyecto) {
-		ArrayList<AlumnoPojo> listAlumnos = new ArrayList<AlumnoPojo>();
-		AlumnoPojo alumno;
-		Connection con = null;
-		Statement st = null;
-		String query = "SELECT ALUMNOS.ID_A, ALUMNOS.EXPEDIENTE, ALUMNOS.NOMBRE, ALUMNOS.APELLIDO1, ALUMNOS.APELLIDO2 FROM ALUMNOS LEFT JOIN REALIZAN ON "
-				+ "ALUMNOS.ID_A = REALIZAN.ALUMNO LEFT JOIN PROYECTOS ON REALIZAN.PROYECTO = " + idProyecto + " WHERE PROYECTOS.ID_P IS NULL";
-
-		
+	private void desconectarSt(Connection con, Statement st) {
 		try {
-			con = conexion.conectarBd();
-			st = con.createStatement();
-			ResultSet rs = st.executeQuery(query);
-			
-			while(rs.next()) {
-				alumno = new AlumnoPojo(rs.getInt(1), rs.getInt(2), 
-						rs.getString(3), rs.getString(4), rs.getString(5));
-				
-				listAlumnos.add(alumno);
+			if (st != null) {
+				st.close();
+			}
+		
+			if (con != null) {
+				con.close();
+			}
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void desconectarPs(Connection con, PreparedStatement ps) {
+		try {
+			if (ps != null) {
+				ps.close();
 			}
 			
-		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			
-			try {
-				if (st != null) {
-					st.close();
-				}
-			
-				if (con != null) {
-					con.close();
-				}
-			
-			} catch (SQLException e) {
+			if (con != null) {
+				con.close();
+			}
+				
+		} catch (SQLException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}	
 		}
-		return listAlumnos;
 	}
 }

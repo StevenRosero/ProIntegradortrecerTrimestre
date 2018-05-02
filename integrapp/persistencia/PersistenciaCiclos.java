@@ -1,13 +1,8 @@
 package persistencia;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
-import modelo.AlumnoPojo;
 import modelo.CicloFormativoPojo;
 
 public class PersistenciaCiclos {
@@ -58,22 +53,6 @@ public class PersistenciaCiclos {
 		}
 		
 		desconectarPs(con, ps);
-	}
-
-	private void desconectarPs(Connection con, PreparedStatement ps) {
-		try {
-			if (ps != null) {
-				ps.close();
-			}
-			
-			if (con != null) {
-				con.close();
-			}
-				
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 	}
 	
 	public void modificarCicloBd(CicloFormativoPojo ciclo) {
@@ -171,4 +150,19 @@ public class PersistenciaCiclos {
 		}
 	}
 	
+	private void desconectarPs(Connection con, PreparedStatement ps) {
+		try {
+			if (ps != null) {
+				ps.close();
+			}
+			
+			if (con != null) {
+				con.close();
+			}
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	}
 }

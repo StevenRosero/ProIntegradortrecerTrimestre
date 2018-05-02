@@ -3,7 +3,6 @@ package vistas;
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Color;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Font;
 import com.jgoodies.forms.factories.DefaultComponentFactory;
 import controlador.ControladorOtrosEventos;

@@ -3,13 +3,7 @@ package vistas;
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.LineBorder;
-
-import controlador.ControladorAlumnos;
-import controlador.ControladorCiclos;
-import controlador.ControladorOtrosEventos;
-import controlador.ControladorProyectos;
-
-import javax.swing.GroupLayout.Alignment;
+import controlador.*;
 
 public class GuiPrincipal extends JFrame implements InterfazGui {
 	private JMenuBar menuBar;
@@ -63,6 +57,7 @@ public class GuiPrincipal extends JFrame implements InterfazGui {
 		 ayuda.setOpaque(true);
 		 ayuda.setBounds(0, 195, 284, 534);
 		 getContentPane().add(ayuda);
+		
 		 //Barra Menu Principal
 		 menuBar = new JMenuBar();
 		 menuBar.setBounds(0, 0, 1284, 45);
@@ -70,6 +65,7 @@ public class GuiPrincipal extends JFrame implements InterfazGui {
 		 menuBar.setBorder(new LineBorder(new Color(255, 255, 255), 2));
 		 menuBar.setBackground(Color.WHITE);
 		 menuBar.setPreferredSize(new Dimension (100, 45));
+		
 		 //Menu Proyectos
 		 JMenu menuProyectos = new JMenu("             PROYECTOS");
 		 menuProyectos.setBorder(new LineBorder(new Color(255, 255, 255)));

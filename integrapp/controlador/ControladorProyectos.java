@@ -4,20 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
 import javax.swing.JOptionPane;
-
-import persistencia.PersistenciaAlumnos;
-import persistencia.PersistenciaCiclos;
-import persistencia.PersistenciaProyectos;
-import vistas.GuiAltaProyecto;
-import vistas.GuiBajaProyecto;
-import vistas.GuiConsultarProyectos;
-import vistas.GuiModalDetalleProyecto;
-import vistas.GuiModalModificarProyecto;
-import vistas.GuiModificarProyecto;
-import vistas.GuiPanelPrincipal;
-import vistas.GuiPrincipal;
+import vistas.*;
+import persistencia.*;
 
 public class ControladorProyectos implements ActionListener {
 	private GuiPrincipal mainGui;
@@ -72,6 +61,7 @@ public class ControladorProyectos implements ActionListener {
 			try {
 				new PersistenciaProyectos().agregarProyecto(panelAltaProyecto.getDatos());
 				panelAltaProyecto.reciclar();
+				mainGui.setPanel(panelPrincipal);
 				
 			} catch (FileNotFoundException e1) {
 				// TODO Auto-generated catch block
@@ -109,7 +99,9 @@ public class ControladorProyectos implements ActionListener {
 			mainGui.setPanel(panelModificarProyecto);
 			panelModificarProyecto.cargarCiclos(new PersistenciaCiclos().listadoCiclosBd());
 			panelModificarProyecto.mostrarProyecto(modalModificarProyecto.getDatos());
-			panelModificarProyecto.cargarModeloNuevosAlumnos(new PersistenciaAlumnos().consultaAlumnosFueraDelProyecto(panelModificarProyecto.getIdProyecto()));
+			panelModificarProyecto.alumnosQueNoParticipan(new PersistenciaAlumnos().listaAlumnosBd(),
+					new PersistenciaAlumnos().consultaAlumnosDeProyecto(panelModificarProyecto.getIdProyecto()));
+			
 			panelModificarProyecto.cargarModelo(new PersistenciaAlumnos().consultaAlumnosDeProyecto(panelModificarProyecto.getIdProyecto()));
 			modalModificarProyecto.setVisible(false);
 		

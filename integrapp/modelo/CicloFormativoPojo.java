@@ -30,6 +30,5 @@ public class CicloFormativoPojo {
 	@Override
 	public String toString() {
 		return identificador  + " " + nombre;
-	}
-	
+	}	
 }

@@ -5,29 +5,11 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-
-import controlador.ControladorAlumnos;
-import controlador.ControladorCiclos;
-import controlador.ControladorOtrosEventos;
-import controlador.ControladorProyectos;
-import vistas.GuiAltaAlumno;
-import vistas.GuiAltaCiclo;
-import vistas.GuiAltaProyecto;
-import vistas.GuiBajaAlumno;
-import vistas.GuiBajaCiclo;
-import vistas.GuiBajaProyecto;
-import vistas.GuiConsultarProyectos;
-import vistas.GuiLogin;
-import vistas.GuiModalDetalleProyecto;
-import vistas.GuiModalModificarAlumno;
-import vistas.GuiModalModificarCiclo;
-import vistas.GuiModalModificarProyecto;
-import vistas.GuiModificarAlumno;
-import vistas.GuiModificarCiclo;
-import vistas.GuiModificarProyecto;
-import vistas.GuiPanelPrincipal;
-import vistas.GuiPrincipal;
+import java.io.InputStream;
+import controlador.*;
+import vistas.*;
 
 public class IntegraAppEjecutable {
 
@@ -38,6 +20,26 @@ public class IntegraAppEjecutable {
 			public void run() {
 	
 				try {
+					
+					//Crea las fuentes y las registra en el sistema
+					try {
+						File archivo = new File("fonts/AvenirLTStd-Book.otf");
+						InputStream f = new FileInputStream(archivo);
+						Font font = Font.createFont(Font.TRUETYPE_FONT, f);
+						GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+						ge.registerFont(font);
+						
+						archivo = new File("fonts/AvenirLTStd-Roman.otf");
+						f = new FileInputStream(archivo);
+						font = Font.createFont(Font.TRUETYPE_FONT, f);
+						ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+						ge.registerFont(font);
+						
+					} catch (FontFormatException | IOException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+					
 					//Declara e inicializa los elementos que conforman el UI.
 					GuiPrincipal mainGui = new GuiPrincipal();
 					GuiPanelPrincipal panelInicio = new GuiPanelPrincipal();
@@ -95,7 +97,6 @@ public class IntegraAppEjecutable {
 					
 					//Asigna los controladores al mainGUI
 					mainGui.setControlador(controlProyectos, controlAlumnos, controlEventos, controlCiclos);
-					
 					
 					//Hace Visible el UI que da salida visual al hilo principal de la aplicación
 					mainGui.setVisible(true);
