@@ -24,6 +24,7 @@ import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
 
 public class GuiBajaCiclo extends JDialog implements InterfazGui{
 	private DefaultListModel<CicloFormativoPojo> modelo;
@@ -51,6 +52,9 @@ public class GuiBajaCiclo extends JDialog implements InterfazGui{
 		
 		// Titulo de la ventana
 		setTitle("Baja De Ciclos Formativos");
+		
+		//Icono de la ventana
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GuiBajaCiclo.class.getResource("/images/iconoVentana.png")));
 
 		// Tamaño del JDialog
 		setBounds(100, 100, 650, 650);

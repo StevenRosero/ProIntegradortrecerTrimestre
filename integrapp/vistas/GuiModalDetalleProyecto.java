@@ -25,6 +25,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -77,6 +78,9 @@ public class GuiModalDetalleProyecto extends JDialog implements InterfazGui{
 		
 		// Titulo de la ventana
 		setTitle("Detalles del Proyecto");
+		
+		//Icono de la ventana
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GuiBajaCiclo.class.getResource("/images/iconoVentana.png")));
 
 		// Tamaño del JDialog
 		setBounds(100, 100, 800, 650);

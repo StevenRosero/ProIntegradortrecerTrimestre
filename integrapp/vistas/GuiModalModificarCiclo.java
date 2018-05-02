@@ -22,6 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ImageIcon;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -51,6 +52,9 @@ public class GuiModalModificarCiclo extends JDialog implements InterfazGui{
 		
 		// Titulo de la ventana
 		setTitle("Modificar Ciclos Formativos");
+		
+		//Icono de la ventana
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GuiBajaCiclo.class.getResource("/images/iconoVentana.png")));
 
 		// Tamaño del JDialog
 		setBounds(100, 100, 650, 650);
@@ -68,7 +72,7 @@ public class GuiModalModificarCiclo extends JDialog implements InterfazGui{
 
 		// label imagen papelera
 		lblPapelera = new JLabel("");
-		lblPapelera.setIcon(new ImageIcon(GuiModalModificarCiclo.class.getResource("/images/delete.png")));
+		lblPapelera.setIcon(new ImageIcon(GuiModalModificarCiclo.class.getResource("/images/ModificarProy.png")));
 
 		btnCancelarModificarCiclo = new JButton("CANCELAR");
 		btnCancelarModificarCiclo.addActionListener(new ActionListener() {
@@ -90,7 +94,7 @@ public class GuiModalModificarCiclo extends JDialog implements InterfazGui{
 		// Inicializa el Layout del JDialog
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
+			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(100)
 					.addComponent(modificarCiclo, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE)
@@ -100,26 +104,26 @@ public class GuiModalModificarCiclo extends JDialog implements InterfazGui{
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(144)
 					.addComponent(lblCiclo)
-					.addContainerGap(147, Short.MAX_VALUE))
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-					.addContainerGap(32, Short.MAX_VALUE)
+					.addContainerGap(135, Short.MAX_VALUE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap(25, Short.MAX_VALUE)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addComponent(lblBajaDeCiclo)
 						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 575, GroupLayout.PREFERRED_SIZE))
 					.addGap(28))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(267)
+				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+					.addGap(257)
 					.addComponent(lblPapelera)
-					.addContainerGap(268, Short.MAX_VALUE))
+					.addContainerGap(278, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(27)
 					.addComponent(lblBajaDeCiclo, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGap(18)
 					.addComponent(lblPapelera)
-					.addGap(31)
+					.addGap(19)
 					.addComponent(lblCiclo)
 					.addGap(18)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 227, GroupLayout.PREFERRED_SIZE)

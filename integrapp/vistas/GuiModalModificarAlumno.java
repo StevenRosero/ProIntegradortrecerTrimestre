@@ -19,6 +19,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.Toolkit;
 
 public class GuiModalModificarAlumno extends JDialog implements InterfazGui{
 	private DefaultListModel<AlumnoPojo> modelo;
@@ -46,6 +47,9 @@ public class GuiModalModificarAlumno extends JDialog implements InterfazGui{
 		
 		// Titulo de la ventana
 		setTitle("MODIFICAR ALUMNO");
+		
+		//Icono de la ventana
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GuiBajaCiclo.class.getResource("/images/iconoVentana.png")));
 
 		// Tamaño del JDialog
 		setBounds(100, 100, 650, 650);

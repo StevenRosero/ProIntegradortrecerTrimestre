@@ -29,9 +29,6 @@ public class GuiPrincipal extends JFrame implements InterfazGui {
 	
 	public GuiPrincipal() {
 		super("IntegraApp - Gestión de Proyectos Integradores");
-		setResizable(false);
-		getContentPane().setBackground(new Color(255, 255, 255));
-		setBackground(new Color(255, 255, 255));
 		inicializar();
 	}
 	
@@ -47,6 +44,12 @@ public class GuiPrincipal extends JFrame implements InterfazGui {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		//Icono de la ventana
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GuiPrincipal.class.getResource("/images/iconoVentana.png")));
+		setResizable(false);
+		getContentPane().setBackground(new Color(255, 255, 255));
+		setBackground(new Color(255, 255, 255));
 		
 		//Cambia el color de la línea de los submenus
 		UIManager.put("PopupMenu.border", new LineBorder(Color.WHITE));

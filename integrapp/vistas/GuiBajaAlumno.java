@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ImageIcon;
 import java.awt.Font;
+import java.awt.Toolkit;
 
 public class GuiBajaAlumno extends JDialog implements InterfazGui{
 	private DefaultListModel<AlumnoPojo> modelo;
@@ -47,6 +48,9 @@ public class GuiBajaAlumno extends JDialog implements InterfazGui{
 
 		// Tamaño del JDialog
 		setBounds(100, 100, 650, 650);
+		
+		//Icono de la ventana
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GuiBajaCiclo.class.getResource("/images/iconoVentana.png")));
 
 		// inicializa el ScrollPane de la Lista
 		scrollPane = new JScrollPane();

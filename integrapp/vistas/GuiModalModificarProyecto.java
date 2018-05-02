@@ -23,6 +23,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -55,6 +56,9 @@ public class GuiModalModificarProyecto extends JDialog implements InterfazGui{
 
 		// Tamaño del JDialog
 		setBounds(100, 100, 650, 650);
+		
+		//Icono de la ventana
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GuiBajaCiclo.class.getResource("/images/iconoVentana.png")));
 
 		// inicializa el ScrollPane de la Lista
 		scrollPane = new JScrollPane();
@@ -69,7 +73,7 @@ public class GuiModalModificarProyecto extends JDialog implements InterfazGui{
 
 		// label imagen papelera
 		lblPapelera = new JLabel("");
-		lblPapelera.setIcon(new ImageIcon(GuiModalModificarProyecto.class.getResource("/images/update.png")));
+		lblPapelera.setIcon(new ImageIcon(GuiModalModificarProyecto.class.getResource("/images/ModificarProy.png")));
 
 		btnCancelar = new JButton("CANCELAR");
 		btnCancelar.addActionListener(new ActionListener() {
@@ -103,26 +107,26 @@ public class GuiModalModificarProyecto extends JDialog implements InterfazGui{
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 575, GroupLayout.PREFERRED_SIZE)
 					.addGap(28))
 				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap(173, Short.MAX_VALUE)
+					.addContainerGap(162, Short.MAX_VALUE)
 					.addComponent(lblModificar)
 					.addGap(163))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap(250, Short.MAX_VALUE)
-					.addComponent(lblPapelera)
-					.addGap(254))
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap(104, Short.MAX_VALUE)
 					.addComponent(lblModificarAlumno, GroupLayout.PREFERRED_SIZE, 447, GroupLayout.PREFERRED_SIZE)
 					.addGap(83))
+				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+					.addGap(260)
+					.addComponent(lblPapelera)
+					.addContainerGap(264, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(27)
 					.addComponent(lblModificarAlumno, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGap(18)
 					.addComponent(lblPapelera)
-					.addGap(31)
+					.addGap(19)
 					.addComponent(lblModificar)
 					.addGap(18)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 227, GroupLayout.PREFERRED_SIZE)

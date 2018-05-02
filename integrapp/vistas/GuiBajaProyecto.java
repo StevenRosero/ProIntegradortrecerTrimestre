@@ -22,6 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ImageIcon;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -52,7 +53,10 @@ public class GuiBajaProyecto extends JDialog implements InterfazGui{
 		
 		// Titulo de la ventana
 		setTitle("Baja De Proyectos");
-
+		
+		//Icono de la ventana
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GuiBajaCiclo.class.getResource("/images/iconoVentana.png")));
+		
 		// Tamaño del JDialog
 		setBounds(100, 100, 650, 650);
 

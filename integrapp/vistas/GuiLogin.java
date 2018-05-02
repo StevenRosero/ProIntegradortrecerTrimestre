@@ -28,6 +28,9 @@ public class GuiLogin extends JDialog implements InterfazGui {
 
 		// Título de la ventana
 		setTitle("Identificaci\u00F3n Usuario");
+		
+		//Icono de la ventana
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GuiBajaCiclo.class.getResource("/images/iconoVentana.png")));
 
 		// Establece el fondo del ContentPane a Blanco
 		getContentPane().setBackground(Color.WHITE);
