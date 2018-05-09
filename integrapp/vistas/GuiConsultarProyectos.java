@@ -190,8 +190,16 @@ public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 				} else if (comboBoxFiltro.getSelectedIndex() == 4) {
 					txtBuscar.setEnabled(false);
 					comboBoxOpciones.setEnabled(true);
+				} else if (comboBoxFiltro.getSelectedIndex() == 5) {
+					txtBuscar.setEnabled(true);
+					comboBoxOpciones.setEnabled(false);
+				} else if (comboBoxFiltro.getSelectedIndex() == 6) {
+					txtBuscar.setEnabled(true);
+					comboBoxOpciones.setEnabled(false);
+				} else if (comboBoxFiltro.getSelectedIndex() == 7) {
+					txtBuscar.setEnabled(true);
+					comboBoxOpciones.setEnabled(false);
 				}
-				
 			}
 		});
 		
@@ -200,7 +208,7 @@ public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 		comboBoxFiltro.setBorder(new LineBorder(new Color(176, 224, 230), 4));
 		comboBoxFiltro.setBackground(new Color(255, 255, 255));
 		comboBoxFiltro.setBounds(45, 186, 291, 33);
-		comboBoxFiltro.setModel(new DefaultComboBoxModel(new String[] {"Ver Todos", "Filtrar Por Identificador de Proyecto", "Filtrar Por Nombre de Proyecto", "Filtrar Por A\u00F1o del Proyecto", "Filtrar Por Ciclo del Proyecto"}));
+		comboBoxFiltro.setModel(new DefaultComboBoxModel(new String[] {"Ver Todos", "Filtrar Por Identificador de Proyecto", "Filtrar Por Nombre de Proyecto", "Filtrar Por A\u00F1o del Proyecto", "Filtrar Por Ciclo del Proyecto", "Filtrar Por Nombre del Alumno", "Filtrar Por Apellido del Alumno", "Filtrar Por Expediente del Alumno"}));
 		layeredPaneBackground.add(comboBoxFiltro);
 		
 		//JLabel Imagen Background
@@ -223,6 +231,7 @@ public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 	public String getDatos() throws NumberFormatException {
 		int anyo = 0;
 		int idProyecto = 0;
+		int expediente = 0;
 		String nombre = "";
 		
 		if (comboBoxFiltro.getSelectedIndex() == 0) {
@@ -240,8 +249,26 @@ public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 			anyo = Integer.parseInt(txtBuscar.getText());
 			return "SELECT * FROM PROYECTOS WHERE ANYO = " + anyo;
 			
-		} else {
+		} else if (comboBoxFiltro.getSelectedIndex() == 4) {
 			return "SELECT * FROM PROYECTOS WHERE CICLO = " + modeloCiclos.getElementAt(comboBoxOpciones.getSelectedIndex()).getIdentificador();
+		
+		} else if (comboBoxFiltro.getSelectedIndex() == 5) {
+			nombre = txtBuscar.getText();
+			return "SELECT * FROM PROYECTOS, ALUMNOS, REALIZAN"
+					+ " WHERE REALIZAN.ALUMNO = ALUMNOS.ID_A"
+					+ " AND REALIZAN.PROYECTO = PROYECTOS.ID_P AND ALUMNOS.NOMBRE LIKE '%" + nombre + "%'";
+		
+		} else if (comboBoxFiltro.getSelectedIndex() == 6) {
+			nombre = txtBuscar.getText();
+			return "SELECT * FROM PROYECTOS, ALUMNOS, REALIZAN WHERE"
+					+ " REALIZAN.ALUMNO = ALUMNOS.ID_A AND REALIZAN.PROYECTO = PROYECTOS.ID_P"
+					+ " AND ALUMNOS.APELLIDO1 LIKE '%" + nombre + "%'";
+			
+		} else {
+			expediente = Integer.parseInt(txtBuscar.getText());
+			return "SELECT * FROM PROYECTOS, ALUMNOS, REALIZAN"
+					+ " WHERE REALIZAN.ALUMNO = ALUMNOS.ID_A AND REALIZAN.PROYECTO = PROYECTOS.ID_P "
+					+ "AND ALUMNOS.EXPEDIENTE = " + expediente;
 		}
 	}
 	

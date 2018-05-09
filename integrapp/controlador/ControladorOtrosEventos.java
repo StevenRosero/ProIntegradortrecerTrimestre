@@ -2,11 +2,10 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import modelo.AdministradorPojo;
+import persistencia.PersistenciaUsuarios;
 import vistas.*;
 
 public class ControladorOtrosEventos implements ActionListener {
-	private static final AdministradorPojo admin = new AdministradorPojo("ADMIN", "1234");
 	private GuiPrincipal mainGui;
 	private GuiLogin ventanaLogin;
 	private GuiPanelPrincipal panelPrincipal;
@@ -28,7 +27,7 @@ public class ControladorOtrosEventos implements ActionListener {
 		} else if (e.getSource().equals(ventanaLogin.getBtnAceptar())) {
 					
 			//Si la identificación es satisfactoria ejecuta el método esUsuarioAdministrador
-			if (admin.comprobarContrasenya(ventanaLogin.getDatos()) == 1) {
+			if (new PersistenciaUsuarios().comprobarPassword(ventanaLogin.getDatos()) == 1) {
 				ventanaLogin.reciclar();
 				ventanaLogin.dispose();
 				mainGui.esUsuarioAdministrador();

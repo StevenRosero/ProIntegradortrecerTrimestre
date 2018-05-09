@@ -2,6 +2,8 @@ package persistencia;
 
 import java.sql.*;
 import java.util.ArrayList;
+
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import modelo.AlumnoPojo;
 
@@ -51,6 +53,7 @@ public class PersistenciaAlumnos {
 		String query = "SELECT PROYECTO FROM REALIZAN WHERE ALUMNO = " + alumnoEliminar.getIdAlumno();
 		int proy = 0;
 		int cont = 0;
+		String titularidadUnica = "";
 		boolean cancelarOperacion = false;;
 		
 		//Prepara la sentencia SQL para eliminar Alumno
@@ -80,6 +83,7 @@ public class PersistenciaAlumnos {
 					
 					//Si el proyecto tiene menos de dos alumnos no permite dejar el proyecto sin al menos un alumno
 					if (cont < 2) {
+						titularidadUnica += proyectos.get(i) + " -";
 						cancelarOperacion = true;
 					}
 				}
@@ -111,7 +115,12 @@ public class PersistenciaAlumnos {
 			JOptionPane.showMessageDialog(null, "La Operación se ha realizado con éxito");
 		
 		} catch(SQLException | ClassNotFoundException e) {
-			JOptionPane.showMessageDialog(null, "No se ha podido realizar la operación" + e.getMessage());
+			if(e.getMessage().equals("[SQLITE_CONSTRAINT_FOREIGNKEY]  A foreign key constraint failed (FOREIGN KEY constraint failed)")) {
+				
+				JOptionPane.showMessageDialog(null, new JLabel("<html><body style='text-align: center'>"
+						+ " No es posible dejar un proyecto sin al menos un alumno asociado.<br>Elimine primero el proyecto " + titularidadUnica + "</html>"));
+			}
+			JOptionPane.showMessageDialog(null, "No se ha podido realizar la operación");
 		
 		//Bloque final para cerrar las conexiones y liberar recursos
 		} finally {

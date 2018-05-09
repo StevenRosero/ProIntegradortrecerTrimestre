@@ -53,6 +53,7 @@ public class ControladorProyectos implements ActionListener {
 		//Detecta el evento de hacer click en el Submenu Alta Proyectos
 		} else if (e.getSource().equals(mainGui.getSubmenuAltaProyecto())) {
 			mainGui.setPanel(panelAltaProyecto);
+			panelAltaProyecto.reciclar();
 			panelAltaProyecto.cargarModelo(new PersistenciaAlumnos().listaAlumnosBd());
 			panelAltaProyecto.cargarCiclos(new PersistenciaCiclos().listadoCiclosBd());
 					
@@ -83,6 +84,7 @@ public class ControladorProyectos implements ActionListener {
 		
 		//Detecta el evento de hacer click en el Submenu Baja Proyectos
 		} else if (e.getActionCommand().equals("submenuBajaProyecto")) {
+			mainGui.setPanel(panelPrincipal);
 			panelBajaProyecto.mostrar(new PersistenciaProyectos().listadoProyectosDb());
 		
 		//Detecta el evento de hacer click para confirmar la eliminación de un Proyecto

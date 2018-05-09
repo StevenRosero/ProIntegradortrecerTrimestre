@@ -49,7 +49,7 @@ public class PersistenciaCiclos {
 			ps.setInt(1, ciclo.getIdentificador());
 			ps.executeUpdate();
 		} catch (SQLException | ClassNotFoundException e) {
-			JOptionPane.showMessageDialog(null, "No se ha podido realizar la operación de Borrado de Ciclo");
+			JOptionPane.showMessageDialog(null, "No es posible eliminar un Ciclo si tiene Proyectos asociados");
 		}
 		
 		desconectarPs(con, ps);
@@ -70,10 +70,10 @@ public class PersistenciaCiclos {
 			
 			//Ejecuta la sentencia SQL
 			ps.executeUpdate(); 
-			JOptionPane.showMessageDialog(null, "La Operación se ha realizado con éxito");
+			JOptionPane.showMessageDialog(null, "Se ha realizado la Modificación con éxito");
 		
 		} catch(SQLException | ClassNotFoundException e) {
-			JOptionPane.showMessageDialog(null, "No se ha podido realizar la operación" + e.getMessage());
+			JOptionPane.showMessageDialog(null, "No se ha podido realizar la Modificación" + e.getMessage());
 		
 		//Bloque final para cerrar las conexiones y liberar recursos
 		} finally {

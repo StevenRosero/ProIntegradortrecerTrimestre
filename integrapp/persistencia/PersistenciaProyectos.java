@@ -61,7 +61,7 @@ public class PersistenciaProyectos {
 				ps=con.prepareStatement(query);
 				ps.setInt(1, proyecto.getListaAlumnos().get(i).getIdAlumno());
 				ps.setInt(2, id);
-				ps.executeUpdate();	
+				ps.executeUpdate();
 			}
 		
 			JOptionPane.showMessageDialog(null, "La Operación se ha realizado con éxito");

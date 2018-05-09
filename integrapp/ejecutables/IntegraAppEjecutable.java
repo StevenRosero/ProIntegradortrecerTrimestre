@@ -66,7 +66,7 @@ public class IntegraAppEjecutable {
 					
 					//Declara e inicializa el controlador de Alumnos
 					ControladorAlumnos controlAlumnos = new ControladorAlumnos(mainGui, panelInicio, 
-							ventanaBajaAlumno, ventanaAltaAlumno, ventanaModificarAlumno, modalModificarAlumno);
+					ventanaBajaAlumno, ventanaAltaAlumno, ventanaModificarAlumno, modalModificarAlumno);
 					
 					ventanaAltaAlumno.setControlador(controlAlumnos, controlEventos);
 					ventanaBajaAlumno.setControlador(controlAlumnos);
@@ -76,7 +76,8 @@ public class IntegraAppEjecutable {
 					
 					//Declara e inicializa el controlador de Ciclos
 					ControladorCiclos controlCiclos = new ControladorCiclos(mainGui,ventanaAltaCiclo, panelInicio, 
-							ventanaBajaCiclos, modalModificarCiclo, ventanaModificarCiclo);
+					ventanaBajaCiclos, modalModificarCiclo, ventanaModificarCiclo);
+					
 					ventanaAltaCiclo.setControlador(controlCiclos, controlEventos);
 					ventanaBajaCiclos.setControlador(controlCiclos);
 					modalModificarCiclo.setControlador(controlCiclos);
@@ -85,7 +86,7 @@ public class IntegraAppEjecutable {
 					
 					//Declara e inicializa el controlador de Proyectos
 					ControladorProyectos controlProyectos = new ControladorProyectos(mainGui, panelInicio,ventanaAltaProyecto,
-							ventanaConsultarProyectos, ventanaBajaProyecto, modalModificarProyecto, ventanaModificarProyecto);
+					ventanaConsultarProyectos, ventanaBajaProyecto, modalModificarProyecto, ventanaModificarProyecto);
 					
 					ventanaAltaProyecto.setControlador(controlProyectos, controlEventos);
 					ventanaConsultarProyectos.setControlador(controlProyectos, controlEventos);

@@ -112,7 +112,7 @@ public class GuiModificarProyecto extends JPanel implements InterfazGui {
 		layeredPaneBackground.add(lblNombreProyecto);
 		
 		//Etiqueta texto carga de imagen
-		lblcargaImagen = new JLabel("<html><body style=text-align:'center'>Cargar una Imagen del Proyecto<br>(JPG tama\u00F1o 400x400)</html>");
+		lblcargaImagen = new JLabel("<html><body style=text-align:'center'>Cargar una Imagen del Proyecto<br>(JPG tama\u00F1o 250x333)</html>");
 		lblcargaImagen.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 12));
 		lblcargaImagen.setBounds(489, 590, 187, 33);
 		layeredPaneBackground.add(lblcargaImagen);
@@ -425,8 +425,6 @@ public class GuiModificarProyecto extends JPanel implements InterfazGui {
 		int indexCurso;
 		int indexGrupo;
 
-		//CicloFormativoPojo ciclo = comboBoxCiclo.getItemAt(comboBoxCiclo.getSelectedIndex());
-		//comboBoxCiclo.
 		txtNombreProyecto.setText(proyecto.getNombre());
 		textAreaDescripcion.setText(proyecto.getDescripcion());
 		txtUrl.setText(proyecto.getUrl());

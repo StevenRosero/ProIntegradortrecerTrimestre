@@ -42,7 +42,7 @@ public class GuiAyuda extends JPanel {
 				//Abre el navegador web del usuario y le dirige a la url
 				if (Desktop.isDesktopSupported()){
 					try {
-						Desktop.getDesktop().browse(new URI("www.google.com"));
+						Desktop.getDesktop().browse(new URI("https://github.com/StevenRosero/ProIntegradortrecerTrimestre/wiki"));
 					} catch (IOException e) {
 						JOptionPane.showMessageDialog(null, "Lo siento, no dispone de medios para navegar por internet");
 						e.printStackTrace();
@@ -59,12 +59,12 @@ public class GuiAyuda extends JPanel {
 		txtAyudaA.setLineWrap(true);
 		txtAyudaA.setOpaque(false);
 		txtAyudaA.setFont(new Font("Avenir LT Std 45 Book", Font.PLAIN, 16));
-		txtAyudaA.setText("Si necesitas\r\nayuda con la aplicaci\u00F3n\r\npuedes acceder a la wiki\r\nen el siguiente enlace:\r\nwww.wiki.com");
+		txtAyudaA.setText("Si necesitas\r\nayuda con la aplicaci\u00F3n\r\npuedes acceder a la wiki\r\ne inspirarte con ella.\r\n\u00A1Haz click Aqu\u00ED!");
 		
 		//Texto AyudaB
 		textAreaB = new JTextArea();
 		textAreaB.setEditable(false);
-		textAreaB.setText("O si lo prefieres, puedes\r\ncontactar con el equipo\r\nde desarrolladores\r\na trav\u00E9s de nuestro correo\r\nelectr\u00F3nico.\r\n\u00A1Estaremos encantados\r\nde ayudarte!\r\npepito@pepito.es");
+		textAreaB.setText("O si lo prefieres, puedes\r\ncontactar con el equipo\r\nde desarrolladores\r\na trav\u00E9s de nuestro correo\r\nelectr\u00F3nico.\r\n\u00A1Estaremos encantados\r\nde ayudarte!\r\n:)");
 		textAreaB.setOpaque(false);
 		textAreaB.setLineWrap(true);
 		textAreaB.setForeground(Color.WHITE);
