@@ -66,8 +66,11 @@ public class PersistenciaProyectos {
 		
 			JOptionPane.showMessageDialog(null, "La Operación se ha realizado con éxito");
 			  
-			} catch(Exception e) { 
-				JOptionPane.showMessageDialog(null, e.getMessage()); 
+			} catch(SQLException e) { 
+				JOptionPane.showMessageDialog(null, "Solo puede dejar en blanco la URL, GRUPO e IMAGEN"); 
+			
+			} catch (ClassNotFoundException e) {
+				JOptionPane.showMessageDialog(null, "No se ha podido conectar con la Base de Datos"); 
 			
 			} finally {
 				

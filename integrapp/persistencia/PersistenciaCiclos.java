@@ -28,8 +28,18 @@ public class PersistenciaCiclos {
 			ps.executeUpdate(); 
 			JOptionPane.showMessageDialog(null, "La Operación se ha realizado con éxito");
 		
-		} catch(SQLException | ClassNotFoundException e) {
-			JOptionPane.showMessageDialog(null, "No se ha podido realizar la operación" + e.getMessage());
+		} catch (ClassNotFoundException e1) {
+			JOptionPane.showMessageDialog(null, "No se ha podido conectar a la base de datos");
+		
+		} catch(SQLException e2) {
+			
+			if (e2.getErrorCode() == 19) {
+				JOptionPane.showMessageDialog(null, "Debe rellenar todos los campos para poder realizar el alta");	
+			
+			} else {
+				JOptionPane.showMessageDialog(null, e2.getMessage());	
+			}
+			
 		
 		//Bloque final para cerrar las conexiones y liberar recursos
 		} finally {
@@ -48,11 +58,20 @@ public class PersistenciaCiclos {
 			ps = con.prepareStatement(query);
 			ps.setInt(1, ciclo.getIdentificador());
 			ps.executeUpdate();
-		} catch (SQLException | ClassNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "La Operación se ha realizado con éxito");
+		
+		} catch (ClassNotFoundException e1) {
+			JOptionPane.showMessageDialog(null, "No se ha podido conectar a la base de datos");
+		
+		} catch (SQLException e2) {
 			JOptionPane.showMessageDialog(null, "No es posible eliminar un Ciclo si tiene Proyectos asociados");
+		
+		} finally {
+			
+			desconectarPs(con, ps);
 		}
 		
-		desconectarPs(con, ps);
+		
 	}
 	
 	public void modificarCicloBd(CicloFormativoPojo ciclo) {
@@ -70,11 +89,20 @@ public class PersistenciaCiclos {
 			
 			//Ejecuta la sentencia SQL
 			ps.executeUpdate(); 
-			JOptionPane.showMessageDialog(null, "Se ha realizado la Modificación con éxito");
+			JOptionPane.showMessageDialog(null, "La Operación se ha realizado con éxito");
+			
+		} catch (ClassNotFoundException e1) {
+			JOptionPane.showMessageDialog(null, "No se ha podido conectar a la base de datos");
 		
-		} catch(SQLException | ClassNotFoundException e) {
-			JOptionPane.showMessageDialog(null, "No se ha podido realizar la Modificación" + e.getMessage());
-		
+		} catch(SQLException e2) {
+			
+			if (e2.getErrorCode() == 19) {
+				JOptionPane.showMessageDialog(null, "Debe rellenar todos los campos para poder modificar el ciclo");	
+			
+			} else {
+				JOptionPane.showMessageDialog(null, e2.getMessage());	
+			}
+			
 		//Bloque final para cerrar las conexiones y liberar recursos
 		} finally {
 		
@@ -99,9 +127,12 @@ public class PersistenciaCiclos {
 				
 				listaCiclosFormativos.add(ciclo);
 			}
-				
-		} catch (ClassNotFoundException | SQLException e) {
-			JOptionPane.showMessageDialog(null, "No se ha podido realizar la operación de carga de Alumnos");
+		
+		} catch (ClassNotFoundException e1) {	
+			JOptionPane.showMessageDialog(null, "No se ha podido conectar a la base de datos");
+		
+		} catch (SQLException e2) {
+			JOptionPane.showMessageDialog(null, "No se ha podido realizar la operación de carga de Ciclos");
 		
 		} finally {
 			
@@ -124,9 +155,12 @@ public class PersistenciaCiclos {
 			while(rs.next()) {
 				ciclo = new CicloFormativoPojo(rs.getInt(1), rs.getString(2), rs.getString(3));
 			}
-				
-		} catch (ClassNotFoundException | SQLException e) {
-			JOptionPane.showMessageDialog(null, "No se ha podido realizar la operación de carga de Alumnos");
+		
+		} catch (ClassNotFoundException e1) {	
+			JOptionPane.showMessageDialog(null, "No se ha podido conectar a la base de datos");
+		
+		} catch (SQLException e2) {
+			JOptionPane.showMessageDialog(null, "No se ha podido realizar la operación de carga de Ciclos");
 		
 		} finally {
 			

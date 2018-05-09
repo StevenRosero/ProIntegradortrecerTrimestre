@@ -148,7 +148,7 @@ public class GuiModificarCiclo extends JPanel implements InterfazGui {
 	
 	//Método que almacena y retorna los datos consignados por el usuario en un objeto de tipo AlumnoPojo
 	public CicloFormativoPojo getDatos() {
-		
+	
 		CicloFormativoPojo ciclo = new CicloFormativoPojo(idCiclo, txtNombreCiclo.getText(), txtDescripcionCiclo.getText());
 		
 		return ciclo;

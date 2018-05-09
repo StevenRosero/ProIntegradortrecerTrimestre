@@ -36,7 +36,6 @@ public class ControladorAlumnos implements ActionListener {
 		//Detecta el evento de hacer click en el Submenu Modificar Alumnos
 		} else if (e.getActionCommand().equals("submenuModificarAlumno")) {
 			modalModificarAlumno.mostrar(new PersistenciaAlumnos().listaAlumnosBd());
-			mainGui.setPanel(panelModificarAlumno);
 				
 		//Detecta el evento de hacer click en el Submenu Alta Alumnos
 		} else if (e.getActionCommand().equals("panelAltaAlumnos")) {
@@ -49,6 +48,7 @@ public class ControladorAlumnos implements ActionListener {
 			try {
 				
 				new PersistenciaAlumnos().agregarAlumnoBd(panelAltaAlumno.getDatos());
+				mainGui.setPanel(panelPrincipal);
 				panelAltaAlumno.reciclar();
 			
 			} catch (NumberFormatException | ExpedienteException e1) {
@@ -57,15 +57,27 @@ public class ControladorAlumnos implements ActionListener {
 							
 		//Detecta el evento de hacer click en aceptar para borrar un Alumno
 		} else if (e.getActionCommand().equals("eliminarAlumno")) {
-			new PersistenciaAlumnos().eliminarAlumnoBd(panelBajaAlumno.getDatos());
+			
+			try {
+				new PersistenciaAlumnos().eliminarAlumnoBd(panelBajaAlumno.getDatos());
+			
+			} catch (NullPointerException e1) {
+				JOptionPane.showMessageDialog(panelBajaAlumno, "Debe Elegir una opción de la lista para continuar");
+			}
 			panelBajaAlumno.mostrar(new PersistenciaAlumnos().listaAlumnosBd());
 							
 		//Detecta el evento de hacer click en aceptar para seleccionar un alumno para modificar.
 		} else if (e.getActionCommand().equals("modalModificarAlumno")) {
-			panelModificarAlumno.mostrarAlumno(modalModificarAlumno.getDatos());
-			modalModificarAlumno.dispose();
-			mainGui.setPanel(panelModificarAlumno);
-		
+			
+			try {
+				panelModificarAlumno.mostrarAlumno(modalModificarAlumno.getDatos());
+				modalModificarAlumno.dispose();
+				mainGui.setPanel(panelModificarAlumno);
+				
+			} catch (NullPointerException e1) {
+				JOptionPane.showMessageDialog(panelBajaAlumno, "Debe Elegir una opción de la lista para continuar");
+			}
+	
 		//Detecta el evento de confirmar la modificación de los datos de un alumno.
 		} else if (e.getActionCommand().equals("modificarAlumnoDef")) {
 			try {
@@ -79,6 +91,11 @@ public class ControladorAlumnos implements ActionListener {
 		//Detecta el evento de hacer click para cancelar el proceso de borrar un Alumno
 		} else if (e.getActionCommand().equals("cancelarAlumno")) {
 			panelBajaAlumno.dispose();
+			mainGui.setPanel(panelPrincipal);
+		
+		} else if (e.getActionCommand().equals("cancelarModificarAlumno")) {
+			modalModificarAlumno.dispose();
+			mainGui.setPanel(panelPrincipal);
 		}
 	}
 }

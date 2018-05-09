@@ -189,7 +189,8 @@ public class GuiModalModificarCiclo extends JDialog implements InterfazGui{
 	// Método que almacena y retorna la selección del JList en un objeto de tipo
 	// CicloFormativoPojo.
 	public CicloFormativoPojo getDatos() {
-		CicloFormativoPojo cicloModificar = modelo.getElementAt(list.getSelectedIndex());
+		
+		CicloFormativoPojo cicloModificar = list.getSelectedValue();
 
 		return cicloModificar;
 	}

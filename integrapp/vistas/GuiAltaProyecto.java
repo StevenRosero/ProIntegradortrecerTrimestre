@@ -323,21 +323,33 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 	}
 	
 	
-	public ProyectoPojo getDatos() throws FileNotFoundException, NumberFormatException {
+	public ProyectoPojo getDatos() throws FileNotFoundException, NumberFormatException, Exception {
 		ArrayList<AlumnoPojo> listaAlumnos = new ArrayList<AlumnoPojo>();
 		String nombre = txtNombreProyecto.getText();
 		String descripcion = textAreaDescripcion.getText();
 		String url = txtUrl.getText();
+		
+		if (txtUrl.getText().equals("")) {
+			url = "Pagina Web No Disponible";
+		}
+		
 		int anyo = (int) spinnerAnyo.getValue();
 		double nota = Double.parseDouble(txtNota.getText());
 		CicloFormativoPojo ciclo = comboBoxCiclo.getItemAt(comboBoxCiclo.getSelectedIndex());
 		String grupo =  comboBoxGrupo.getItemAt(comboBoxGrupo.getSelectedIndex());
+		
+		if (grupo == null) {
+			grupo = "No Disponible";
+		}
+		
 		int curso = Integer.parseInt(comboBoxCurso.getItemAt(comboBoxCurso.getSelectedIndex()));
 		
 		for (AlumnoPojo aux : listaIntegrantes.getSelectedValuesList()) {
 			listaAlumnos.add(aux);
 			System.out.println(aux);
 		}
+		
+		if (listaIntegrantes.isSelectionEmpty()) throw new Exception();
 		
 		ProyectoPojo proyecto = new ProyectoPojo(nombre, descripcion, url, anyo, nota, ciclo, curso, grupo, listaAlumnos, fileContents);
 		fileContents = null;

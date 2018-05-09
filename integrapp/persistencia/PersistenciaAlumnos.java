@@ -34,8 +34,18 @@ public class PersistenciaAlumnos {
 			ps.executeUpdate(); 
 			JOptionPane.showMessageDialog(null, "La Operación se ha realizado con éxito");
 		
-		} catch(SQLException | ClassNotFoundException e) {
-			JOptionPane.showMessageDialog(null, "No se ha podido realizar la operación" + e.getMessage());
+		} catch (ClassNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "No se ha podido conectar a la base de datos");
+		
+		} catch(SQLException e2) {
+			
+			if (e2.getErrorCode() == 19) {
+				JOptionPane.showMessageDialog(null, "Debe rellenar todos los campos e introducir un expediente que no esté utilizado");
+			
+			} else {
+				JOptionPane.showMessageDialog(null, e2.getMessage());
+			}
+			
 		
 		//Bloque final para cerrar las conexiones y liberar recursos
 		} finally {

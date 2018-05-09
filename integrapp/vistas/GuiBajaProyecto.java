@@ -26,6 +26,7 @@ import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ListSelectionModel;
 
 public class GuiBajaProyecto extends JDialog implements InterfazGui{
 	private DefaultListModel<ProyectoPojo> modelo;
@@ -142,6 +143,7 @@ public class GuiBajaProyecto extends JDialog implements InterfazGui{
 
 		// Inicializa la lista y la agrega al viewport del scrollpane
 		listProyectos = new JList<ProyectoPojo>();
+		listProyectos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		spProyectos.setViewportView(listProyectos);
 
 		// Modelo asignado a la lista
@@ -192,7 +194,7 @@ public class GuiBajaProyecto extends JDialog implements InterfazGui{
 	// Método que almacena y retorna la selección del JList en un objeto de tipo
 	// ProyectoPojo.
 	public ProyectoPojo getDatos() {
-		ProyectoPojo proyectoBorrar = modelo.getElementAt(listProyectos.getSelectedIndex());
+		ProyectoPojo proyectoBorrar = listProyectos.getSelectedValue();
 
 		return proyectoBorrar;
 	}

@@ -18,6 +18,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.Toolkit;
+import javax.swing.ListSelectionModel;
 
 public class GuiBajaAlumno extends JDialog implements InterfazGui{
 	private DefaultListModel<AlumnoPojo> modelo;
@@ -117,6 +118,7 @@ public class GuiBajaAlumno extends JDialog implements InterfazGui{
 
 		// Inicializa la lista y la agrega al viewport del scrollpane
 		list = new JList<AlumnoPojo>();
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(list);
 
 		// Modelo asignado a la lista
@@ -167,7 +169,8 @@ public class GuiBajaAlumno extends JDialog implements InterfazGui{
 	// Método que almacena y retorna la selección del JList en un objeto de tipo
 	// AlumnoPojo.
 	public AlumnoPojo getDatos() {
-		AlumnoPojo alumnoBorrar = modelo.getElementAt(list.getSelectedIndex());
+		
+		AlumnoPojo alumnoBorrar = list.getSelectedValue();
 
 		return alumnoBorrar;
 	}

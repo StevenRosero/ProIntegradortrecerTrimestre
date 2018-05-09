@@ -25,6 +25,7 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
+import javax.swing.ListSelectionModel;
 
 public class GuiBajaCiclo extends JDialog implements InterfazGui{
 	private DefaultListModel<CicloFormativoPojo> modelo;
@@ -141,6 +142,7 @@ public class GuiBajaCiclo extends JDialog implements InterfazGui{
 
 		// Inicializa la lista y la agrega al viewport del scrollpane
 		list = new JList<CicloFormativoPojo>();
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(list);
 
 		// Modelo asignado a la lista
@@ -189,9 +191,10 @@ public class GuiBajaCiclo extends JDialog implements InterfazGui{
 	}
 
 	// Método que almacena y retorna la selección del JList en un objeto de tipo
-	// CicloFormativoPojo.
+	// CicloFormativoPojo. Lanza una excepción si el usuario no elige ninguna opción.
 	public CicloFormativoPojo getDatos() {
-		CicloFormativoPojo cicloBorrar = modelo.getElementAt(list.getSelectedIndex());
+		
+		CicloFormativoPojo cicloBorrar = list.getSelectedValue();
 
 		return cicloBorrar;
 	}

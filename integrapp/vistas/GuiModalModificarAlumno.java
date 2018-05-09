@@ -20,6 +20,7 @@ import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Toolkit;
+import javax.swing.ListSelectionModel;
 
 public class GuiModalModificarAlumno extends JDialog implements InterfazGui{
 	private DefaultListModel<AlumnoPojo> modelo;
@@ -70,7 +71,7 @@ public class GuiModalModificarAlumno extends JDialog implements InterfazGui{
 		lblPapelera.setIcon(new ImageIcon(GuiModalModificarAlumno.class.getResource("/images/update.png")));
 
 		btnCancelar = new JButton("CANCELAR");
-		btnCancelar.setActionCommand("cancelarAlumno");
+		btnCancelar.setActionCommand("cancelarModificarAlumno");
 		btnCancelar.setFont(new Font("Avenir LT Std 45 Book", Font.PLAIN, 13));
 		btnCancelar.setBorder(null);
 		btnCancelar.setBackground(new Color(176, 224, 230));
@@ -131,6 +132,7 @@ public class GuiModalModificarAlumno extends JDialog implements InterfazGui{
 
 		// Inicializa la lista y la agrega al viewport del scrollpane
 		list = new JList<AlumnoPojo>();
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(list);
 
 		// Modelo asignado a la lista
@@ -182,8 +184,9 @@ public class GuiModalModificarAlumno extends JDialog implements InterfazGui{
 	// Método que almacena y retorna la selección del JList en un objeto de tipo
 	// AlumnoPojo.
 	public AlumnoPojo getDatos() {
-		AlumnoPojo alumnoBorrar = modelo.getElementAt(list.getSelectedIndex());
+		
+		AlumnoPojo alumnoBorrar = list.getSelectedValue();
 
 		return alumnoBorrar;
-	}
+	}	
 }

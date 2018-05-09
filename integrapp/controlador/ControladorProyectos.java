@@ -65,10 +65,13 @@ public class ControladorProyectos implements ActionListener {
 				mainGui.setPanel(panelPrincipal);
 				
 			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				JOptionPane.showMessageDialog(panelAltaProyecto, "No se ha encontrado la imagen seleccionada");
+			
 			} catch (NumberFormatException e2) {
 				JOptionPane.showMessageDialog(panelAltaProyecto, "Debe introducir números en el formato adecuado");
+			
+			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(panelAltaProyecto, "Debe seleccionar al menos un alumno");
 			}
 		
 		//Detecta el evento de hacer click para ver los detalles de un proyecto seleccionado
@@ -89,8 +92,15 @@ public class ControladorProyectos implements ActionListener {
 		
 		//Detecta el evento de hacer click para confirmar la eliminación de un Proyecto
 		} else if (e.getActionCommand().equals("eliminarProyecto")) {
-			new PersistenciaProyectos().eliminarProyecto(panelBajaProyecto.getDatos());
-			panelBajaProyecto.mostrar(new PersistenciaProyectos().listadoProyectosDb());
+			
+			try {
+				new PersistenciaProyectos().eliminarProyecto(panelBajaProyecto.getDatos());
+				panelBajaProyecto.mostrar(new PersistenciaProyectos().listadoProyectosDb());
+			
+			} catch (NullPointerException e1) {
+				JOptionPane.showMessageDialog(panelBajaProyecto, "Debe seleccionar un elemento de la lista");
+			}
+			
 		
 		//Detecta el evento de hacer click en el Submenu Modificar Proyectos
 		} else if (e.getActionCommand().equals("submenuModificarProyectos")) {
@@ -98,19 +108,27 @@ public class ControladorProyectos implements ActionListener {
 		
 		//Detecta el evento de hacer click para confirmar la selección del Proyecto a modificar
 		} else if (e.getActionCommand().equals("modalModificarProyecto")) {
-			mainGui.setPanel(panelModificarProyecto);
-			panelModificarProyecto.cargarCiclos(new PersistenciaCiclos().listadoCiclosBd());
-			panelModificarProyecto.mostrarProyecto(modalModificarProyecto.getDatos());
-			panelModificarProyecto.alumnosQueNoParticipan(new PersistenciaAlumnos().listaAlumnosBd(),
-					new PersistenciaAlumnos().consultaAlumnosDeProyecto(panelModificarProyecto.getIdProyecto()));
 			
-			panelModificarProyecto.cargarModelo(new PersistenciaAlumnos().consultaAlumnosDeProyecto(panelModificarProyecto.getIdProyecto()));
-			modalModificarProyecto.setVisible(false);
+			try {
+				panelModificarProyecto.mostrarProyecto(modalModificarProyecto.getDatos());
+				mainGui.setPanel(panelModificarProyecto);
+				panelModificarProyecto.cargarCiclos(new PersistenciaCiclos().listadoCiclosBd());
+				panelModificarProyecto.alumnosQueNoParticipan(new PersistenciaAlumnos().listaAlumnosBd(),
+						new PersistenciaAlumnos().consultaAlumnosDeProyecto(panelModificarProyecto.getIdProyecto()));
+				
+				panelModificarProyecto.cargarModelo(new PersistenciaAlumnos().consultaAlumnosDeProyecto(panelModificarProyecto.getIdProyecto()));
+				modalModificarProyecto.setVisible(false);
+			
+			} catch (NullPointerException e1) {
+				JOptionPane.showMessageDialog(panelModificarProyecto, "Debe seleccionar un elemento de la lista");
+			}
+			
 		
 		//Detecta el evento de confirmar definitivamente la información que modifica el proyecto.
 		} else if (e.getActionCommand().equals("modificarProyecto")) {
 			try {
 				new PersistenciaProyectos().modificarProyecto(panelModificarProyecto.getDatos());
+				mainGui.setPanel(panelPrincipal);
 			} catch (NumberFormatException | FileNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
