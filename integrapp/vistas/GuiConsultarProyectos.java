@@ -228,7 +228,7 @@ public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 		btnDetalles.addActionListener(control);
 	}
 	
-	public String getDatos() throws NumberFormatException {
+	public String getDatos() throws Exception {
 		int anyo = 0;
 		int idProyecto = 0;
 		int expediente = 0;
@@ -243,7 +243,9 @@ public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 			
 		} else if (comboBoxFiltro.getSelectedIndex() == 2) {
 			nombre = txtBuscar.getText();
-			return "SELECT * FROM PROYECTOS WHERE NOMBRE LIKE '%" + nombre + "%'"; 
+			if (nombre.equals("")) throw new Exception();
+			
+			return "SELECT * FROM PROYECTOS WHERE NOMBRE LIKE '%" + nombre + "%' GROUP BY PROYECTOS.NOMBRE"; 
 		
 		} else if (comboBoxFiltro.getSelectedIndex() == 3) {
 			anyo = Integer.parseInt(txtBuscar.getText());
@@ -254,15 +256,19 @@ public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 		
 		} else if (comboBoxFiltro.getSelectedIndex() == 5) {
 			nombre = txtBuscar.getText();
+			if (nombre.equals("")) throw new Exception();
+			
 			return "SELECT * FROM PROYECTOS, ALUMNOS, REALIZAN"
 					+ " WHERE REALIZAN.ALUMNO = ALUMNOS.ID_A"
-					+ " AND REALIZAN.PROYECTO = PROYECTOS.ID_P AND ALUMNOS.NOMBRE LIKE '%" + nombre + "%'";
+					+ " AND REALIZAN.PROYECTO = PROYECTOS.ID_P AND ALUMNOS.NOMBRE LIKE '%" + nombre + "%' GROUP BY PROYECTOS.NOMBRE";
 		
 		} else if (comboBoxFiltro.getSelectedIndex() == 6) {
 			nombre = txtBuscar.getText();
+			if (nombre.equals("")) throw new Exception();
+			
 			return "SELECT * FROM PROYECTOS, ALUMNOS, REALIZAN WHERE"
 					+ " REALIZAN.ALUMNO = ALUMNOS.ID_A AND REALIZAN.PROYECTO = PROYECTOS.ID_P"
-					+ " AND ALUMNOS.APELLIDO1 LIKE '%" + nombre + "%'";
+					+ " AND ALUMNOS.APELLIDO1 LIKE '%" + nombre + "%' GROUP BY PROYECTOS.NOMBRE";
 			
 		} else {
 			expediente = Integer.parseInt(txtBuscar.getText());

@@ -46,8 +46,9 @@ public class ControladorProyectos implements ActionListener {
 					panelConsultarProyectos.cargarModeloProyectos(new PersistenciaProyectos().consultaProyectos(panelConsultarProyectos.getDatos()));
 					
 				} catch (NumberFormatException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(panelAltaProyecto, "Debe introducir números en el formato adecuado");
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(panelAltaProyecto, "Debe rellenar el campo para realizar la búsqueda");
 				}
 				
 		//Detecta el evento de hacer click en el Submenu Alta Proyectos
@@ -70,7 +71,7 @@ public class ControladorProyectos implements ActionListener {
 			} catch (NumberFormatException e2) {
 				JOptionPane.showMessageDialog(panelAltaProyecto, "Debe introducir números en el formato adecuado");
 			
-			} catch (Exception e1) {
+			} catch (Exception e3) {
 				JOptionPane.showMessageDialog(panelAltaProyecto, "Debe seleccionar al menos un alumno");
 			}
 		
@@ -129,9 +130,15 @@ public class ControladorProyectos implements ActionListener {
 			try {
 				new PersistenciaProyectos().modificarProyecto(panelModificarProyecto.getDatos());
 				mainGui.setPanel(panelPrincipal);
-			} catch (NumberFormatException | FileNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			
+			} catch (FileNotFoundException e1) {
+				JOptionPane.showMessageDialog(panelModificarProyecto, "No se ha encontrado la imagen seleccionada");
+				
+			} catch (NumberFormatException e2) {
+				JOptionPane.showMessageDialog(panelModificarProyecto, "Debe introducir números en el formato adecuado");
+
+			} catch (Exception e3) {
+				JOptionPane.showMessageDialog(panelModificarProyecto, "El proyecto debe contener al menos un alumno");
 			}
 		}
 	}

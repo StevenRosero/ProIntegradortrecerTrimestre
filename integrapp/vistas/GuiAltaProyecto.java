@@ -4,9 +4,6 @@ import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.GraphicsEnvironment;
-
 import controlador.ControladorOtrosEventos;
 import controlador.ControladorProyectos;
 import modelo.AlumnoPojo;
@@ -16,11 +13,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.ComponentOrientation;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.awt.event.MouseAdapter;
@@ -52,7 +46,7 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 	private JComboBox<String> comboBoxCurso;
 	private DefaultComboBoxModel<CicloFormativoPojo> modeloCiclos;
 	private JTextField txtNota;
-	private byte[] fileContents;
+	private byte[] imagenConvertida;
 	private Font font;
 	
 	public GuiAltaProyecto() {
@@ -183,6 +177,8 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		
 		//Campo Descripcion
 		textAreaDescripcion = new JTextArea();
+		textAreaDescripcion.setWrapStyleWord(true);
+		textAreaDescripcion.setLineWrap(true);
 		scrollPaneDescripcion.setViewportView(textAreaDescripcion);
 		
 		//Evento Pulsar Botón Subir Imagen Proyecto
@@ -317,8 +313,7 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		int valorRetorno = subirImagen.showOpenDialog(this);
 		if (valorRetorno == JFileChooser.APPROVE_OPTION) {
 			File archivo = new File(subirImagen.getSelectedFile().getPath());
-			FileInputStream arch2 = new FileInputStream(archivo);
-			fileContents = Files.readAllBytes(archivo.toPath());
+			imagenConvertida = Files.readAllBytes(archivo.toPath());
 		}	
 	}
 	
@@ -350,8 +345,8 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		
 		if (listaIntegrantes.isSelectionEmpty()) throw new Exception();
 		
-		ProyectoPojo proyecto = new ProyectoPojo(nombre, descripcion, url, anyo, nota, ciclo, curso, grupo, listaAlumnos, fileContents);
-		fileContents = null;
+		ProyectoPojo proyecto = new ProyectoPojo(nombre, descripcion, url, anyo, nota, ciclo, curso, grupo, listaAlumnos, imagenConvertida);
+		imagenConvertida = null;
 		
 		return proyecto;
 	}
@@ -377,7 +372,7 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		txtNota.setText("");
 		txtUrl.setText("");
 		textAreaDescripcion.setText("");
-		fileContents = null;
+		imagenConvertida = null;
 		comboBoxCiclo.setSelectedIndex(-1);
 		comboBoxCurso.setSelectedIndex(-1);
 		comboBoxGrupo.setSelectedIndex(-1);	

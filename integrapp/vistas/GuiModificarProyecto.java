@@ -55,7 +55,7 @@ public class GuiModificarProyecto extends JPanel implements InterfazGui {
 	private JComboBox<String> comboBoxCurso;
 	private DefaultComboBoxModel<CicloFormativoPojo> modeloCiclos;
 	private JTextField txtNota;
-	private byte[] fileContents;
+	private byte[] imagenConvertida;
 	private JScrollPane scrollPane;
 	private JLabel lblEliminar;
 	private JList<AlumnoPojo> listAgregar;
@@ -347,22 +347,34 @@ public class GuiModificarProyecto extends JPanel implements InterfazGui {
 		if (valorRetorno == JFileChooser.APPROVE_OPTION) {
 			File archivo = new File(subirImagen.getSelectedFile().getPath());
 			FileInputStream arch2 = new FileInputStream(archivo);
-			fileContents = Files.readAllBytes(archivo.toPath());
+			imagenConvertida = Files.readAllBytes(archivo.toPath());
 		}	
 	}
 	
 	
-	public ProyectoPojo getDatos() throws FileNotFoundException, NumberFormatException {
+	public ProyectoPojo getDatos() throws Exception {
 		ArrayList<AlumnoPojo> listaAlumnos = new ArrayList<AlumnoPojo>();
 		ArrayList<AlumnoPojo> listAlumnosEliminar = new ArrayList<AlumnoPojo>();
 
 		String nombre = txtNombreProyecto.getText();
 		String descripcion = textAreaDescripcion.getText();
+		
 		String url = txtUrl.getText();
+		
+		if (txtUrl.getText().equals("")) {
+			url = "Pagina Web No Disponible";
+		}
+		
 		int anyo = (int) spinnerAnyo.getValue();
 		double nota = Double.parseDouble(txtNota.getText());
 		CicloFormativoPojo ciclo = comboBoxCiclo.getItemAt(comboBoxCiclo.getSelectedIndex());
+		
 		String grupo =  comboBoxGrupo.getItemAt(comboBoxGrupo.getSelectedIndex());
+		
+		if (grupo == null) {
+			grupo = "No Disponible";
+		}
+		
 		int curso = Integer.parseInt(comboBoxCurso.getItemAt(comboBoxCurso.getSelectedIndex()));
 		
 		for (AlumnoPojo aux : listEliminar.getSelectedValuesList()) {
@@ -375,8 +387,10 @@ public class GuiModificarProyecto extends JPanel implements InterfazGui {
 			System.out.println(aux);
 		}
 		
-		ProyectoPojo proyecto = new ProyectoPojo(idProyecto, nombre, descripcion, url, anyo, nota, ciclo, curso, grupo, listaAlumnos, fileContents, listAlumnosEliminar);
-		fileContents = null;
+		if (listaAlumnos.isEmpty()) throw new Exception();
+		
+		ProyectoPojo proyecto = new ProyectoPojo(idProyecto, nombre, descripcion, url, anyo, nota, ciclo, curso, grupo, listaAlumnos, imagenConvertida, listAlumnosEliminar);
+		imagenConvertida = null;
 		
 		return proyecto;
 	}
@@ -420,7 +434,7 @@ public class GuiModificarProyecto extends JPanel implements InterfazGui {
 	
 	public void mostrarProyecto(ProyectoPojo proyecto) {
 		idProyecto = proyecto.getIdProyecto();
-		fileContents = proyecto.getBlobImagen();
+		imagenConvertida = proyecto.getBlobImagen();
 		
 		int indexCurso;
 		int indexGrupo;
