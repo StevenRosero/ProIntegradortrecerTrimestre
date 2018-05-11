@@ -346,7 +346,6 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		
 		for (AlumnoPojo aux : listaIntegrantes.getSelectedValuesList()) {
 			listaAlumnos.add(aux);
-			System.out.println(aux);
 		}
 		
 		if (listaIntegrantes.isSelectionEmpty()) throw new Exception();
