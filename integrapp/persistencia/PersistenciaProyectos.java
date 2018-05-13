@@ -2,11 +2,10 @@ package persistencia;
 
 import java.sql.*;
 import java.util.ArrayList;
-
 import javax.swing.JOptionPane;
-
 import modelo.CicloFormativoPojo;
 import modelo.ProyectoPojo;
+import vistas.GuiConsultarProyectos;
 
 public class PersistenciaProyectos {
 	private ConexionBBDD conexion;
@@ -19,10 +18,17 @@ public class PersistenciaProyectos {
 		Connection con = null;
 		PreparedStatement ps = null;
 		Statement st = null;
-		String query = "INSERT INTO PROYECTOS(NOMBRE, DESCRIPCION, URL, ANYO, NOTA, CURSO, GRUPO, IMAGEN, CICLO) "
-				+ "VALUES(?,?,?,?,?,?,?,?,?)";
-		
-		
+
+		String query = "INSERT INTO " + TableContracts.ProyectosContracts.TABLA 
+				+ "(" + TableContracts.ProyectosContracts.NOMBRE_RELATIVO + ", " 
+				+ TableContracts.ProyectosContracts.DESCRIPCION_RELATIVO + ", " 
+				+ TableContracts.ProyectosContracts.URL_RELATIVO + ", "
+				+ TableContracts.ProyectosContracts.ANYO_RELATIVO + ", " 
+				+ TableContracts.ProyectosContracts.NOTA_RELATIVO + ", " 
+				+ TableContracts.ProyectosContracts.CURSO_RELATIVO + ", " 
+				+ TableContracts.ProyectosContracts.GRUPO_RELATIVO + ", " 
+				+ TableContracts.ProyectosContracts.IMAGEN_RELATIVO + ", " 
+				+ TableContracts.ProyectosContracts.CICLO_RELATIVO + ") VALUES (?,?,?,?,?,?,?,?,?)";
 		try {
 			//Invoca el método que permite conectar a la base de datos
 			con = conexion.conectarBd();
@@ -43,7 +49,11 @@ public class PersistenciaProyectos {
 			ps.executeUpdate();
 			
 			//Ejecuta la sentencia para agregar los alumnos del proyecto en la tabla Realizan
-			query = "SELECT MAX(ID_P) FROM PROYECTOS"; 
+			//query = "SELECT MAX(ID_P) FROM PROYECTOS"; 
+			
+			query = "SELECT MAX (" + TableContracts.ProyectosContracts.IDENTIFICADOR_RELATIVO + ") FROM " 
+			+ TableContracts.ProyectosContracts.TABLA;
+			
 			int id = 0;
 			st = con.createStatement();
 			ResultSet rs = st.executeQuery(query);
@@ -55,7 +65,8 @@ public class PersistenciaProyectos {
 		
 			//Itera la lista de Alumnos y los va agregando a la tabla realizan junto al identificador del proyecto
 			ps.close();
-			query = "INSERT INTO REALIZAN VALUES(?,?)";
+			
+			query = "INSERT INTO " + TableContracts.RealizanContracts.TABLA + " VALUES(?,?)";
 			
 			for (int i = 0; i < proyecto.getListaAlumnos().size(); i++) {
 				ps=con.prepareStatement(query);
@@ -67,6 +78,7 @@ public class PersistenciaProyectos {
 			JOptionPane.showMessageDialog(null, "La Operación se ha realizado con éxito");
 			  
 			} catch(SQLException e) { 
+				System.out.println(e.getMessage());
 				JOptionPane.showMessageDialog(null, "Solo puede dejar en blanco la URL, GRUPO e IMAGEN"); 
 			
 			} catch (ClassNotFoundException e) {
@@ -96,7 +108,9 @@ public class PersistenciaProyectos {
 	public void eliminarProyecto(ProyectoPojo proyecto) {
 		Connection con = null;
 		PreparedStatement ps = null;
-		String query = "DELETE FROM REALIZAN WHERE PROYECTO = " + proyecto.getIdProyecto() ;
+		
+		String query =  "DELETE FROM " + TableContracts.RealizanContracts.TABLA + " WHERE " 
+		+ TableContracts.RealizanContracts.PROYECTO_RELATIVO + " = " + proyecto.getIdProyecto();
 		
 		try {
 			con = conexion.conectarBd();
@@ -104,7 +118,9 @@ public class PersistenciaProyectos {
 			ps.executeUpdate();
 			ps.close();
 			
-			query = "DELETE FROM PROYECTOS WHERE ID_P = " + proyecto.getIdProyecto() ;
+			query =  "DELETE FROM " + TableContracts.ProyectosContracts.TABLA +  " WHERE " 
+			+ TableContracts.ProyectosContracts.IDENTIFICADOR_RELATIVO + " = " + proyecto.getIdProyecto();
+			
 			ps = con.prepareStatement(query);
 			ps.executeUpdate();
 			
@@ -122,9 +138,20 @@ public class PersistenciaProyectos {
 	public void modificarProyecto(ProyectoPojo proyecto) {
 		Connection con = null;
 		PreparedStatement ps = null;
-		String query = "UPDATE PROYECTOS SET NOMBRE = ?, DESCRIPCION = ?, URL = ?, ANYO = ?, NOTA = ?, "
-				+ "CURSO = ?, GRUPO = ?, IMAGEN = ?, CICLO = ? WHERE ID_P = ?";
 		
+		String query =  "UPDATE " + TableContracts.ProyectosContracts.TABLA + " SET " 
+		+ TableContracts.ProyectosContracts.NOMBRE_RELATIVO + " = ?, " 
+		+ TableContracts.ProyectosContracts.DESCRIPCION_RELATIVO + " = ?, " 
+		+ TableContracts.ProyectosContracts.URL_RELATIVO + " = ?, " 
+		+ TableContracts.ProyectosContracts.ANYO_RELATIVO + " = ?, " 
+		+ TableContracts.ProyectosContracts.NOTA_RELATIVO + " = ?, " 
+		+ TableContracts.ProyectosContracts.CURSO_RELATIVO + " = ?, " 
+		+ TableContracts.ProyectosContracts.GRUPO_RELATIVO + " = ?, " 
+		+ TableContracts.ProyectosContracts.IMAGEN_RELATIVO + " = ?, " 
+		+ TableContracts.ProyectosContracts.CICLO_RELATIVO + " = ? " 
+		+ " WHERE " + TableContracts.ProyectosContracts.IDENTIFICADOR_RELATIVO + " = ?";
+		
+		System.out.println(proyecto);
 		try {
 			con = conexion.conectarBd();
 			ps = con.prepareStatement(query);
@@ -142,8 +169,8 @@ public class PersistenciaProyectos {
 			ps.executeUpdate();
 			ps.close();
 			
-			//Itera la lista de Alumnos y los va agregando a la tabla realizan junto al identificador del proyecto
-			query = "INSERT INTO REALIZAN VALUES(?,?)";
+			query = "INSERT INTO " + TableContracts.RealizanContracts.TABLA + " VALUES(?,?)";
+			
 			
 			for (int i = 0; i < proyecto.getListaAlumnos().size(); i++) {
 				ps=con.prepareStatement(query);
@@ -154,7 +181,10 @@ public class PersistenciaProyectos {
 			}
 			
 			//Itera la lista de Alumnos y los elimina la tabla realizan junto al identificador del proyecto
-			query = "DELETE FROM REALIZAN WHERE ALUMNO = ? AND PROYECTO = ?";
+			
+			query = "DELETE FROM " + TableContracts.RealizanContracts.TABLA + " WHERE " 
+			+ TableContracts.RealizanContracts.ALUMNO_RELATIVO + " = ? AND " 
+			+ TableContracts.RealizanContracts.PROYECTO_RELATIVO + " = ?";
 			
 			for (int i = 0; i < proyecto.getListAlumnosEliminar().size(); i++) {
 				ps=con.prepareStatement(query);
@@ -179,7 +209,18 @@ public class PersistenciaProyectos {
 		ProyectoPojo proyecto = null;
 		Connection con = null;
 		Statement st = null;
-		String query = "SELECT ID_P, NOMBRE, DESCRIPCION, URL, ANYO, NOTA, CURSO, GRUPO, IMAGEN, CICLO FROM PROYECTOS";
+		
+		String query = "SELECT " + TableContracts.ProyectosContracts.IDENTIFICADOR_RELATIVO + ", " 
+		+ TableContracts.ProyectosContracts.NOMBRE_RELATIVO + ", " 
+		+ TableContracts.ProyectosContracts.DESCRIPCION_RELATIVO + ", " 
+		+ TableContracts.ProyectosContracts.URL_RELATIVO + ", " 
+		+ TableContracts.ProyectosContracts.ANYO_RELATIVO + ", " 
+		+ TableContracts.ProyectosContracts.NOTA_RELATIVO + ", "
+		+ TableContracts.ProyectosContracts.CURSO_RELATIVO + ", " 
+		+ TableContracts.ProyectosContracts.GRUPO_RELATIVO + ", " 
+		+ TableContracts.ProyectosContracts.IMAGEN_RELATIVO + ", " 
+		+ TableContracts.ProyectosContracts.CICLO_RELATIVO 
+		+ " FROM " + TableContracts.ProyectosContracts.TABLA;
 		
 		try {
 			con = conexion.conectarBd();
@@ -204,11 +245,12 @@ public class PersistenciaProyectos {
 		return listaProyectos;
 	}
 	
-	public ArrayList<ProyectoPojo> consultaProyectos(String query) {
+	public ArrayList<ProyectoPojo> consultaProyectos(String filtro, String valorConsignadoUsuario) {
 		ArrayList<ProyectoPojo> listaProyectos = new ArrayList<ProyectoPojo>();
 		ProyectoPojo proyecto = null;
 		Connection con = null;
 		Statement st = null;
+		String query = comprobarFiltro(filtro, valorConsignadoUsuario);
 		
 		try {
 			con = conexion.conectarBd();
@@ -233,6 +275,89 @@ public class PersistenciaProyectos {
 		}
 		return listaProyectos;
 	}
+	
+	private String comprobarFiltro(String filtro, String valorConsignadoUsuario) {
+		String query = "";
+		
+		//Evalua el filtro elegido por el usuario comparándolo con el valor de las constantes del comboBox pertenecientes a la vistaConsultarProyectos
+		if (filtro.equals(GuiConsultarProyectos.getFiltrarPorIdentificadorDeProyecto())) {
+			query =  consultaPorIdentificadorProyecto(valorConsignadoUsuario);
+		
+		} else if (filtro.equals(GuiConsultarProyectos.getFiltrarPorNombreDeProyecto())) {
+			query = consultaPorNombreProyecto(valorConsignadoUsuario);
+		
+		} else if (filtro.equals(GuiConsultarProyectos.getFiltrarPorAñoDelProyecto())) {
+			query = consultaPorAnyoProyecto(valorConsignadoUsuario);
+					
+		} else if (filtro.equals(GuiConsultarProyectos.getFiltrarPorCicloDelProyecto())) {
+			query = consultaPorCicloProyecto(valorConsignadoUsuario);
+				
+		} else if (filtro.equals(GuiConsultarProyectos.getFiltrarPorNombreDelAlumno())) {
+			query = consultaPorNombreAlumno(valorConsignadoUsuario); 
+		
+		} else if (filtro.equals(GuiConsultarProyectos.getFiltrarPorApellidoDelAlumno())) {
+			query = consultaPorApellidoAlumno(valorConsignadoUsuario); 
+		
+		} else if (filtro.equals(GuiConsultarProyectos.getFiltrarPorExpedienteDelAlumno())) {
+			query = consultaPorExpedienteAlumno(valorConsignadoUsuario); 
+		
+		} else {
+			query = consultaTodosLosProyectos();
+		}
+		return query;
+	}
+
+	private String consultaTodosLosProyectos() {
+		String query;
+		query = "SELECT * FROM " + TableContracts.ProyectosContracts.TABLA;
+		return query;
+	}
+
+	private String consultaPorIdentificadorProyecto(String valorConsignadoUsuario) {
+		return "SELECT * FROM " + TableContracts.ProyectosContracts.TABLA + " WHERE " 
+				+ TableContracts.ProyectosContracts.IDENTIFICADOR + " = " + valorConsignadoUsuario;
+	}
+
+	private String consultaPorNombreProyecto(String valorConsignadoUsuario) {
+		return "SELECT * FROM " + TableContracts.ProyectosContracts.TABLA + " WHERE " 
+				+ TableContracts.ProyectosContracts.NOMBRE + " LIKE '%" + valorConsignadoUsuario + "%' GROUP BY " 
+				+ TableContracts.ProyectosContracts.NOMBRE;
+	}
+
+	private String consultaPorAnyoProyecto(String valorConsignadoUsuario) {
+		return "SELECT * FROM " + TableContracts.ProyectosContracts.TABLA + " WHERE " 
+				+ TableContracts.ProyectosContracts.ANYO  + " = " + valorConsignadoUsuario;
+	}
+
+	private String consultaPorCicloProyecto(String valorConsignadoUsuario) {
+		return "SELECT * FROM " + TableContracts.ProyectosContracts.TABLA + " WHERE " 
+				+ TableContracts.ProyectosContracts.CICLO  + " = " + valorConsignadoUsuario;
+	}
+
+	private String consultaPorNombreAlumno(String valorConsignadoUsuario) {
+		return "SELECT * FROM " + TableContracts.ProyectosContracts.TABLA + "," + TableContracts.AlumnosContracts.TABLA 
+				+ "," + TableContracts.RealizanContracts.TABLA + " WHERE " + TableContracts.RealizanContracts.ALUMNO 
+				+ " = " + TableContracts.AlumnosContracts.IDENTIFICADOR + " AND " + TableContracts.RealizanContracts.PROYECTO 
+				+ " = " + TableContracts.ProyectosContracts.IDENTIFICADOR + " AND " + TableContracts.AlumnosContracts.NOMBRE 
+				+ " LIKE '%" + valorConsignadoUsuario + "%' GROUP BY " + TableContracts.ProyectosContracts.NOMBRE;
+	}
+
+	private String consultaPorApellidoAlumno(String valorConsignadoUsuario) {
+		return "SELECT * FROM " + TableContracts.ProyectosContracts.TABLA + "," + TableContracts.AlumnosContracts.TABLA 
+				+ "," + TableContracts.RealizanContracts.TABLA + " WHERE " + TableContracts.RealizanContracts.ALUMNO 
+				+ " = " + TableContracts.AlumnosContracts.IDENTIFICADOR + " AND " + TableContracts.RealizanContracts.PROYECTO 
+				+ " = " + TableContracts.ProyectosContracts.IDENTIFICADOR + " AND " + TableContracts.AlumnosContracts.APELLIDO1 
+				+ " LIKE '%" + valorConsignadoUsuario + "%' GROUP BY " + TableContracts.ProyectosContracts.NOMBRE;
+	}
+
+	private String consultaPorExpedienteAlumno(String valorConsignadoUsuario) {
+		return "SELECT * FROM " + TableContracts.ProyectosContracts.TABLA + "," + TableContracts.AlumnosContracts.TABLA 
+				+ "," + TableContracts.RealizanContracts.TABLA + " WHERE " + TableContracts.RealizanContracts.ALUMNO 
+				+ " = " + TableContracts.AlumnosContracts.IDENTIFICADOR + " AND " + TableContracts.RealizanContracts.PROYECTO 
+				+ " = " + TableContracts.ProyectosContracts.IDENTIFICADOR + " AND " + TableContracts.AlumnosContracts.EXPEDIENTE 
+				+ " = " + valorConsignadoUsuario;
+	}
+	
 	private void desconectarSt(Connection con, Statement st) {
 		try {
 			if (st != null) {

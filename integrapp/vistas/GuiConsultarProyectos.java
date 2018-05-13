@@ -29,13 +29,21 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class GuiConsultarProyectos extends JPanel implements InterfazGui {
+	private static final String FILTRAR_POR_EXPEDIENTE_DEL_ALUMNO = "Filtrar Por Expediente del Alumno";
+	private static final String FILTRAR_POR_APELLIDO_DEL_ALUMNO = "Filtrar Por Apellido del Alumno";
+	private static final String FILTRAR_POR_NOMBRE_DEL_ALUMNO = "Filtrar Por Nombre del Alumno";
+	private static final String FILTRAR_POR_CICLO_DEL_PROYECTO = "Filtrar Por Ciclo del Proyecto";
+	private static final String FILTRAR_POR_AÑO_DEL_PROYECTO = "Filtrar Por A\u00F1o del Proyecto";
+	private static final String FILTRAR_POR_NOMBRE_DE_PROYECTO = "Filtrar Por Nombre de Proyecto";
+	private static final String FILTRAR_POR_IDENTIFICADOR_DE_PROYECTO = "Filtrar Por Identificador de Proyecto";
+	private static final String VER_TODOS = "Ver Todos";
 	private JLayeredPane layeredPaneBackground;
 	private JLabel lblBackground;
 	private JButton btnDetalles;
 	private JTextField txtBuscar;
 	private JLabel lblElegirFiltro;
 	private JLabel lblOpcionFiltro;
-	private JComboBox<CicloFormativoPojo> comboBoxFiltro;
+	private JComboBox<String> comboBoxFiltro;
 	private JButton btnBack;
 	private JLabel lblAltaProyecto;
 	private JList<ProyectoPojo> listaResultados;
@@ -172,7 +180,7 @@ public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 		layeredPaneBackground.add(lblOpcionFiltro);
 		
 		//Combo Box Ciclo
-		comboBoxFiltro = new JComboBox<CicloFormativoPojo>();
+		comboBoxFiltro = new JComboBox<String>();
 		comboBoxFiltro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (comboBoxFiltro.getSelectedIndex() == 0) {
@@ -208,7 +216,7 @@ public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 		comboBoxFiltro.setBorder(new LineBorder(new Color(176, 224, 230), 4));
 		comboBoxFiltro.setBackground(new Color(255, 255, 255));
 		comboBoxFiltro.setBounds(45, 186, 291, 33);
-		comboBoxFiltro.setModel(new DefaultComboBoxModel(new String[] {"Ver Todos", "Filtrar Por Identificador de Proyecto", "Filtrar Por Nombre de Proyecto", "Filtrar Por A\u00F1o del Proyecto", "Filtrar Por Ciclo del Proyecto", "Filtrar Por Nombre del Alumno", "Filtrar Por Apellido del Alumno", "Filtrar Por Expediente del Alumno"}));
+		comboBoxFiltro.setModel(new DefaultComboBoxModel<String>(new String[] {VER_TODOS, FILTRAR_POR_IDENTIFICADOR_DE_PROYECTO, FILTRAR_POR_NOMBRE_DE_PROYECTO, FILTRAR_POR_AÑO_DEL_PROYECTO, FILTRAR_POR_CICLO_DEL_PROYECTO, FILTRAR_POR_NOMBRE_DEL_ALUMNO, FILTRAR_POR_APELLIDO_DEL_ALUMNO, FILTRAR_POR_EXPEDIENTE_DEL_ALUMNO}));
 		layeredPaneBackground.add(comboBoxFiltro);
 		
 		//JLabel Imagen Background
@@ -234,50 +242,48 @@ public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 		int expediente = 0;
 		String nombre = "";
 		
+
 		if (comboBoxFiltro.getSelectedIndex() == 0) {
-			return "SELECT * FROM PROYECTOS";
+			return String.valueOf(0);
 		
 		} else if (comboBoxFiltro.getSelectedIndex() == 1) {
 			idProyecto = Integer.parseInt(txtBuscar.getText());
-			return "SELECT * FROM PROYECTOS WHERE ID_P = " + idProyecto; 
+			return String.valueOf(idProyecto);
 			
 		} else if (comboBoxFiltro.getSelectedIndex() == 2) {
 			nombre = txtBuscar.getText();
 			if (nombre.equals("")) throw new Exception();
 			
-			return "SELECT * FROM PROYECTOS WHERE NOMBRE LIKE '%" + nombre + "%' GROUP BY PROYECTOS.NOMBRE"; 
+			return nombre;
 		
 		} else if (comboBoxFiltro.getSelectedIndex() == 3) {
 			anyo = Integer.parseInt(txtBuscar.getText());
-			return "SELECT * FROM PROYECTOS WHERE ANYO = " + anyo;
+			return String.valueOf(anyo);
 			
 		} else if (comboBoxFiltro.getSelectedIndex() == 4) {
-			return "SELECT * FROM PROYECTOS WHERE CICLO = " + modeloCiclos.getElementAt(comboBoxOpciones.getSelectedIndex()).getIdentificador();
+			return String.valueOf(modeloCiclos.getElementAt(comboBoxOpciones.getSelectedIndex()).getIdentificador());
 		
 		} else if (comboBoxFiltro.getSelectedIndex() == 5) {
 			nombre = txtBuscar.getText();
 			if (nombre.equals("")) throw new Exception();
 			
-			return "SELECT * FROM PROYECTOS, ALUMNOS, REALIZAN"
-					+ " WHERE REALIZAN.ALUMNO = ALUMNOS.ID_A"
-					+ " AND REALIZAN.PROYECTO = PROYECTOS.ID_P AND ALUMNOS.NOMBRE LIKE '%" + nombre + "%' GROUP BY PROYECTOS.NOMBRE";
+			return nombre;
 		
 		} else if (comboBoxFiltro.getSelectedIndex() == 6) {
 			nombre = txtBuscar.getText();
 			if (nombre.equals("")) throw new Exception();
 			
-			return "SELECT * FROM PROYECTOS, ALUMNOS, REALIZAN WHERE"
-					+ " REALIZAN.ALUMNO = ALUMNOS.ID_A AND REALIZAN.PROYECTO = PROYECTOS.ID_P"
-					+ " AND ALUMNOS.APELLIDO1 LIKE '%" + nombre + "%' GROUP BY PROYECTOS.NOMBRE";
+			return nombre;
 			
 		} else {
 			expediente = Integer.parseInt(txtBuscar.getText());
-			return "SELECT * FROM PROYECTOS, ALUMNOS, REALIZAN"
-					+ " WHERE REALIZAN.ALUMNO = ALUMNOS.ID_A AND REALIZAN.PROYECTO = PROYECTOS.ID_P "
-					+ "AND ALUMNOS.EXPEDIENTE = " + expediente;
+			return String.valueOf(expediente);
 		}
 	}
 	
+	public String getFiltro() {
+		return comboBoxFiltro.getSelectedItem().toString();
+	}
 	
 	public void cargarModeloProyectos(ArrayList<ProyectoPojo> listaProyectos) {
 		modelo.removeAllElements();
@@ -303,5 +309,32 @@ public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 			proyecto = listaResultados.getSelectedValue();
 		}
 		return proyecto;
+	}
+	
+	public static String getFiltrarPorExpedienteDelAlumno() {
+		return FILTRAR_POR_EXPEDIENTE_DEL_ALUMNO;
+	}
+	
+	public static String getFiltrarPorApellidoDelAlumno() {
+		return FILTRAR_POR_APELLIDO_DEL_ALUMNO;
+	}
+	public static String getFiltrarPorNombreDelAlumno() {
+		return FILTRAR_POR_NOMBRE_DEL_ALUMNO;
+	}
+	
+	public static String getFiltrarPorCicloDelProyecto() {
+		return FILTRAR_POR_CICLO_DEL_PROYECTO;
+	}
+	
+	public static String getFiltrarPorAñoDelProyecto() {
+		return FILTRAR_POR_AÑO_DEL_PROYECTO;
+	}
+	
+	public static String getFiltrarPorNombreDeProyecto() {
+		return FILTRAR_POR_NOMBRE_DE_PROYECTO;
+	}
+	
+	public static String getFiltrarPorIdentificadorDeProyecto() {
+		return FILTRAR_POR_IDENTIFICADOR_DE_PROYECTO;
 	}
 }

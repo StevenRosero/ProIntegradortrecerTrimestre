@@ -18,8 +18,11 @@ public class PersistenciaAlumnos {
 	public void agregarAlumnoBd(AlumnoPojo alumno) {
 		Connection con = null;
 		PreparedStatement ps = null;
-		String query = "INSERT INTO ALUMNOS(EXPEDIENTE, NOMBRE, APELLIDO1, APELLIDO2)"
-				+ " VALUES(?,?,?,?)";
+		
+		String query = "INSERT INTO " + TableContracts.AlumnosContracts.TABLA + " " + "("
+				+ TableContracts.AlumnosContracts.EXPEDIENTE_RELATIVO + ", " + TableContracts.AlumnosContracts.NOMBRE_RELATIVO + ", "
+				+ TableContracts.AlumnosContracts.APELLIDO1_RELATIVO + ", " + TableContracts.AlumnosContracts.APELLIDO2_RELATIVO
+				+ ") VALUES (?,?,?,?)";
 		
 		//Prepara la sentencia SQL para insertar Alumno
 		try {
@@ -60,7 +63,11 @@ public class PersistenciaAlumnos {
 		ResultSet rs = null;
 		Statement st = null;
 		ArrayList<Integer> proyectos = new ArrayList<Integer>();
-		String query = "SELECT PROYECTO FROM REALIZAN WHERE ALUMNO = " + alumnoEliminar.getIdAlumno();
+		
+		String query = "SELECT " + TableContracts.RealizanContracts.PROYECTO + " FROM " 
+				+ TableContracts.RealizanContracts.TABLA + " WHERE " + TableContracts.RealizanContracts.ALUMNO 
+				+ " = " + alumnoEliminar.getIdAlumno();
+		
 		int proy = 0;
 		int cont = 0;
 		String titularidadUnica = "";
@@ -84,7 +91,12 @@ public class PersistenciaAlumnos {
 			
 			//Itera el array para ver si algún proyecto tiene menos de 2 participantes.
 			for (int i = 0; i < proyectos.size(); i++) {
-				query = "SELECT COUNT(ALUMNO) FROM REALIZAN WHERE PROYECTO = " + proyectos.get(i);
+				//query = "SELECT COUNT(ALUMNO) FROM REALIZAN WHERE PROYECTO = " + proyectos.get(i);
+				
+				query = "SELECT COUNT (" + TableContracts.RealizanContracts.ALUMNO_RELATIVO + ") FROM " 
+				+ TableContracts.RealizanContracts.TABLA + " WHERE " + TableContracts.RealizanContracts.PROYECTO_RELATIVO 
+				+ " = " + proyectos.get(i);
+				
 				st = con.createStatement();
 				rs = st.executeQuery(query);
 				
@@ -104,7 +116,12 @@ public class PersistenciaAlumnos {
 			
 			//Elimina definitivamente los alumnos si en todos los proyectos hay mas de 1 participante
 			for (int i = 0; i < proyectos.size() && !cancelarOperacion; i++) {
-				query = "DELETE FROM REALIZAN WHERE PROYECTO = ? AND ALUMNO = ?";
+				//query = "DELETE FROM REALIZAN WHERE PROYECTO = ? AND ALUMNO = ?";
+				
+				query = "DELETE FROM " + TableContracts.RealizanContracts.TABLA +  " WHERE " 
+				+ TableContracts.RealizanContracts.PROYECTO_RELATIVO + " = ? AND " 
+				+ TableContracts.RealizanContracts.ALUMNO_RELATIVO + " = ?"; 
+				
 				ps=con.prepareStatement(query);
 				ps.setInt(1, proyectos.get(i));
 				ps.setInt(2, alumnoEliminar.getIdAlumno());
@@ -116,7 +133,9 @@ public class PersistenciaAlumnos {
 			}
 			
 			//Elimina el alumno de la tabla Alumnos si es posible
-			query = "DELETE FROM ALUMNOS WHERE ID_A = ?";
+			query = "DELETE FROM " + TableContracts.AlumnosContracts.TABLA
+					+ " WHERE " + TableContracts.AlumnosContracts.IDENTIFICADOR_RELATIVO + " = ?";
+			
 			ps=con.prepareStatement(query);
 			ps.setInt(1, alumnoEliminar.getIdAlumno());
 			
@@ -142,8 +161,13 @@ public class PersistenciaAlumnos {
 	public void modificarAlumnoBd(AlumnoPojo alumno) {
 		Connection con = null;
 		PreparedStatement ps = null;
-		String query = "UPDATE ALUMNOS SET EXPEDIENTE = ?, NOMBRE = ?,"
-				+ " APELLIDO1 = ?, APELLIDO2 = ? WHERE ID_A = ?";
+		
+		String query = "UPDATE " + TableContracts.AlumnosContracts.TABLA + " SET " 
+		+ TableContracts.AlumnosContracts.EXPEDIENTE_RELATIVO + " = ?, " 
+		+ TableContracts.AlumnosContracts.NOMBRE_RELATIVO + " = ?, " 
+		+ TableContracts.AlumnosContracts.APELLIDO1_RELATIVO + " = ?, " 
+		+ TableContracts.AlumnosContracts.APELLIDO2_RELATIVO + " = ? WHERE " 
+		+ TableContracts.AlumnosContracts.IDENTIFICADOR_RELATIVO + " = ?";
 		
 		//Prepara la sentencia SQL para modificar Alumno
 		try {
@@ -174,7 +198,9 @@ public class PersistenciaAlumnos {
 		Statement st = null;
 		ArrayList<AlumnoPojo> listaAlumnosBaseDatos = new ArrayList<AlumnoPojo>();
 		AlumnoPojo alumno = null;
-		String query = "SELECT * FROM ALUMNOS ORDER BY ID_A";
+		
+		String query = "SELECT * FROM " + TableContracts.AlumnosContracts.TABLA + " ORDER BY " 
+		+ TableContracts.AlumnosContracts.IDENTIFICADOR_RELATIVO;
 		
 		//Prepara la sentencia SQL para almacenar la lista de alumnos de la base de datos
 		try {
@@ -205,9 +231,17 @@ public class PersistenciaAlumnos {
 		Statement st = null;
 		ArrayList<AlumnoPojo> listaAlumnosBaseDatos = new ArrayList<AlumnoPojo>();
 		AlumnoPojo alumno = null;
-		String query = "SELECT ALUMNOS.ID_A, ALUMNOS.EXPEDIENTE, ALUMNOS.NOMBRE, ALUMNOS.APELLIDO1, "
-				+ "ALUMNOS.APELLIDO2 FROM ALUMNOS, REALIZAN, PROYECTOS WHERE  ALUMNOS.ID_A = REALIZAN.ALUMNO "
-				+ "AND PROYECTOS.ID_P = REALIZAN.PROYECTO AND REALIZAN.PROYECTO = " + id;
+		//String query = "SELECT ALUMNOS.ID_A, ALUMNOS.EXPEDIENTE, ALUMNOS.NOMBRE, ALUMNOS.APELLIDO1, "
+			//	+ "ALUMNOS.APELLIDO2 FROM ALUMNOS, REALIZAN, PROYECTOS WHERE  ALUMNOS.ID_A = REALIZAN.ALUMNO "
+				//+ "AND PROYECTOS.ID_P = REALIZAN.PROYECTO AND REALIZAN.PROYECTO = " + id;
+		
+		String query = "SELECT " +  TableContracts.AlumnosContracts.IDENTIFICADOR + ", " 
+		+ TableContracts.AlumnosContracts.EXPEDIENTE + ", " + TableContracts.AlumnosContracts.NOMBRE + ", " 
+		+ TableContracts.AlumnosContracts.APELLIDO1 + ", " + TableContracts.AlumnosContracts.APELLIDO2 + " FROM " 
+		+ TableContracts.AlumnosContracts.TABLA + ", " + TableContracts.RealizanContracts.TABLA + ", " 
+		+ TableContracts.ProyectosContracts.TABLA + " WHERE " + TableContracts.AlumnosContracts.IDENTIFICADOR + " = " 
+		+ TableContracts.RealizanContracts.ALUMNO + " AND " + TableContracts.ProyectosContracts.IDENTIFICADOR + " = " 
+		+ TableContracts.RealizanContracts.PROYECTO + " AND " + TableContracts.RealizanContracts.PROYECTO + " = " + id; 
 		
 		//Prepara la sentencia SQL para consultar los alumnos que corrresponden a un proyecto
 		try {
@@ -236,8 +270,15 @@ public class PersistenciaAlumnos {
 		AlumnoPojo alumno;
 		Connection con = null;
 		Statement st = null;
-		String query = "SELECT ALUMNOS.ID_A, ALUMNOS.EXPEDIENTE, ALUMNOS.NOMBRE, ALUMNOS.APELLIDO1, "
-				+ "ALUMNOS.APELLIDO2 FROM ALUMNOS, REALIZAN WHERE ALUMNOS.ID_A = REALIZAN.ALUMNO AND REALIZAN.PROYECTO = " + idProyecto;
+		//String query = "SELECT ALUMNOS.ID_A, ALUMNOS.EXPEDIENTE, ALUMNOS.NOMBRE, ALUMNOS.APELLIDO1, "
+			//	+ "ALUMNOS.APELLIDO2 FROM ALUMNOS, REALIZAN WHERE ALUMNOS.ID_A = REALIZAN.ALUMNO AND REALIZAN.PROYECTO = " + idProyecto;
+		
+		String query = "SELECT " + TableContracts.AlumnosContracts.IDENTIFICADOR + ", " 
+		+ TableContracts.AlumnosContracts.EXPEDIENTE + ", " + TableContracts.AlumnosContracts.NOMBRE + ", " 
+		+ TableContracts.AlumnosContracts.APELLIDO1 + ", " + TableContracts.AlumnosContracts.APELLIDO2 
+		+ " FROM " + TableContracts.AlumnosContracts.TABLA + ", " + TableContracts.RealizanContracts.TABLA 
+		+ " WHERE " + TableContracts.AlumnosContracts.IDENTIFICADOR + " = " + TableContracts.RealizanContracts.ALUMNO 
+		+ " AND " + TableContracts.RealizanContracts.PROYECTO + " = " + idProyecto; 
 		
 		try {
 			con = conexion.conectarBd();

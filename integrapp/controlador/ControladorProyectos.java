@@ -43,7 +43,7 @@ public class ControladorProyectos implements ActionListener {
 		
 		} else if (e.getActionCommand().equals("btnFiltro")) {
 				try {
-					panelConsultarProyectos.cargarModeloProyectos(new PersistenciaProyectos().consultaProyectos(panelConsultarProyectos.getDatos()));
+					panelConsultarProyectos.cargarModeloProyectos(new PersistenciaProyectos().consultaProyectos(panelConsultarProyectos.getFiltro(), panelConsultarProyectos.getDatos()));
 					
 				} catch (NumberFormatException e1) {
 					JOptionPane.showMessageDialog(panelAltaProyecto, "Debe introducir números en el formato adecuado");
@@ -83,7 +83,9 @@ public class ControladorProyectos implements ActionListener {
 				panelDetalleProyecto.mostrar(panelConsultarProyectos.proyectoSeleccionado());
 	
 			} catch (IOException e1) {
-				e1.printStackTrace();
+				
+			} catch (NullPointerException e2) {
+				
 			}
 		
 		//Detecta el evento de hacer click en el Submenu Baja Proyectos
@@ -138,6 +140,7 @@ public class ControladorProyectos implements ActionListener {
 				JOptionPane.showMessageDialog(panelModificarProyecto, "Debe introducir números en el formato adecuado");
 
 			} catch (Exception e3) {
+				System.out.println(e3.getMessage());
 				JOptionPane.showMessageDialog(panelModificarProyecto, "El proyecto debe contener al menos un alumno");
 			}
 		}

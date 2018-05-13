@@ -378,16 +378,17 @@ public class GuiModificarProyecto extends JPanel implements InterfazGui {
 		int curso = Integer.parseInt(comboBoxCurso.getItemAt(comboBoxCurso.getSelectedIndex()));
 		
 		for (AlumnoPojo aux : listEliminar.getSelectedValuesList()) {
+			
 			listAlumnosEliminar.add(aux);
-			System.out.println(aux);
 		}
 		
 		for (AlumnoPojo aux : listAgregar.getSelectedValuesList()) {
 			listaAlumnos.add(aux);
-			System.out.println(aux);
 		}
 		
-		if (listaAlumnos.isEmpty()) throw new Exception();
+		if ((listaAlumnos.size() + modelo.size() - listAlumnosEliminar.size()) <= 0) {
+			throw new Exception();
+		}
 		
 		ProyectoPojo proyecto = new ProyectoPojo(idProyecto, nombre, descripcion, url, anyo, nota, ciclo, curso, grupo, listaAlumnos, imagenConvertida, listAlumnosEliminar);
 		imagenConvertida = null;
@@ -400,6 +401,7 @@ public class GuiModificarProyecto extends JPanel implements InterfazGui {
 		
 		for (int i = 0; i < listaAlumnos.size(); i++) {
 			modelo.addElement(listaAlumnos.get(i));
+			System.out.println(listaAlumnos.get(i));
 		}
 	}
 	

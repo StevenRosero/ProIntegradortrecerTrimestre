@@ -23,7 +23,10 @@ public class PersistenciaUsuarios {
 		
 		try {
 			con = conexion.conectarBd();
-			String query = "SELECT * FROM USUARIOS WHERE USUARIO = ? AND PASSWORD = ?";
+			
+			String query = "SELECT * FROM " + TableContracts.UsuariosContracts.TABLA + " WHERE " 
+			+ TableContracts.UsuariosContracts.USUARIO + " = ? AND " + TableContracts.UsuariosContracts.PASSWORD + " = ?";
+			
 			ps = con.prepareStatement(query);
 			ps.setString(1, usuario.getUsuario());
 			ps.setString(2, usuario.getContrasenya());

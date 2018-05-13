@@ -15,7 +15,10 @@ public class PersistenciaCiclos {
 	public void agregarCicloBd(CicloFormativoPojo ciclo) {
 		Connection con = null;
 		PreparedStatement ps = null;
-		String query = "INSERT INTO CICLOS(NOMBRE, DESCRIPCION) VALUES(?,?)";
+		
+		String query = "INSERT INTO " + TableContracts.CiclosContracts.TABLA 
+			+ "(" + TableContracts.CiclosContracts.NOMBRE_RELATIVO + ", " 
+			+ TableContracts.CiclosContracts.DESCRIPCION_RELATIVO + ") VALUES(?,?)";
 		
 		//Prepara la sentencia SQL para insertar Alumno
 		try {
@@ -51,7 +54,9 @@ public class PersistenciaCiclos {
 	public void eliminarCicloBd(CicloFormativoPojo ciclo) {
 		Connection con = null;
 		PreparedStatement ps = null;
-		String query = "DELETE FROM CICLOS WHERE ID_C = ?";
+		
+		String query = "DELETE FROM " + TableContracts.CiclosContracts.TABLA + " WHERE " 
+		+ TableContracts.CiclosContracts.IDENTIFICADOR + " = ?";
 		
 		try {
 			con = conexion.conectarBd();
@@ -77,7 +82,10 @@ public class PersistenciaCiclos {
 	public void modificarCicloBd(CicloFormativoPojo ciclo) {
 		Connection con = null;
 		PreparedStatement ps = null;
-		String query = "UPDATE CICLOS SET NOMBRE = ?, DESCRIPCION = ? WHERE ID_C = ?";
+	
+		String query = "UPDATE " + TableContracts.CiclosContracts.TABLA + " SET " 
+		+ TableContracts.CiclosContracts.NOMBRE_RELATIVO + " = ?, " + TableContracts.CiclosContracts.DESCRIPCION_RELATIVO 
+		+ " = ? WHERE " + TableContracts.CiclosContracts.IDENTIFICADOR + " = ?";
 		
 		//Prepara la sentencia SQL para modificar Alumno
 		try {
@@ -115,7 +123,9 @@ public class PersistenciaCiclos {
 		Statement st = null;
 		ArrayList<CicloFormativoPojo> listaCiclosFormativos = new ArrayList<CicloFormativoPojo>();
 		CicloFormativoPojo ciclo = null;
-		String query = "SELECT * FROM CICLOS ORDER BY ID_C";
+		
+		String query = "SELECT * FROM " + TableContracts.CiclosContracts.TABLA + " ORDER BY " 
+		+ TableContracts.CiclosContracts.IDENTIFICADOR;
 		
 		try {
 			con = conexion.conectarBd();
@@ -145,7 +155,9 @@ public class PersistenciaCiclos {
 		Connection con = null;
 		Statement st = null;
 		CicloFormativoPojo ciclo = null;
-		String query = "SELECT * FROM CICLOS WHERE ID_C = " + id;
+		
+		String query = "SELECT * FROM " + TableContracts.CiclosContracts.TABLA + " WHERE " 
+		+ TableContracts.CiclosContracts.IDENTIFICADOR + " = " + id;
 		
 		try {
 			con = conexion.conectarBd();
