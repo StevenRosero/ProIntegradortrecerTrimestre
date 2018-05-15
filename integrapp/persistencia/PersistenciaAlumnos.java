@@ -2,7 +2,6 @@ package persistencia;
 
 import java.sql.*;
 import java.util.ArrayList;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import modelo.AlumnoPojo;
@@ -200,7 +199,7 @@ public class PersistenciaAlumnos {
 		AlumnoPojo alumno = null;
 		
 		String query = "SELECT * FROM " + TableContracts.AlumnosContracts.TABLA + " ORDER BY " 
-		+ TableContracts.AlumnosContracts.IDENTIFICADOR_RELATIVO;
+		+ TableContracts.AlumnosContracts.EXPEDIENTE_RELATIVO;
 		
 		//Prepara la sentencia SQL para almacenar la lista de alumnos de la base de datos
 		try {

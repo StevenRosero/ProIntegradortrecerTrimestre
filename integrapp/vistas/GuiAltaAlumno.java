@@ -4,7 +4,6 @@ import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Color;
 import java.awt.Font;
-
 import controlador.ControladorAlumnos;
 import controlador.ControladorOtrosEventos;
 import modelo.AlumnoPojo;

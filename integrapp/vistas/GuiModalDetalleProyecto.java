@@ -1,45 +1,23 @@
 package vistas;
 
+import javax.swing.*;
+import java.awt.*;
 import javax.imageio.ImageIO;
-import javax.swing.DefaultListModel;
-import javax.swing.JDialog;
-import javax.swing.JList;
 import modelo.AlumnoPojo;
 import modelo.CicloFormativoPojo;
 import modelo.ProyectoPojo;
-import java.awt.BorderLayout;
 import java.util.ArrayList;
-import javax.swing.JScrollPane;
-import javax.swing.UIManager;
-import controlador.ControladorOtrosEventos;
 import controlador.ControladorProyectos;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JButton;
 import javax.swing.border.LineBorder;
-import java.awt.Color;
-import java.awt.Desktop;
-
-import javax.swing.JLabel;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.ImageIcon;
-import java.awt.Font;
-import java.awt.Frame;
-import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-
-import javax.swing.JTextArea;
-import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.Cursor;
 
 public class GuiModalDetalleProyecto extends JDialog implements InterfazGui{
 	private DefaultListModel<AlumnoPojo> modelo;

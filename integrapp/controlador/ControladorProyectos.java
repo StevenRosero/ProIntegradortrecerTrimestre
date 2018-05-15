@@ -39,6 +39,7 @@ public class ControladorProyectos implements ActionListener {
 		//Detecta el evento de hacer click en el Submenu Consultar Proyectos
 		if(e.getActionCommand().equals("consultarProyectos")) {
 				mainGui.setPanel(panelConsultarProyectos);
+				panelConsultarProyectos.reciclar();
 				panelConsultarProyectos.cargarCiclos(new PersistenciaCiclos().listadoCiclosBd());
 		
 		} else if (e.getActionCommand().equals("btnFiltro")) {

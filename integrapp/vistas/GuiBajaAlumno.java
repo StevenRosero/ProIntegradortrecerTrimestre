@@ -1,24 +1,15 @@
 package vistas;
 
-import javax.swing.DefaultListModel;
-import javax.swing.JDialog;
-import javax.swing.JList;
+import javax.swing.*;
 import modelo.AlumnoPojo;
 import java.util.ArrayList;
-import javax.swing.JScrollPane;
-import javax.swing.UIManager;
 import controlador.ControladorAlumnos;
-import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JButton;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
-import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.Toolkit;
-import javax.swing.ListSelectionModel;
 
 public class GuiBajaAlumno extends JDialog implements InterfazGui{
 	private DefaultListModel<AlumnoPojo> modelo;
@@ -74,7 +65,8 @@ public class GuiBajaAlumno extends JDialog implements InterfazGui{
 		btnCancelar.setBorder(null);
 		btnCancelar.setBackground(new Color(176, 224, 230));
 
-		lblNewLabel = new JLabel("Seleccione el alumno que desee eliminar");
+		lblNewLabel = new JLabel("<html><body style='text-align: center'>Seleccione el alumno que desee eliminar. <br>Se muestran por orden de Expediente.</html>");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Avenir LT Std 45 Book", Font.PLAIN, 16));
 
 		lblBajaDeAlumno = new JLabel("BAJA DE ALUMNO");
@@ -82,36 +74,46 @@ public class GuiBajaAlumno extends JDialog implements InterfazGui{
 
 		// Inicializa el Layout del JDialog
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
-		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup().addGap(100)
-						.addComponent(btnEliminarAlumno, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
-						.addComponent(btnCancelar, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE)
-						.addGap(99))
-				.addGroup(
-						groupLayout.createSequentialGroup().addGap(136)
-								.addComponent(lblBajaDeAlumno, GroupLayout.PREFERRED_SIZE, 349,
-										GroupLayout.PREFERRED_SIZE)
-								.addContainerGap(149, Short.MAX_VALUE))
-				.addGroup(Alignment.TRAILING,
-						groupLayout.createSequentialGroup().addContainerGap(31, Short.MAX_VALUE)
-								.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 575, GroupLayout.PREFERRED_SIZE)
-								.addGap(28))
-				.addGroup(Alignment.TRAILING,
-						groupLayout.createSequentialGroup().addContainerGap(185, Short.MAX_VALUE)
-								.addComponent(lblNewLabel).addGap(163))
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup().addContainerGap(281, Short.MAX_VALUE)
-						.addComponent(lblPapelera).addGap(254)));
-		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addGroup(groupLayout
-				.createSequentialGroup().addGap(27)
-				.addComponent(lblBajaDeAlumno, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-				.addPreferredGap(ComponentPlacement.RELATED).addComponent(lblPapelera).addGap(31)
-				.addComponent(lblNewLabel).addGap(18)
-				.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 227, GroupLayout.PREFERRED_SIZE).addGap(38)
-				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(100)
+					.addComponent(btnEliminarAlumno, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
+					.addComponent(btnCancelar, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE)
+					.addGap(99))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(136)
+					.addComponent(lblBajaDeAlumno, GroupLayout.PREFERRED_SIZE, 349, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(149, Short.MAX_VALUE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap(281, Short.MAX_VALUE)
+					.addComponent(lblPapelera)
+					.addGap(254))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap(31, Short.MAX_VALUE)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(lblNewLabel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(scrollPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 575, Short.MAX_VALUE))
+					.addGap(28))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(27)
+					.addComponent(lblBajaDeAlumno, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblPapelera)
+					.addGap(18)
+					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
+					.addGap(4)
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 227, GroupLayout.PREFERRED_SIZE)
+					.addGap(38)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(btnEliminarAlumno, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnCancelar, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE))
-				.addGap(37)));
+					.addGap(37))
+		);
 
 		// Inicializa el modelo de la lista
 		modelo = new DefaultListModel<AlumnoPojo>();

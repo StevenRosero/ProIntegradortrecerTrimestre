@@ -49,7 +49,6 @@ public class PersistenciaProyectos {
 			ps.executeUpdate();
 			
 			//Ejecuta la sentencia para agregar los alumnos del proyecto en la tabla Realizan
-			//query = "SELECT MAX(ID_P) FROM PROYECTOS"; 
 			
 			query = "SELECT MAX (" + TableContracts.ProyectosContracts.IDENTIFICADOR_RELATIVO + ") FROM " 
 			+ TableContracts.ProyectosContracts.TABLA;
@@ -220,7 +219,8 @@ public class PersistenciaProyectos {
 		+ TableContracts.ProyectosContracts.GRUPO_RELATIVO + ", " 
 		+ TableContracts.ProyectosContracts.IMAGEN_RELATIVO + ", " 
 		+ TableContracts.ProyectosContracts.CICLO_RELATIVO 
-		+ " FROM " + TableContracts.ProyectosContracts.TABLA;
+		+ " FROM " + TableContracts.ProyectosContracts.TABLA + " ORDER BY " 
+		+ TableContracts.ProyectosContracts.NOMBRE_RELATIVO;
 		
 		try {
 			con = conexion.conectarBd();
@@ -309,7 +309,8 @@ public class PersistenciaProyectos {
 
 	private String consultaTodosLosProyectos() {
 		String query;
-		query = "SELECT * FROM " + TableContracts.ProyectosContracts.TABLA;
+		query = "SELECT * FROM " + TableContracts.ProyectosContracts.TABLA
+				+ " ORDER BY " + TableContracts.ProyectosContracts.NOMBRE_RELATIVO;;
 		return query;
 	}
 
@@ -320,7 +321,7 @@ public class PersistenciaProyectos {
 
 	private String consultaPorNombreProyecto(String valorConsignadoUsuario) {
 		return "SELECT * FROM " + TableContracts.ProyectosContracts.TABLA + " WHERE " 
-				+ TableContracts.ProyectosContracts.NOMBRE + " LIKE '%" + valorConsignadoUsuario + "%' GROUP BY " 
+				+ TableContracts.ProyectosContracts.NOMBRE + " LIKE '%" + valorConsignadoUsuario + "%' ORDER BY " 
 				+ TableContracts.ProyectosContracts.NOMBRE;
 	}
 
@@ -331,7 +332,8 @@ public class PersistenciaProyectos {
 
 	private String consultaPorCicloProyecto(String valorConsignadoUsuario) {
 		return "SELECT * FROM " + TableContracts.ProyectosContracts.TABLA + " WHERE " 
-				+ TableContracts.ProyectosContracts.CICLO  + " = " + valorConsignadoUsuario;
+				+ TableContracts.ProyectosContracts.CICLO  + " = " + valorConsignadoUsuario
+				+ " ORDER BY " + TableContracts.ProyectosContracts.NOMBRE;
 	}
 
 	private String consultaPorNombreAlumno(String valorConsignadoUsuario) {
@@ -383,10 +385,10 @@ public class PersistenciaProyectos {
 				con.close();
 			}
 				
-			} catch (SQLException e) {
+		} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+		}
 	}
 }
 

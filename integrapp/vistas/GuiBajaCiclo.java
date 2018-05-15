@@ -3,24 +3,14 @@ package vistas;
 import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
 import javax.swing.JList;
-import modelo.AlumnoPojo;
 import modelo.CicloFormativoPojo;
-
-import java.awt.BorderLayout;
 import java.util.ArrayList;
-import javax.swing.JScrollPane;
-import javax.swing.UIManager;
-import controlador.ControladorAlumnos;
+import javax.swing.*;
 import controlador.ControladorCiclos;
-
-import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JButton;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
-import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;

@@ -4,14 +4,9 @@ import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Frame;
-
-import controlador.ControladorAlumnos;
 import controlador.ControladorCiclos;
 import controlador.ControladorOtrosEventos;
-import modelo.AlumnoPojo;
 import modelo.CicloFormativoPojo;
-
 import javax.swing.border.LineBorder;
 
 public class GuiModificarCiclo extends JPanel implements InterfazGui {

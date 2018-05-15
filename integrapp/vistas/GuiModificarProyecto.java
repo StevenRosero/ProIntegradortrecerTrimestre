@@ -9,22 +9,14 @@ import controlador.ControladorProyectos;
 import modelo.AlumnoPojo;
 import modelo.CicloFormativoPojo;
 import modelo.ProyectoPojo;
-
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.plaf.ComboBoxUI;
-
 import java.awt.ComponentOrientation;
-import java.awt.event.ActionListener;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.sql.Blob;
 import java.util.ArrayList;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 

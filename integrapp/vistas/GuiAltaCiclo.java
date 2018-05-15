@@ -4,12 +4,9 @@ import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Color;
 import java.awt.Font;
-
 import controlador.ControladorCiclos;
 import controlador.ControladorOtrosEventos;
-import modelo.AlumnoPojo;
 import modelo.CicloFormativoPojo;
-
 import javax.swing.border.LineBorder;
 
 public class GuiAltaCiclo extends JPanel implements InterfazGui {

@@ -1,26 +1,15 @@
 package vistas;
 
-import javax.swing.DefaultListModel;
-import javax.swing.JDialog;
-import javax.swing.JList;
+import javax.swing.*;
 import modelo.AlumnoPojo;
-import java.awt.BorderLayout;
 import java.util.ArrayList;
-import javax.swing.JScrollPane;
-import javax.swing.UIManager;
 import controlador.ControladorAlumnos;
-import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JButton;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
-import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.ImageIcon;
 import java.awt.Font;
-import java.awt.Frame;
 import java.awt.Toolkit;
-import javax.swing.ListSelectionModel;
 
 public class GuiModalModificarAlumno extends JDialog implements InterfazGui{
 	private DefaultListModel<AlumnoPojo> modelo;
@@ -76,7 +65,8 @@ public class GuiModalModificarAlumno extends JDialog implements InterfazGui{
 		btnCancelar.setBorder(null);
 		btnCancelar.setBackground(new Color(176, 224, 230));
 
-		lblModificar = new JLabel("Seleccione el alumno que desee modificar");
+		lblModificar = new JLabel("<html><body style='text-align: center'>Seleccione el alumno que desee eliminar. <br>Se muestran por orden de Expediente.</html>");
+		lblModificar.setHorizontalAlignment(SwingConstants.CENTER);
 		lblModificar.setFont(new Font("Avenir LT Std 45 Book", Font.PLAIN, 16));
 
 		lblModificarAlumno = new JLabel("MODIFICAR ALUMNO");
@@ -93,21 +83,19 @@ public class GuiModalModificarAlumno extends JDialog implements InterfazGui{
 					.addComponent(btnCancelar, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE)
 					.addGap(99))
 				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap(31, Short.MAX_VALUE)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 575, GroupLayout.PREFERRED_SIZE)
-					.addGap(28))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap(185, Short.MAX_VALUE)
-					.addComponent(lblModificar)
-					.addGap(163))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap(281, Short.MAX_VALUE)
+					.addContainerGap(250, Short.MAX_VALUE)
 					.addComponent(lblPapelera)
 					.addGap(254))
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap(124, Short.MAX_VALUE)
 					.addComponent(lblModificarAlumno, GroupLayout.PREFERRED_SIZE, 406, GroupLayout.PREFERRED_SIZE)
 					.addGap(104))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap(31, Short.MAX_VALUE)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblModificar, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(scrollPane, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 575, GroupLayout.PREFERRED_SIZE))
+					.addGap(28))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
@@ -116,9 +104,9 @@ public class GuiModalModificarAlumno extends JDialog implements InterfazGui{
 					.addComponent(lblModificarAlumno, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(lblPapelera)
-					.addGap(31)
-					.addComponent(lblModificar)
 					.addGap(18)
+					.addComponent(lblModificar, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 227, GroupLayout.PREFERRED_SIZE)
 					.addGap(38)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)

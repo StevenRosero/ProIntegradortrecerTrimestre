@@ -6,27 +6,13 @@ import java.awt.Color;
 import java.awt.Font;
 import controlador.ControladorOtrosEventos;
 import controlador.ControladorProyectos;
-import modelo.AlumnoPojo;
 import modelo.CicloFormativoPojo;
 import modelo.ProyectoPojo;
-
 import javax.swing.border.LineBorder;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.plaf.ComboBoxUI;
-
 import java.awt.ComponentOrientation;
 import java.awt.event.ActionListener;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.sql.Blob;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 	private static final String FILTRAR_POR_EXPEDIENTE_DEL_ALUMNO = "Filtrar Por Expediente del Alumno";
@@ -51,6 +37,7 @@ public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 	private DefaultComboBoxModel<CicloFormativoPojo> modeloCiclos;
 	private JComboBox<CicloFormativoPojo> comboBoxOpciones;
 	private JButton btnBuscar;
+	private JLabel lblNumProyectos;
 	
 	public GuiConsultarProyectos() {
 		inicializar();
@@ -116,6 +103,12 @@ public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 		btnBuscar.setActionCommand("btnFiltro");
 		btnBuscar.setBounds(45, 501, 207, 40);
 		layeredPaneBackground.add(btnBuscar);
+		
+		lblNumProyectos = new JLabel("");
+		lblNumProyectos.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNumProyectos.setFont(new Font("Avenir LT Std 45 Book", Font.PLAIN, 14));
+		lblNumProyectos.setBounds(479, 159, 473, 14);
+		layeredPaneBackground.add(lblNumProyectos);
 		
 		JLabel lblIntroduceTexto = new JLabel("Introduzca el texto aqu\u00ED");
 		lblIntroduceTexto.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 16));
@@ -290,7 +283,9 @@ public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 		
 		for (int i = 0; i < listaProyectos.size(); i++) {
 			modelo.addElement(listaProyectos.get(i));
-		}	
+		}
+		
+		lblNumProyectos.setText("Se han encontrado " + modelo.size() + " proyectos.");
 	}
 	
 	public void cargarCiclos(ArrayList<CicloFormativoPojo> listaCiclos) {
@@ -309,6 +304,12 @@ public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 			proyecto = listaResultados.getSelectedValue();
 		}
 		return proyecto;
+	}
+	
+	public void reciclar() {
+		lblNumProyectos.setText("");
+		listaResultados.removeAll();
+		modelo.removeAllElements();
 	}
 	
 	public static String getFiltrarPorExpedienteDelAlumno() {
