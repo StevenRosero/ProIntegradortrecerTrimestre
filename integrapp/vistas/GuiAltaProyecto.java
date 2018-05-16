@@ -47,7 +47,6 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 	private DefaultComboBoxModel<CicloFormativoPojo> modeloCiclos;
 	private JTextField txtNota;
 	private byte[] imagenConvertida;
-	private Font font;
 	
 	public GuiAltaProyecto() {
 		inicializar();
@@ -217,7 +216,7 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		layeredPaneBackground.add(scrollPaneIntegrantes);
 		
 		//Lista Integrantes
-		listaIntegrantes = new JList();
+		listaIntegrantes = new JList<AlumnoPojo>();
 		listaIntegrantes.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 16));
 		listaIntegrantes.setBorder(null);
 		listaIntegrantes.setBackground(new Color(255, 255, 255));
@@ -229,7 +228,7 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		
 		//ComboBox Curso
 		comboBoxCurso = new JComboBox<String>();
-		comboBoxCurso.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6"}));
+		comboBoxCurso.setModel(new DefaultComboBoxModel<String>(new String[] {"1", "2"}));
 		comboBoxCurso.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		comboBoxCurso.setBorder(new LineBorder(new Color(176, 224, 230), 4));
 		comboBoxCurso.setBackground(Color.WHITE);
@@ -265,7 +264,7 @@ public class GuiAltaProyecto extends JPanel implements InterfazGui {
 		
 		//ComboBox Grupo
 		comboBoxGrupo = new JComboBox<String>();
-		comboBoxGrupo.setModel(new DefaultComboBoxModel(new String[] {"M1", "M2", "T1", "T2"}));
+		comboBoxGrupo.setModel(new DefaultComboBoxModel<String>(new String[] {"M1", "M2", "T1", "T2"}));
 		comboBoxGrupo.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		comboBoxGrupo.setBorder(new LineBorder(new Color(176, 224, 230), 4));
 		comboBoxGrupo.setBackground(Color.WHITE);

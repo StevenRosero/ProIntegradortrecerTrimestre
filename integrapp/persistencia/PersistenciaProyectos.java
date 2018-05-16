@@ -245,12 +245,12 @@ public class PersistenciaProyectos {
 		return listaProyectos;
 	}
 	
-	public ArrayList<ProyectoPojo> consultaProyectos(String filtro, String valorConsignadoUsuario) {
+	public ArrayList<ProyectoPojo> consultaProyectos(String filtro, String valorConsignadoUsuario, String curso, String grupo) {
 		ArrayList<ProyectoPojo> listaProyectos = new ArrayList<ProyectoPojo>();
 		ProyectoPojo proyecto = null;
 		Connection con = null;
 		Statement st = null;
-		String query = comprobarFiltro(filtro, valorConsignadoUsuario);
+		String query = comprobarFiltro(filtro, valorConsignadoUsuario, curso, grupo);
 		
 		try {
 			con = conexion.conectarBd();
@@ -276,7 +276,7 @@ public class PersistenciaProyectos {
 		return listaProyectos;
 	}
 	
-	private String comprobarFiltro(String filtro, String valorConsignadoUsuario) {
+	private String comprobarFiltro(String filtro, String valorConsignadoUsuario, String curso, String grupo) {
 		String query = "";
 		
 		//Evalua el filtro elegido por el usuario comparándolo con el valor de las constantes del comboBox pertenecientes a la vistaConsultarProyectos
@@ -290,7 +290,7 @@ public class PersistenciaProyectos {
 			query = consultaPorAnyoProyecto(valorConsignadoUsuario);
 					
 		} else if (filtro.equals(GuiConsultarProyectos.getFiltrarPorCicloDelProyecto())) {
-			query = consultaPorCicloProyecto(valorConsignadoUsuario);
+			query = consultarFiltroCiclo(valorConsignadoUsuario, curso, grupo);
 				
 		} else if (filtro.equals(GuiConsultarProyectos.getFiltrarPorNombreDelAlumno())) {
 			query = consultaPorNombreAlumno(valorConsignadoUsuario); 
@@ -304,6 +304,28 @@ public class PersistenciaProyectos {
 		} else {
 			query = consultaTodosLosProyectos();
 		}
+		return query;
+	}
+
+	private String consultarFiltroCiclo(String valorConsignadoUsuario, String curso, String grupo) {
+		String query = "";
+		
+		if (curso != GuiConsultarProyectos.getVerTodos()) {
+			query = consultaPorCicloProyectoyCurso(valorConsignadoUsuario, curso);
+			
+			if (grupo != GuiConsultarProyectos.getVerTodos()) {
+				query = consultaPorCicloProyectoyCursoyGrupo(valorConsignadoUsuario, curso, grupo);
+			}
+		}
+		
+		if (curso == GuiConsultarProyectos.getVerTodos() && grupo != GuiConsultarProyectos.getVerTodos()) {
+			query = consultaPorCicloProyectoyGrupo(valorConsignadoUsuario, grupo);
+		}
+		
+		if (curso == GuiConsultarProyectos.getVerTodos() && grupo == GuiConsultarProyectos.getVerTodos()) {
+			query = consultaPorCicloProyecto(valorConsignadoUsuario);
+		}
+				
 		return query;
 	}
 
@@ -334,6 +356,28 @@ public class PersistenciaProyectos {
 		return "SELECT * FROM " + TableContracts.ProyectosContracts.TABLA + " WHERE " 
 				+ TableContracts.ProyectosContracts.CICLO  + " = " + valorConsignadoUsuario
 				+ " ORDER BY " + TableContracts.ProyectosContracts.NOMBRE;
+	}
+	
+	private String consultaPorCicloProyectoyCurso(String valorConsignadoUsuario, String curso) {
+		return "SELECT * FROM " + TableContracts.ProyectosContracts.TABLA + " WHERE " 
+				+ TableContracts.ProyectosContracts.CICLO  + " = " + valorConsignadoUsuario 
+				+ " AND " + TableContracts.ProyectosContracts.CURSO + " = " + "'" + curso + "'" 
+				+ " ORDER BY " + TableContracts.ProyectosContracts.NOMBRE;
+	}
+	
+	private String consultaPorCicloProyectoyGrupo(String valorConsignadoUsuario, String grupo) {
+		return "SELECT * FROM " + TableContracts.ProyectosContracts.TABLA + " WHERE " 
+				+ TableContracts.ProyectosContracts.CICLO  + " = " + valorConsignadoUsuario 
+				+ " AND " + TableContracts.ProyectosContracts.GRUPO + " = " + "'" + grupo + "'" 
+				+ " ORDER BY " + TableContracts.ProyectosContracts.NOMBRE;
+	}
+	
+	private String consultaPorCicloProyectoyCursoyGrupo(String valorConsignadoUsuario, String curso, String grupo) {
+		return "SELECT * FROM " + TableContracts.ProyectosContracts.TABLA + " WHERE " 
+				+ TableContracts.ProyectosContracts.CICLO  + " = " + valorConsignadoUsuario 
+				+ " AND (" + TableContracts.ProyectosContracts.CURSO + " = " +  "'" +  curso + "'"
+				+ " AND " + TableContracts.ProyectosContracts.GRUPO + " = " +  "'" + grupo +  "'"
+				+ ") ORDER BY " + TableContracts.ProyectosContracts.NOMBRE;
 	}
 
 	private String consultaPorNombreAlumno(String valorConsignadoUsuario) {

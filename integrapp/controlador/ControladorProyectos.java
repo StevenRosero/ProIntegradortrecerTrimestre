@@ -44,8 +44,8 @@ public class ControladorProyectos implements ActionListener {
 		
 		} else if (e.getActionCommand().equals("btnFiltro")) {
 				try {
-					panelConsultarProyectos.cargarModeloProyectos(new PersistenciaProyectos().consultaProyectos(panelConsultarProyectos.getFiltro(), panelConsultarProyectos.getDatos()));
-					
+					panelConsultarProyectos.cargarModeloProyectos(new PersistenciaProyectos().consultaProyectos(panelConsultarProyectos.getFiltro(), 
+							panelConsultarProyectos.getDatos(), panelConsultarProyectos.getComboCurso(), panelConsultarProyectos.getComboGrupo()));
 				} catch (NumberFormatException e1) {
 					JOptionPane.showMessageDialog(panelAltaProyecto, "Debe introducir números en el formato adecuado");
 				} catch (Exception e2) {

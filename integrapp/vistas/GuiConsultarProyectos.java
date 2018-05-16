@@ -15,6 +15,12 @@ import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
 public class GuiConsultarProyectos extends JPanel implements InterfazGui {
+	private static final String TARDE_2 = "T2";
+	private static final String TARDE_1 = "T1";
+	private static final String MANYANA_2 = "M2";
+	private static final String MANYANA_1 = "M1";
+	private static final String ANYO_2 = "2";
+	private static final String ANYO_1 = "1";
 	private static final String FILTRAR_POR_EXPEDIENTE_DEL_ALUMNO = "Filtrar Por Expediente del Alumno";
 	private static final String FILTRAR_POR_APELLIDO_DEL_ALUMNO = "Filtrar Por Apellido del Alumno";
 	private static final String FILTRAR_POR_NOMBRE_DEL_ALUMNO = "Filtrar Por Nombre del Alumno";
@@ -38,6 +44,10 @@ public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 	private JComboBox<CicloFormativoPojo> comboBoxOpciones;
 	private JButton btnBuscar;
 	private JLabel lblNumProyectos;
+	private JLabel lblCurso;
+	private JLabel lblGrupo;
+	private JComboBox<String> comboCurso;
+	private JComboBox<String> comboGrupo;
 	
 	public GuiConsultarProyectos() {
 		inicializar();
@@ -95,6 +105,37 @@ public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 		lblAltaProyecto.setBounds(104, 56, 459, 34);
 		layeredPaneBackground.add(lblAltaProyecto);
 		
+		//Jlabel Grupo
+		lblGrupo = new JLabel("GRUPO");
+		lblGrupo.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 12));
+		lblGrupo.setBounds(245, 443, 43, 19);
+		layeredPaneBackground.add(lblGrupo);
+		
+		//JLabel Curso
+		lblCurso = new JLabel("CURSO");
+		lblCurso.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 12));
+		lblCurso.setBounds(45, 443, 49, 19);
+		layeredPaneBackground.add(lblCurso);
+		
+		//ComboBox Cursos
+		comboCurso = new JComboBox<String>();
+		comboCurso.setModel(new DefaultComboBoxModel<String>(new String[] {VER_TODOS, ANYO_1, ANYO_2}));
+		comboCurso.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+		comboCurso.setBorder(new LineBorder(new Color(176, 224, 230), 4));
+		comboCurso.setBackground(Color.WHITE);
+		comboCurso.setBounds(100, 431, 99, 31);
+		layeredPaneBackground.add(comboCurso);
+		
+		//ComboBox Grupos
+		comboGrupo = new JComboBox<String>();
+		comboGrupo.setModel(new DefaultComboBoxModel<String>(new String[] {VER_TODOS, MANYANA_1, MANYANA_2, TARDE_1, TARDE_2}));
+		comboGrupo.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+		comboGrupo.setBorder(new LineBorder(new Color(176, 224, 230), 4));
+		comboGrupo.setBackground(Color.WHITE);
+		comboGrupo.setBounds(298, 431, 99, 31);
+		layeredPaneBackground.add(comboGrupo);
+		
+		//JButton buscar con el filtro seleccionado
 		btnBuscar = new JButton("BUSCAR CON ESTE FILTRO");
 		btnBuscar.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnBuscar.setFont(new Font("Avenir LT Std 45 Book", Font.PLAIN, 14));
@@ -104,22 +145,24 @@ public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 		btnBuscar.setBounds(45, 501, 207, 40);
 		layeredPaneBackground.add(btnBuscar);
 		
+		//JLabel Numero de proyectos encontrados
 		lblNumProyectos = new JLabel("");
 		lblNumProyectos.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNumProyectos.setFont(new Font("Avenir LT Std 45 Book", Font.PLAIN, 14));
 		lblNumProyectos.setBounds(479, 159, 473, 14);
 		layeredPaneBackground.add(lblNumProyectos);
 		
+		//JLabel Introduzca el texto en el campo del filtro de búsqueda
 		JLabel lblIntroduceTexto = new JLabel("Introduzca el texto aqu\u00ED");
 		lblIntroduceTexto.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 16));
-		lblIntroduceTexto.setBounds(45, 268, 182, 28);
+		lblIntroduceTexto.setBounds(45, 245, 182, 28);
 		layeredPaneBackground.add(lblIntroduceTexto);
 		
 		//Campo Url
 		txtBuscar = new JTextField();
 		txtBuscar.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 12));
 		txtBuscar.setBorder(new LineBorder(new Color(176, 224, 230), 4));
-		txtBuscar.setBounds(45, 299, 400, 33);
+		txtBuscar.setBounds(45, 276, 400, 33);
 		layeredPaneBackground.add(txtBuscar);
 		txtBuscar.setColumns(10);
 		txtBuscar.setEnabled(false);
@@ -138,12 +181,13 @@ public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 		btnBack.setBounds(878, 30, 89, 61);
 		layeredPaneBackground.add(btnBack);
 		
+		//ComboBox opciones del filtro
 		comboBoxOpciones = new JComboBox<CicloFormativoPojo>();
 		comboBoxOpciones.setFont(new Font("Avenir LT Std 45 Book", Font.PLAIN, 11));
 		comboBoxOpciones.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		comboBoxOpciones.setBorder(new LineBorder(new Color(176, 224, 230), 4));
 		comboBoxOpciones.setBackground(Color.WHITE);
-		comboBoxOpciones.setBounds(45, 414, 400, 33);
+		comboBoxOpciones.setBounds(45, 376, 400, 33);
 		comboBoxOpciones.setEnabled(false);
 		comboBoxOpciones.setModel(modeloCiclos);
 		layeredPaneBackground.add(comboBoxOpciones);
@@ -155,7 +199,7 @@ public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 		layeredPaneBackground.add(scrollPaneResultados);
 		
 		//Lista Integrantes
-		listaResultados = new JList();
+		listaResultados = new JList<ProyectoPojo>();
 		listaResultados.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listaResultados.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 14));
 		listaResultados.setBorder(null);
@@ -169,35 +213,58 @@ public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 		//Etiqueta Año
 		lblOpcionFiltro = new JLabel("Elija una opci\u00F3n para el filtro seleccionado si existe alguna disponible");
 		lblOpcionFiltro.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 12));
-		lblOpcionFiltro.setBounds(45, 380, 400, 28);
+		lblOpcionFiltro.setBounds(45, 342, 400, 28);
 		layeredPaneBackground.add(lblOpcionFiltro);
 		
-		//Combo Box Ciclo
+		reciclarGrupoyCurso();
+		
+		//Combo Box Filtro
 		comboBoxFiltro = new JComboBox<String>();
 		comboBoxFiltro.addActionListener(new ActionListener() {
+			
 			public void actionPerformed(ActionEvent arg0) {
 				if (comboBoxFiltro.getSelectedIndex() == 0) {
+					reciclarGrupoyCurso();
 					txtBuscar.setEnabled(false);
 					comboBoxOpciones.setEnabled(false);
+				
 				} else if (comboBoxFiltro.getSelectedIndex() == 1) {
+					reciclarGrupoyCurso();
 					txtBuscar.setEnabled(true);
 					comboBoxOpciones.setEnabled(false);
+				
 				} else if (comboBoxFiltro.getSelectedIndex() == 2) {
+					reciclarGrupoyCurso();
 					txtBuscar.setEnabled(true);
 					comboBoxOpciones.setEnabled(false);
+				
 				} else if (comboBoxFiltro.getSelectedIndex() == 3) {
+					reciclarGrupoyCurso();
 					txtBuscar.setEnabled(true);
 					comboBoxOpciones.setEnabled(false);
+				
 				} else if (comboBoxFiltro.getSelectedIndex() == 4) {
 					txtBuscar.setEnabled(false);
+					lblCurso.setVisible(true);
+					lblGrupo.setVisible(true);
 					comboBoxOpciones.setEnabled(true);
+					comboGrupo.setEnabled(true);
+					comboGrupo.setVisible(true);
+					comboCurso.setVisible(true);
+					comboCurso.setEnabled(true);
+				
 				} else if (comboBoxFiltro.getSelectedIndex() == 5) {
+					reciclarGrupoyCurso();
 					txtBuscar.setEnabled(true);
 					comboBoxOpciones.setEnabled(false);
+				
 				} else if (comboBoxFiltro.getSelectedIndex() == 6) {
+					reciclarGrupoyCurso();
 					txtBuscar.setEnabled(true);
 					comboBoxOpciones.setEnabled(false);
+				
 				} else if (comboBoxFiltro.getSelectedIndex() == 7) {
+					reciclarGrupoyCurso();
 					txtBuscar.setEnabled(true);
 					comboBoxOpciones.setEnabled(false);
 				}
@@ -221,6 +288,18 @@ public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 		
 		//Tamaño del Panel
 		setBounds(0, 0, 986, 685);
+	}
+	
+	//Método que ajusta el estado de los combobox Grupo y curso en función de los componentes seleccionados
+	private void reciclarGrupoyCurso() {
+		lblCurso.setVisible(false);
+		lblGrupo.setVisible(false);
+		comboCurso.setVisible(false);
+		comboCurso.setEnabled(false);
+		comboGrupo.setEnabled(false);
+		comboGrupo.setVisible(false);
+		comboGrupo.setSelectedIndex(0);
+		comboCurso.setSelectedIndex(0);
 	}
 	
 	public void setControlador(ControladorProyectos control, ControladorOtrosEventos controlEv) {
@@ -312,6 +391,14 @@ public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 		modelo.removeAllElements();
 	}
 	
+	
+	
+	public String getComboCurso() {
+		return comboCurso.getSelectedItem().toString();
+	}
+	public String getComboGrupo() {
+		return comboGrupo.getSelectedItem().toString();
+	}
 	public static String getFiltrarPorExpedienteDelAlumno() {
 		return FILTRAR_POR_EXPEDIENTE_DEL_ALUMNO;
 	}
@@ -337,5 +424,33 @@ public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 	
 	public static String getFiltrarPorIdentificadorDeProyecto() {
 		return FILTRAR_POR_IDENTIFICADOR_DE_PROYECTO;
+	}
+	
+	public static String getTarde2() {
+		return TARDE_2;
+	}
+	
+	public static String getTarde1() {
+		return TARDE_1;
+	}
+	
+	public static String getManyana2() {
+		return MANYANA_2;
+	}
+	
+	public static String getManyana1() {
+		return MANYANA_1;
+	}
+	
+	public static String getAnyo2() {
+		return ANYO_2;
+	}
+	
+	public static String getAnyo1() {
+		return ANYO_1;
+	}
+	
+	public static String getVerTodos() {
+		return VER_TODOS;
 	}
 }
