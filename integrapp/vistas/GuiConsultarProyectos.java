@@ -28,6 +28,7 @@ public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 	private static final String FILTRAR_POR_AÑO_DEL_PROYECTO = "Filtrar Por A\u00F1o del Proyecto";
 	private static final String FILTRAR_POR_NOMBRE_DE_PROYECTO = "Filtrar Por Nombre de Proyecto";
 	private static final String FILTRAR_POR_IDENTIFICADOR_DE_PROYECTO = "Filtrar Por Identificador de Proyecto";
+	private static final String FILTRAR_POR_CURSO_Y_GRUPO_DE_PROYECTO = "Filtrar Por Curso o Grupo de Proyecto";
 	private static final String VER_TODOS = "Ver Todos";
 	private JLayeredPane layeredPaneBackground;
 	private JLabel lblBackground;
@@ -267,6 +268,16 @@ public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 					reciclarGrupoyCurso();
 					txtBuscar.setEnabled(true);
 					comboBoxOpciones.setEnabled(false);
+				
+				} else if (comboBoxFiltro.getSelectedIndex() == 8) {
+					reciclarGrupoyCurso();
+					lblCurso.setVisible(true);
+					lblGrupo.setVisible(true);
+					comboBoxOpciones.setEnabled(false);
+					comboGrupo.setEnabled(true);
+					comboGrupo.setVisible(true);
+					comboCurso.setVisible(true);
+					comboCurso.setEnabled(true);
 				}
 			}
 		});
@@ -276,7 +287,9 @@ public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 		comboBoxFiltro.setBorder(new LineBorder(new Color(176, 224, 230), 4));
 		comboBoxFiltro.setBackground(new Color(255, 255, 255));
 		comboBoxFiltro.setBounds(45, 186, 291, 33);
-		comboBoxFiltro.setModel(new DefaultComboBoxModel<String>(new String[] {VER_TODOS, FILTRAR_POR_IDENTIFICADOR_DE_PROYECTO, FILTRAR_POR_NOMBRE_DE_PROYECTO, FILTRAR_POR_AÑO_DEL_PROYECTO, FILTRAR_POR_CICLO_DEL_PROYECTO, FILTRAR_POR_NOMBRE_DEL_ALUMNO, FILTRAR_POR_APELLIDO_DEL_ALUMNO, FILTRAR_POR_EXPEDIENTE_DEL_ALUMNO}));
+		comboBoxFiltro.setModel(new DefaultComboBoxModel<String>(new String[] {VER_TODOS, FILTRAR_POR_IDENTIFICADOR_DE_PROYECTO,
+				FILTRAR_POR_NOMBRE_DE_PROYECTO, FILTRAR_POR_AÑO_DEL_PROYECTO, FILTRAR_POR_CICLO_DEL_PROYECTO, FILTRAR_POR_NOMBRE_DEL_ALUMNO, 
+				FILTRAR_POR_APELLIDO_DEL_ALUMNO, FILTRAR_POR_EXPEDIENTE_DEL_ALUMNO, FILTRAR_POR_CURSO_Y_GRUPO_DE_PROYECTO}));
 		layeredPaneBackground.add(comboBoxFiltro);
 		
 		//JLabel Imagen Background
@@ -314,7 +327,6 @@ public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 		int expediente = 0;
 		String nombre = "";
 		
-
 		if (comboBoxFiltro.getSelectedIndex() == 0) {
 			return String.valueOf(0);
 		
@@ -347,9 +359,13 @@ public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 			
 			return nombre;
 			
-		} else {
+		} else if (comboBoxFiltro.getSelectedIndex() == 7) {
 			expediente = Integer.parseInt(txtBuscar.getText());
 			return String.valueOf(expediente);
+		
+		} else {
+			
+			return FILTRAR_POR_CURSO_Y_GRUPO_DE_PROYECTO;
 		}
 	}
 	
@@ -392,13 +408,14 @@ public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 	}
 	
 	
-	
 	public String getComboCurso() {
 		return comboCurso.getSelectedItem().toString();
 	}
+	
 	public String getComboGrupo() {
 		return comboGrupo.getSelectedItem().toString();
 	}
+	
 	public static String getFiltrarPorExpedienteDelAlumno() {
 		return FILTRAR_POR_EXPEDIENTE_DEL_ALUMNO;
 	}
@@ -424,6 +441,10 @@ public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 	
 	public static String getFiltrarPorIdentificadorDeProyecto() {
 		return FILTRAR_POR_IDENTIFICADOR_DE_PROYECTO;
+	}
+	
+	public static String getFiltrarPorCursoYGrupoDeProyecto() {
+		return FILTRAR_POR_CURSO_Y_GRUPO_DE_PROYECTO;
 	}
 	
 	public static String getTarde2() {

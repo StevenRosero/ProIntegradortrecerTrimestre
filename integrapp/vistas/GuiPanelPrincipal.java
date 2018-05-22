@@ -7,6 +7,8 @@ import java.awt.Font;
 import com.jgoodies.forms.factories.DefaultComponentFactory;
 import controlador.ControladorOtrosEventos;
 import controlador.ControladorProyectos;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class GuiPanelPrincipal extends JPanel implements InterfazGui {
 	private static final String txtAdmin = "ID: ADMINISTRADOR";
@@ -18,6 +20,7 @@ public class GuiPanelPrincipal extends JPanel implements InterfazGui {
 	private JLabel lblCandado;
 	private JButton btnLogin;
 	private JLabel lblIdentificacion;
+	private JLabel lblSalir;
 	
 	public GuiPanelPrincipal() {
 		setBorder(null);
@@ -62,6 +65,21 @@ public class GuiPanelPrincipal extends JPanel implements InterfazGui {
 		lblIdentificacion.setBackground(new Color(0, 0, 0));
 		lblIdentificacion.setBounds(364, 629, 248, 14);
 		layeredPaneBackground.add(lblIdentificacion);
+		
+		lblSalir = new JLabel("");
+		lblSalir.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int res = JOptionPane.showConfirmDialog(null, "Va a salir de la aplicación, ¿Está Seguro?", "Salir De Integra App", JOptionPane.YES_NO_OPTION);
+				
+				if (res == JOptionPane.YES_OPTION) {
+					System.exit(0);
+				}
+			}
+		});
+		lblSalir.setIcon(new ImageIcon(GuiPanelPrincipal.class.getResource("/images/salir.png")));
+		lblSalir.setBounds(876, 600, 55, 59);
+		layeredPaneBackground.add(lblSalir);
 		
 		//Jbutton Botón de Login
 		btnLogin = new JButton("LOGIN");

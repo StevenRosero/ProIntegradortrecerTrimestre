@@ -73,7 +73,7 @@ public class PersistenciaProyectos {
 				ps.setInt(2, id);
 				ps.executeUpdate();
 			}
-		
+			
 			JOptionPane.showMessageDialog(null, "La Operación se ha realizado con éxito");
 			  
 			} catch(SQLException e) { 
@@ -230,7 +230,7 @@ public class PersistenciaProyectos {
 			while(rs.next()) {
 				proyecto = new ProyectoPojo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
 						rs.getInt(5), rs.getDouble(6), rs.getInt(7), rs.getString(8), rs.getBytes(9), new CicloFormativoPojo(rs.getInt(10)));
-			
+			 
 				listaProyectos.add(proyecto);
 			}
 				
@@ -300,10 +300,35 @@ public class PersistenciaProyectos {
 		
 		} else if (filtro.equals(GuiConsultarProyectos.getFiltrarPorExpedienteDelAlumno())) {
 			query = consultaPorExpedienteAlumno(valorConsignadoUsuario); 
+			
+		} else if (filtro.equals(GuiConsultarProyectos.getFiltrarPorCursoYGrupoDeProyecto())) {
+			query =  filtroCursoyGrupo(curso, grupo);
 		
 		} else {
 			query = consultaTodosLosProyectos();
 		}
+		return query;
+	}
+
+	private String filtroCursoyGrupo(String curso, String grupo) {
+		String query = "";
+		
+		if (curso != GuiConsultarProyectos.getVerTodos() && grupo != GuiConsultarProyectos.getVerTodos()) {
+			query = consultaPorCursoyGrupo(curso, grupo);
+		}
+		
+		if (curso == GuiConsultarProyectos.getVerTodos() && grupo != GuiConsultarProyectos.getVerTodos()) {
+			query = consultaPorGrupo(grupo);
+		}
+		
+		if (curso != GuiConsultarProyectos.getVerTodos() && grupo == GuiConsultarProyectos.getVerTodos()) {
+			query = consultaPorCurso(curso);
+		}
+		
+		if (curso == GuiConsultarProyectos.getVerTodos() && grupo == GuiConsultarProyectos.getVerTodos()) {
+			query = consultaTodosLosProyectos();
+		}
+				
 		return query;
 	}
 
@@ -378,6 +403,25 @@ public class PersistenciaProyectos {
 				+ " AND (" + TableContracts.ProyectosContracts.CURSO + " = " +  "'" +  curso + "'"
 				+ " AND " + TableContracts.ProyectosContracts.GRUPO + " = " +  "'" + grupo +  "'"
 				+ ") ORDER BY " + TableContracts.ProyectosContracts.NOMBRE;
+	}
+	
+	private String consultaPorCursoyGrupo(String curso, String grupo) {
+		return "SELECT * FROM " + TableContracts.ProyectosContracts.TABLA + " WHERE " 
+				+ TableContracts.ProyectosContracts.CURSO + " = " +  "'" +  curso + "'"
+				+ " AND " + TableContracts.ProyectosContracts.GRUPO + " = " +  "'" + grupo +  "'"
+				+ " ORDER BY " + TableContracts.ProyectosContracts.NOMBRE;
+	}
+	
+	private String consultaPorCurso(String curso) {
+		return "SELECT * FROM " + TableContracts.ProyectosContracts.TABLA + " WHERE " 
+				+ TableContracts.ProyectosContracts.CURSO + " = " +  "'" +  curso + "'"
+				+ " ORDER BY " + TableContracts.ProyectosContracts.NOMBRE;
+	}
+	
+	private String consultaPorGrupo(String grupo) {
+		return "SELECT * FROM " + TableContracts.ProyectosContracts.TABLA + " WHERE " 
+				+ TableContracts.ProyectosContracts.GRUPO + " = " +  "'" + grupo +  "'"
+				+ " ORDER BY " + TableContracts.ProyectosContracts.NOMBRE;
 	}
 
 	private String consultaPorNombreAlumno(String valorConsignadoUsuario) {
