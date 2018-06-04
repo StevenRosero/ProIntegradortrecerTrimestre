@@ -5,11 +5,11 @@ import java.awt.*;
 import javax.swing.border.LineBorder;
 import controlador.*;
 
+@SuppressWarnings("serial")
 public class GuiPrincipal extends JFrame implements InterfazGui {
 	private JMenuBar menuBar;
 	private JMenu menuAlumnos;
 	private JMenu menuCiclosFormativos;
-	private JMenu menuAcercaDe;
 	private JSeparator separador3;
 	private JSeparator separador2;
 	private JSeparator separador1;
@@ -23,9 +23,10 @@ public class GuiPrincipal extends JFrame implements InterfazGui {
 	private JMenuItem submenuAltaCiclos;
 	private JMenuItem submenuBajaCiclos;
 	private JMenuItem submenuModificarCiclos;
-	private JMenuItem acercaDeIntegraApp;
+	private JMenuItem submenuAcercaDe;
 	private JScrollPane panelVistaActiva;
 	private GuiAyuda ayuda;
+	private JMenu menuAcercaDe;
 	
 	public GuiPrincipal() {
 		super("IntegraApp - Gestión de Proyectos Integradores");
@@ -265,16 +266,17 @@ public class GuiPrincipal extends JFrame implements InterfazGui {
 		 menuAcercaDe.setBackground(new Color(176, 224, 230));
 		 menuBar.add(menuAcercaDe);
 		 
-		 acercaDeIntegraApp = new JMenuItem("Integra App");
-		 acercaDeIntegraApp.setPreferredSize(new Dimension(160, 40));
-		 acercaDeIntegraApp.setOpaque(true);
-		 acercaDeIntegraApp.setIconTextGap(9);
-		 acercaDeIntegraApp.setForeground(Color.WHITE);
-		 acercaDeIntegraApp.setFont(new Font("Avenir LT Std 45 Book", Font.PLAIN, 17));
-		 acercaDeIntegraApp.setBorderPainted(true);
-		 acercaDeIntegraApp.setBorder(new LineBorder(new Color(255, 255, 255), 2));
-		 acercaDeIntegraApp.setBackground(new Color(176, 224, 230));
-		 menuAcercaDe.add(acercaDeIntegraApp);
+		 submenuAcercaDe = new JMenuItem("Integra App");
+		 submenuAcercaDe.setActionCommand("acercade");
+		 submenuAcercaDe.setPreferredSize(new Dimension(160, 40));
+		 submenuAcercaDe.setOpaque(true);
+		 submenuAcercaDe.setIconTextGap(9);
+		 submenuAcercaDe.setForeground(Color.WHITE);
+		 submenuAcercaDe.setFont(new Font("Avenir LT Std 45 Book", Font.PLAIN, 17));
+		 submenuAcercaDe.setBorderPainted(true);
+		 submenuAcercaDe.setBorder(new LineBorder(new Color(255, 255, 255), 2));
+		 submenuAcercaDe.setBackground(new Color(176, 224, 230));
+		 menuAcercaDe.add(submenuAcercaDe);
 		
 		 panelVistaActiva = new JScrollPane();
 		 panelVistaActiva.setBorder(null);
@@ -309,6 +311,9 @@ public class GuiPrincipal extends JFrame implements InterfazGui {
 		submenuAltaCiclos.addActionListener(controlCiclos);
 		submenuBajaCiclos.addActionListener(controlCiclos);
 		submenuModificarCiclos.addActionListener(controlCiclos);
+		
+		//Listeners Otros Eventos
+		submenuAcercaDe.addActionListener(controlEv);
 	}
 	
 	public void esUsuarioAdministrador() {
@@ -364,6 +369,10 @@ public class GuiPrincipal extends JFrame implements InterfazGui {
 		return submenuModificarAlumnos;
 	}
 	
+	public JMenuItem getSubmenuAcercaDe() {
+		return submenuAcercaDe;
+	}
+
 	public void setPanel(JPanel panel) {
 		panelVistaActiva.setViewportView(panel);
 	}

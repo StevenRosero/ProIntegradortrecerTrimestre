@@ -13,6 +13,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+@SuppressWarnings("serial")
 public class GuiModalModificarCiclo extends JDialog implements InterfazGui{
 	private DefaultListModel<CicloFormativoPojo> modelo;
 	private JScrollPane scrollPane;

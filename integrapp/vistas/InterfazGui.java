@@ -1,6 +1,5 @@
 package vistas;
 
-
 public interface InterfazGui {
 	
 	public void inicializar();

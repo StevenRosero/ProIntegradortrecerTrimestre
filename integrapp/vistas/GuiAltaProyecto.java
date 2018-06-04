@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+@SuppressWarnings("serial")
 public class GuiAltaProyecto extends JPanel implements InterfazGui {
 	private JLayeredPane layeredPaneBackground;
 	private JLabel lblBackground;

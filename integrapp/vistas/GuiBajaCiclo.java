@@ -17,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 import javax.swing.ListSelectionModel;
 
+@SuppressWarnings("serial")
 public class GuiBajaCiclo extends JDialog implements InterfazGui{
 	private DefaultListModel<CicloFormativoPojo> modelo;
 	private JScrollPane scrollPane;

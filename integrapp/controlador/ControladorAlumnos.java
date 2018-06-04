@@ -84,8 +84,8 @@ public class ControladorAlumnos implements ActionListener {
 				new PersistenciaAlumnos().modificarAlumnoBd(panelModificarAlumno.getDatos());
 				mainGui.setPanel(panelPrincipal);
 			} catch (NumberFormatException | ExpedienteException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				
+				JOptionPane.showMessageDialog(panelModificarAlumno, "Debe rellenar los campos correctamente");
 			}
 						
 		//Detecta el evento de hacer click para cancelar el proceso de borrar un Alumno

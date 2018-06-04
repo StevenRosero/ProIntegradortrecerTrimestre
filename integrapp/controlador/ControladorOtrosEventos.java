@@ -9,11 +9,14 @@ public class ControladorOtrosEventos implements ActionListener {
 	private GuiPrincipal mainGui;
 	private GuiLogin ventanaLogin;
 	private GuiPanelPrincipal panelPrincipal;
+	private GuiModalAcercaDe panelAcercaDe;
 	
-	public ControladorOtrosEventos(GuiPrincipal mainGui, GuiLogin ventanaLogin, GuiPanelPrincipal panelPrincipal) {
+	public ControladorOtrosEventos(GuiPrincipal mainGui, GuiLogin ventanaLogin, GuiPanelPrincipal panelPrincipal, 
+			GuiModalAcercaDe panelAcercaDe) {
 		this.mainGui = mainGui;
 		this.ventanaLogin = ventanaLogin;
 		this.panelPrincipal = panelPrincipal;
+		this.panelAcercaDe = panelAcercaDe;
 	}
 	
 	@Override
@@ -38,6 +41,14 @@ public class ControladorOtrosEventos implements ActionListener {
 			} else if (e.getSource().equals(ventanaLogin.getBtnCancelar())) {
 				ventanaLogin.reciclar();
 				ventanaLogin.dispose();
+			
+			//Detecta el evento de pulsar cerrar en la ventana Acercade
+			} else if (e.getSource().equals(panelAcercaDe.getBtnCancelar())) {
+				panelAcercaDe.dispose();
+			
+			//Detecta el evento de pulsar en el menu AcercaDe
+			} else if (e.getSource().equals(mainGui.getSubmenuAcercaDe())) {
+				panelAcercaDe.hacerVisible();
 			}
 						
 			//Detecta el evento de hacer click en el icono volver al inicio

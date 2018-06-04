@@ -58,10 +58,12 @@ public class IntegraAppEjecutable {
 					GuiBajaCiclo ventanaBajaCiclos = new GuiBajaCiclo();
 					GuiModalModificarCiclo modalModificarCiclo = new GuiModalModificarCiclo();
 					GuiModificarCiclo ventanaModificarCiclo = new GuiModificarCiclo();
+					GuiModalAcercaDe ventanaAcercaDe = new GuiModalAcercaDe();
 					
 					//Declara e inicializa el controlador de Otros Eventos
-					ControladorOtrosEventos controlEventos = new ControladorOtrosEventos(mainGui, ventanaLogin, panelInicio);
+					ControladorOtrosEventos controlEventos = new ControladorOtrosEventos(mainGui, ventanaLogin, panelInicio, ventanaAcercaDe);
 					ventanaLogin.setControlador(controlEventos);
+					ventanaAcercaDe.setControlador(controlEventos);
 					
 					
 					//Declara e inicializa el controlador de Alumnos

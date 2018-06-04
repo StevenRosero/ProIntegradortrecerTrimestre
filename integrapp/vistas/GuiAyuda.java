@@ -17,6 +17,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.awt.Cursor;
 
+@SuppressWarnings("serial")
 public class GuiAyuda extends JPanel {
 	public JLabel lblIconoInterrogacion;
 	private JTextArea txtAyudaA;

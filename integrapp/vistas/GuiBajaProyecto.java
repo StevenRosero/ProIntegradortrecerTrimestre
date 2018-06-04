@@ -16,6 +16,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+@SuppressWarnings("serial")
 public class GuiBajaProyecto extends JDialog implements InterfazGui{
 	private DefaultListModel<ProyectoPojo> modelo;
 	private JScrollPane spProyectos;

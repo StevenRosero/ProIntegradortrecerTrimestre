@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+@SuppressWarnings("serial")
 public class GuiModificarProyecto extends JPanel implements InterfazGui {
 	private JLayeredPane layeredPaneBackground;
 	private JLabel lblBackground;
@@ -205,7 +206,7 @@ public class GuiModificarProyecto extends JPanel implements InterfazGui {
 		
 		modeloNuevos = new DefaultListModel<AlumnoPojo>();
 		
-		listAgregar = new JList();
+		listAgregar = new JList<AlumnoPojo>();
 		listAgregar.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 16));
 		listAgregar.setBorder(null);
 		listAgregar.setBackground(Color.WHITE);
@@ -239,7 +240,7 @@ public class GuiModificarProyecto extends JPanel implements InterfazGui {
 		layeredPaneBackground.add(scrollPaneIntegrantes);
 		
 		//Lista Integrantes
-		listEliminar = new JList();
+		listEliminar = new JList<AlumnoPojo>();
 		listEliminar.setFont(new Font("Avenir LT Std 55 Roman", Font.PLAIN, 16));
 		listEliminar.setBorder(null);
 		listEliminar.setBackground(new Color(255, 255, 255));
@@ -251,7 +252,7 @@ public class GuiModificarProyecto extends JPanel implements InterfazGui {
 		
 		//ComboBox Curso
 		comboBoxCurso = new JComboBox<String>();
-		comboBoxCurso.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6"}));
+		comboBoxCurso.setModel(new DefaultComboBoxModel<String>(new String[] {"1", "2", "3", "4", "5", "6"}));
 		comboBoxCurso.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		comboBoxCurso.setBorder(new LineBorder(new Color(176, 224, 230), 4));
 		comboBoxCurso.setBackground(Color.WHITE);
@@ -290,7 +291,7 @@ public class GuiModificarProyecto extends JPanel implements InterfazGui {
 		
 		//ComboBox Grupo
 		comboBoxGrupo = new JComboBox<String>();
-		comboBoxGrupo.setModel(new DefaultComboBoxModel(new String[] {"M1", "M2", "T1", "T2"}));
+		comboBoxGrupo.setModel(new DefaultComboBoxModel<String>(new String[] {"M1", "M2", "T1", "T2"}));
 		comboBoxGrupo.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		comboBoxGrupo.setBorder(new LineBorder(new Color(176, 224, 230), 4));
 		comboBoxGrupo.setBackground(Color.WHITE);
@@ -340,6 +341,7 @@ public class GuiModificarProyecto extends JPanel implements InterfazGui {
 			File archivo = new File(subirImagen.getSelectedFile().getPath());
 			FileInputStream arch2 = new FileInputStream(archivo);
 			imagenConvertida = Files.readAllBytes(archivo.toPath());
+			arch2.close();
 		}	
 	}
 	

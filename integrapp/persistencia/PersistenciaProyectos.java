@@ -262,7 +262,6 @@ public class PersistenciaProyectos {
 						rs.getInt(5), rs.getDouble(6), rs.getInt(7), rs.getString(8), rs.getBytes(9), new CicloFormativoPojo(rs.getInt(10)));
 				
 				listaProyectos.add(proyecto);
-				System.out.println(proyecto);
 			}
 				
 		} catch (ClassNotFoundException | SQLException e) {

@@ -7,6 +7,7 @@ import javax.swing.border.LineBorder;
 import controlador.ControladorOtrosEventos;
 import modelo.AdministradorPojo;
 
+@SuppressWarnings("serial")
 public class GuiLogin extends JDialog implements InterfazGui {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtUsuario;

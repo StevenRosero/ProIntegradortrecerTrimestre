@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
+@SuppressWarnings("serial")
 public class GuiConsultarProyectos extends JPanel implements InterfazGui {
 	private static final String TARDE_2 = "T2";
 	private static final String TARDE_1 = "T1";

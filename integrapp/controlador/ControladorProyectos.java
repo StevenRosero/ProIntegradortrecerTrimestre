@@ -141,7 +141,6 @@ public class ControladorProyectos implements ActionListener {
 				JOptionPane.showMessageDialog(panelModificarProyecto, "Debe introducir números en el formato adecuado");
 
 			} catch (Exception e3) {
-				System.out.println(e3.getMessage());
 				JOptionPane.showMessageDialog(panelModificarProyecto, "El proyecto debe contener al menos un alumno");
 			}
 		}

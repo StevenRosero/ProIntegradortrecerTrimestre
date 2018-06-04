@@ -11,6 +11,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Font;
 import java.awt.Toolkit;
 
+@SuppressWarnings("serial")
 public class GuiModalModificarAlumno extends JDialog implements InterfazGui{
 	private DefaultListModel<AlumnoPojo> modelo;
 	private JScrollPane scrollPane;

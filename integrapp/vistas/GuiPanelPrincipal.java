@@ -10,6 +10,7 @@ import controlador.ControladorProyectos;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+@SuppressWarnings("serial")
 public class GuiPanelPrincipal extends JPanel implements InterfazGui {
 	private static final String txtAdmin = "ID: ADMINISTRADOR";
 	private JLabel lblLogo;
