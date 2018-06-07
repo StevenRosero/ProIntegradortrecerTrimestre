@@ -9,6 +9,7 @@ import controlador.ControladorOtrosEventos;
 import modelo.CicloFormativoPojo;
 import javax.swing.border.LineBorder;
 
+@SuppressWarnings("serial")
 public class GuiAltaCiclo extends JPanel implements InterfazGui {
 	private JLayeredPane layeredPaneBackground;
 	private JLabel lblBackground;

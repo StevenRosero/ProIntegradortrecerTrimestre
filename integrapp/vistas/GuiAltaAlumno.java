@@ -9,6 +9,7 @@ import controlador.ControladorOtrosEventos;
 import modelo.AlumnoPojo;
 import javax.swing.border.LineBorder;
 
+@SuppressWarnings("serial")
 public class GuiAltaAlumno extends JPanel implements InterfazGui {
 	private JLayeredPane layeredPaneBackground;
 	private JLabel lblBackground;
